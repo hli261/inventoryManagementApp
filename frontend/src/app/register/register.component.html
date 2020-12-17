@@ -1,0 +1,25 @@
+<div class="container-fluid">
+<div class="card position-absolute top-50 start-50 translate-middle" style="width: 25rem;">    
+<div class="card-body">
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>     
+      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="user.email" >
+      <div id="emailHelp" class="form-text">Please use Big Al's company email address</div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" minlength="2">
+    </div>
+    <div class="mb-3">
+        <label for="password2" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="password2" name="password2" [(ngModel)]="password2">
+      </div>  
+    <div class="d-grid gap-2 d-md-flex justify-content-md-evenly">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="reset" class="btn btn-primary">Reset</button>
+</div>
+  </form> 
+</div>
+</div>
+</div>
