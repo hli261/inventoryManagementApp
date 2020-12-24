@@ -14,6 +14,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { AccessComponent } from './access/access.component';
+import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './login/login.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { AccessComponent } from './access/access.component';
     PageNotFoundComponent,
     HomeComponent,
     UsersComponent,
-    AccessComponent
+    AccessComponent,
+    FooterComponent,
+    LoginComponent,
+    ForgetPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
