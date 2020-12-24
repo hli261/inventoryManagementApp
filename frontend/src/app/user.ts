@@ -1,5 +1,7 @@
-export class User {   
+export class User {
+  id!: number;
   email!: string;
-  password!: number;
-  active!: boolean;
+  password!: string;
+  access!: string[];
+  // active!: boolean;
 }

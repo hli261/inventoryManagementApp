@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ɵɵsanitizeUrlOrResourceUrl } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +12,8 @@ import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './users/users.component';
+import { AccessComponent } from './access/access.component';
 
 @NgModule({
   declarations: [
@@ -15,14 +21,19 @@ import { HomeComponent } from './home/home.component';
     HeaderComponent,
     RegisterComponent,
     PageNotFoundComponent,
-    HomeComponent
+    HomeComponent,
+    UsersComponent,
+    AccessComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
