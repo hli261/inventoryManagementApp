@@ -18,7 +18,7 @@ import { AccessComponent } from './access/access.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ResetPasswordComponent} from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     LoginComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent,
-    
   ],
   imports: [
     BrowserModule,

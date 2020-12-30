@@ -43,15 +43,6 @@ export class AccountService {
         return this.http.post(`${BASEURL}/valid-password-token`, body);
     }
 
-
-// 分割线。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-
-
-
-
-
-
-
     login(username:any, password:any) {
         return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { username, password })
             .pipe(map(user => {
@@ -61,6 +52,15 @@ export class AccountService {
                 return user;
             }));
     }
+// 分割线。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+//................................................................................
+
+
+
+
+
+
+   
 
     logout() {
         // remove user from local storage and set current user to null

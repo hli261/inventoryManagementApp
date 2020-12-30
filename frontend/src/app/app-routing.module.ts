@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'access/:id', component: AccessComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forget-password', component: ForgetPasswordComponent},
-  { path: 'reset-password', component: ResetPasswordComponent},
+  { path: 'response-reset-password/:token', component: ResetPasswordComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

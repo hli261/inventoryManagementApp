@@ -4,7 +4,7 @@ import { AccountService, AlertService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-forget-password',
+  selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
@@ -85,7 +85,7 @@ export class ResetPasswordComponent implements OnInit {
           this.successMessage = data.message;
           setTimeout(() => {
             this.successMessage = "";
-            this.router.navigate(['sign-in']);
+            this.router.navigate(['login']);
           }, 3000);
         },
         (err:any) => {
