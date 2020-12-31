@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ɵɵsanitizeUrlOrResourceUrl } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
+import { ShipService } from './services/ship.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,10 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ShipsComponent } from './ships/ships.component';
+import { ShipComponent } from './ship/ship.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -31,16 +36,22 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FooterComponent,
     LoginComponent,
     ForgetPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ShipsComponent,
+    ShipComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
-    UserService
+    UserService,
+    ShipService
   ],
   bootstrap: [AppComponent]
 })

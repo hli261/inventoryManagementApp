@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User } from '../user';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,10 +21,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(f: NgForm): void {
-
     if(f.value.password === f.value.password2) {
        console.log('user submit: ', this.user);     //use to test ngForm
-        this.data.addUser(this.user);
+        this.data.add(this.user);
      }
      this.router.navigate(['/login']);
    }

@@ -1,7 +1,7 @@
-import { Injectable, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from './user';
+import { User } from '../user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,13 @@ export class UserService {
     return this.http.get<User[]> (this.url);
   }
 
-  public addUser(user: User){
+  public add(user: User){
      return this.http.post(this.url, user).subscribe();
    }
+
+   public getById(id: number): Observable<User> {
+    return this.http.get<User> (this.url + `/${id}` );
+  }
 
 
 }
