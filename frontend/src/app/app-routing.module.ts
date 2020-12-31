@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'ships', component: ShipsComponent },
   { path: 'ship', component: ShipComponent },
   { path: 'ship/:id', component: ShipComponent },
+  { path: 'response-reset-password/:token', component: ResetPasswordComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
