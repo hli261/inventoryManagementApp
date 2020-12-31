@@ -15,8 +15,8 @@
 //   loading = false;
 
 //   constructor(
-//     private router: Router, 
-//     private acct: AccountService, 
+//     private router: Router,
+//     private acct: AccountService,
 //     private fb: FormBuilder,
 //     private alertService: AlertService) { }
 
@@ -28,30 +28,30 @@
 //       Email: this.Email
 //     });
 //   }
- 
+
 //   onSubmit() {
 //     let userInfo = this.insertForm.value;
 //     this.acct.sendForgotPasswordEmail(userInfo.Eamil).subscribe((result) => {
 //       if (result && result.message =='Success'){
 //         $('#forgotPassCard').html('');
 //         $('#forgotPassCard').append(
-//           "<div class='alert alert-success show'>" + 
+//           "<div class='alert alert-success show'>" +
 //           '<strong>Success!</strong> Please check your email for password reset instructions.' +
 //           '</div>'
 //         );
 //       }
-//     }, 
+//     },
 //     error => {
 //       this.alertService.error(error);
 //       this.loading = false;
-//     },  
+//     },
 //     )}
 // }
 
 
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { AccountService, AlertService } from '../_services';
+import { AccountService, AlertService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
