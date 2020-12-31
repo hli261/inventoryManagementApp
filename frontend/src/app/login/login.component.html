@@ -2,34 +2,35 @@
     <div class="card mx-auto" style="width: 25rem;">
         <div>
             <h3 class="card-header">Login</h3><br>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="container">
+            <div id="errorMsg" *ngIf="errorMessage">
+              <span>{{errorMessage}}</span>
+          </div>
+            <form [formGroup]="SigninForm" (ngSubmit)="signinUser()" class="container">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" formControlName="email" class="form-control" id="email" aria-describedby="emailHelp" name="email"
-                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div *ngIf="f.email.errors.required">Email is required</div>
+                    <input type="email" formControlName="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" />
+                    <div *ngIf="!SigninForm.get('email').valid && SigninForm.get('email').touched" class="invalid-feedback">
+                        <div>Email is required</div>
                     </div>
                     <div id="emailHelp" class="form-text">Please use Big Al's company email address</div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" formControlName="password" class="form-control" id="password" name="password"
-                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div *ngIf="f.password.errors.required">Password is required</div>
+                    <input type="password" formControlName="password" class="form-control" id="password" name="password"/>
+                    <div *ngIf="!SigninForm.get('password').valid && SigninForm.get('password').touched" class="invalid-feedback">
+                        <div>Password is required</div>
                     </div>
                 </div>
-               
+
                 <div class="d-grid gap-2 d-md-flex justify-content-md-evenly">
-                    <button type="submit" class="btn btn-primary" [disabled]="loading">
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
                         Submit
                     </button>
                 </div>
-                <br> 
-                
-            </form>           
+                <br>
+
+            </form>
         </div>
         <div>
             <a href="/forget-password" class="btn btn-link">Forget Password?</a>

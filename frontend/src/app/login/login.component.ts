@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { AccountService, AlertService } from '../_services';
+import { AccountService } from '../_services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,54 +11,48 @@ import { AccountService, AlertService } from '../_services';
 })
 export class LoginComponent implements OnInit {
 
-  submitted = false;
-  loading = false;
-  loginForm = new FormGroup({ });
-  
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private accountService: AccountService,
-    private alertService: AlertService
-  ) { }
+  SigninForm=new FormGroup({});
+  forbiddenEmails: any;
+  errorMessage: string | any;
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    })
+  constructor(
+    private fb: FormBuilder,
+    private authService: AccountService,
+    private router: Router,
+  ) { this.buildSigninForm(); }
+
+  ngOnInit() {
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  private buildSigninForm() {
+    this.SigninForm = this.fb.group({
+      email: [null, [Validators.required, Validators.email], this.forbiddenEmails],
+      password: [null, [Validators.required, Validators.minLength(4)]],
+    });
+  }
 
   onSubmit() {
-    this.submitted = true;
+    this.SigninForm.reset();
+  }
 
-    // reset alerts on submit
-    this.alertService.clear();
-
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
-    
-    this.loading = true;
-        this.accountService.login(this.f.email.value, this.f.password.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    // get return url from query parameters or default to home page
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                    this.router.navigateByUrl(returnUrl);
-                },
-                error: error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
-
+  signinUser() {
+    console.log(this.SigninForm.value);
+    this.authService.loginUser(this.SigninForm.value).subscribe(
+      data => {
+        this.SigninForm.reset();
+        setTimeout(() => {
+          this.router.navigate(['home']);
+        }, 3000);
+      },
+      err => {
+        if (err.error.msg) {
+          this.errorMessage = err.error.msg[0].message;
+        }
+        if (err.error.message) {
+          this.errorMessage = err.error.message;
+        }
+      }
+    );
   }
 
 }

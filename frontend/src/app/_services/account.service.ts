@@ -31,6 +31,11 @@ export class AccountService {
         return this.userSubject.value;
     }
 
+    loginUser(body: any): Observable<any> {
+      console.log(body);
+      return this.http.post(`${BASEURL}/login`, body);
+    }
+
     requestReset(body: any): Observable<any> {
         return this.http.post(`${BASEURL}/req-reset-password`, body);
     }
@@ -38,7 +43,7 @@ export class AccountService {
     newPassword(body:any): Observable<any> {
         return this.http.post(`${BASEURL}/new-password`, body);
       }
-    
+
     ValidPasswordToken(body:any): Observable<any> {
         return this.http.post(`${BASEURL}/valid-password-token`, body);
     }
@@ -60,7 +65,7 @@ export class AccountService {
 
 
 
-   
+
 
     logout() {
         // remove user from local storage and set current user to null
