@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DOfc06qUpHq+oGJiu0Igas1AYw5WaG54sitZDHYWFpAjbPkzy/IwtRGDffNFNwNsCMYT+zP+4BUUZbw5n9US2w==",
+  "dgSpecHash": "RR4MqBC+OE8JagFJYzauhcURuFSePZb/ABOidD6ji8kQIV+kmMpQkuh7aI5lB9CQaNX/ORqrTghVy2lGxXRiSw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\automapper\\10.1.0\\automapper.10.1.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",
