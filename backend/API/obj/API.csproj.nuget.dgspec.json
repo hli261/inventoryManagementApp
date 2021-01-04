@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj": {}
+    "C:\\Users\\AutoLogon\\Desktop\\jyang223\\OSD600Release\\inventoryManagementApp\\backend\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj": {
+    "C:\\Users\\AutoLogon\\Desktop\\jyang223\\OSD600Release\\inventoryManagementApp\\backend\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj",
+        "projectUniqueName": "C:\\Users\\AutoLogon\\Desktop\\jyang223\\OSD600Release\\inventoryManagementApp\\backend\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\obj\\",
+        "projectPath": "C:\\Users\\AutoLogon\\Desktop\\jyang223\\OSD600Release\\inventoryManagementApp\\backend\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\AutoLogon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AutoLogon\\Desktop\\jyang223\\OSD600Release\\inventoryManagementApp\\backend\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AutoLogon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],

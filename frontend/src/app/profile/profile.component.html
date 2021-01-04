@@ -7,11 +7,15 @@
   <form *ngIf="user" #f='ngForm' (ngSubmit)='onSubmit(f)'>
     <div class="mb-3">
       <label for="lastName" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lName">
+      <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName">
     </div>
     <div class="mb-3">
       <label for="firstName" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.fName">
+      <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName">
+    </div>
+    <div class="mb-3">
+      <label for="firstName" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email">
     </div>
 
     <div class="form-check">

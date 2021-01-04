@@ -9,20 +9,20 @@ import { User } from '../user';
 
 export class UserService {
 
-  private url : string = "https://localhost:5001/api/user";
+  // private url : string = "https://localhost:5001/api/user";
 
   constructor(private http: HttpClient) { }
 
   public get(): Observable<User[]> {
-    return this.http.get<User[]> (this.url);
+    return this.http.get<User[]> (`https://localhost:5001/api/users`);
   }
 
   public add(user: User){
-     return this.http.post(this.url, user).subscribe();
+     return this.http.post(`https://localhost:5001/api/account/register`, user).subscribe();
    }
 
    public getById(id: number): Observable<User> {
-    return this.http.get<User> (this.url + `/${id}` );
+    return this.http.get<User> (`https://localhost:5001/api/users/${id}`);
   }
 
 

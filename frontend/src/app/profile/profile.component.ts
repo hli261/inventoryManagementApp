@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
     this.sub = this.route.params.subscribe(param=>{
       this.data.getById(param['id']).subscribe((user:User)=>{
         this.user=user;
+        console.log(this.user);
       })
     });
 
