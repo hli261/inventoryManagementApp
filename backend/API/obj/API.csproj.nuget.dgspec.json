@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj": {}
+    "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj": {
+    "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj",
+        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\API.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

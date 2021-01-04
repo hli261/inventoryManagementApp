@@ -34,9 +34,22 @@ namespace API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
+//implement needed
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+//
+        public async Task<bool> Delete(int id){
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+            return await _context.SaveChangesAsync() > 0;
+            }else{
+                return false;
+            }
         }
     }
 }

@@ -15,5 +15,6 @@ namespace API.Interfaces
          Task<AppUser> GetUserByIdAsync(int id);
 
          Task<AppUser> GetUserByEmailAsync(string email);
+         Task<bool> Delete(int id);
     }
 }
