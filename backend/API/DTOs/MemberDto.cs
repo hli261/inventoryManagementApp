@@ -1,6 +1,6 @@
-namespace API.Entities
+namespace API.DTOs
 {
-    public class AppUser
+    public class MemberDto
     {
         public int Id { get; set; }
 
@@ -9,8 +9,5 @@ namespace API.Entities
         public string FirstName {get; set;}
 
         public string LastName {get; set;}
-        
-        public byte[] PasswordHash{get;set;}
-        public byte[] PasswordSalt {get;set;}
     }
 }
