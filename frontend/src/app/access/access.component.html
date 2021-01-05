@@ -1,6 +1,5 @@
-<div class="container">
-  <!-- <p class="fw-bolder">User: <span>{{user.email}}</span></p> -->
-  <p class="fw-bolder">User: <span>user email</span></p>
+<div class="container mt-3">
+  <p class="fw-bolder">User: &nbsp;&nbsp;<span>{{user.email}}</span></p>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -12,12 +11,14 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{user.id}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.email}}</td>
-        <td>
-          <button type="button" class="btn btn-secondary">Add Access</button>&nbsp;&nbsp;
-          <button type="button" class="btn btn-danger">Remove Access</button>
+        <td>warehouse</td>
+        <td></td>
+        <td>{{user.access}}</td>
+        <td *ngIf="!user.access">
+          <button type="button" class="btn btn-secondary" (click)="addFunction()">Add Access</button>
+        </td>
+        <td *ngIf="user.access">
+          <button type="button" class="btn btn-danger" (click)="removeFunction()">Remove Access</button>
         </td>
       </tr>
     </tbody>

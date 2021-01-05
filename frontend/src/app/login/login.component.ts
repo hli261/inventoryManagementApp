@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { User } from '../user';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from '../services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,16 +11,48 @@ import { User } from '../user';
 })
 export class LoginComponent implements OnInit {
 
-  user: User = new User();
-  password2!: string;
+  SigninForm=new FormGroup({});
+  forbiddenEmails: any;
+  errorMessage: string | any;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AccountService,
+    private router: Router,
+  ) { this.buildSigninForm(); }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  onSubmit(f: NgForm): void {
-    console.log('submit', f.value);
+  private buildSigninForm() {
+    this.SigninForm = this.fb.group({
+      email: [null, [Validators.required, Validators.email], this.forbiddenEmails],
+      password: [null, [Validators.required, Validators.minLength(4)]],
+    });
+  }
+
+  onSubmit() {
+    this.SigninForm.reset();
+  }
+
+  signinUser() {
+    console.log(this.SigninForm.value);
+    this.authService.loginUser(this.SigninForm.value).subscribe(
+      data => {
+        this.SigninForm.reset();
+        setTimeout(() => {
+          this.router.navigate(['home']);
+        }, 3000);
+      },
+      err => {
+        if (err.error.msg) {
+          this.errorMessage = err.error.msg[0].message;
+        }
+        if (err.error.message) {
+          this.errorMessage = err.error.message;
+        }
+      }
+    );
   }
 
 }

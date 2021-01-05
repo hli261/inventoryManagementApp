@@ -1,0 +1,29 @@
+<div class="container mt-3">
+ <h3>List of ships</h3>
+ <!-- <a routeLink = "/ship">Create New</a> -->
+ <a href="/ship">Create New</a>
+  <table class="table table-hover border-top mt-3">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Date</th>
+        <th scope="col">ShipType</th>
+        <th scope="col">Parcels</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = 'let ship of ships'>
+        <td>{{ship.id}}</td>
+        <td>{{ship.date}}</td>
+        <td>{{ship.shipTypeId}}</td>
+        <td>{{ship.parcel}}</td>
+        <td>
+          <a [routerLink]="['/ship', ship.id]">Edit</a>&nbsp;&nbsp; |
+          <a [routerLink]="['/ship', ship.id]">Detail</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
