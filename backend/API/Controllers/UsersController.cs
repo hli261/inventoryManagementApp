@@ -31,12 +31,12 @@ namespace API.Controllers
             return Ok(usersToReturn);
         }
 
-        // [HttpGet("{email}")] //get user by login email
-        // public async Task<ActionResult<MemberDto>> GetUser(string email)
-        // {
-        //     var user = await _userRepository.GetUserByEmailAsync(email);
-        //     return _mapper.Map<MemberDto>(user);
-        // }
+        [HttpGet("email/{email}")] //get user by login email
+        public async Task<ActionResult<MemberDto>> GetUser(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            return _mapper.Map<MemberDto>(user);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<MemberDto>> GetUser(int id)
