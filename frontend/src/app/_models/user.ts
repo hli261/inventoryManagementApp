@@ -1,17 +1,10 @@
 ﻿export class User {
-    // id: string | any;
-    // username: string | any;
-    // password: string | any;
-    // firstName: string | any;
-    // lastName: string | any;
-    // token: string | any;
-
-
-    
-    id="";
-    username="";
-    password="";
-    firstName="";
-    lastName="";
-    token="";
-}
+    id!: number;
+    lastName!: string;
+    firstName!: string;
+    email!: string;
+    password!: string;
+    token!: string;
+    // access!: string[];
+    // active!: boolean;
+  }

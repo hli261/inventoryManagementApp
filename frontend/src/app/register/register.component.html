@@ -1,10 +1,7 @@
-<div class="container pt-3">
-<div class="card  mx-auto " style="width: 25rem;">
-<div class="card-header">
-    Registration
-  </div>
-  <div class="card-body">
-<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+<div class="container-fluid mt-3 mb-5">
+<div class="card  mx-auto mb-5 " style="width: 25rem;">  
+  <h3 class="card-header">Registration</h3><br>
+<form #f='ngForm' (ngSubmit)='onSubmit(f)' class="container">
   <div class="mb-3">
     <label for="lastName" class="form-label">Last Name</label>
     <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName">
@@ -26,10 +23,12 @@
         <label for="password2" class="form-label">Confirm Password</label>
         <input type="password" class="form-control" id="password2" name="password2" [(ngModel)]="password2">
       </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-evenly">
+      <div class="text-danger pb-3" *ngIf="errorMessage">
+        <span >{{errorMessage}}</span>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-evenly mb-3">
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="reset" class="btn btn-primary">Reset</button>
     </div>
   </form>
-</div>
 </div>

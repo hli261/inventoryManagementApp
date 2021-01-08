@@ -1,27 +1,41 @@
-<div class="container pt-3">
-  <div class="card  mx-auto " style="width: 25rem;">
+<div class="container mt-5 mb-5">
+  <div class="card  mx-auto " style="width: 35rem;">
   <div class="card-header">
       Profile
     </div>
     <div class="card-body">
   <form *ngIf="user" #f='ngForm' (ngSubmit)='onSubmit(f)'>
-    <div class="mb-3">
+    <div class="row g-3 align-items-center">
+    <div class="col-auto mb-3">
       <label for="lastName" class="form-label">Last Name</label>
       <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName">
     </div>
-    <div class="mb-3">
+    <div class="col-auto mb-3">
       <label for="firstName" class="form-label">First Name</label>
       <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName">
     </div>
-    <div class="mb-3">
+  </div>
+  <div class="row g-3 align-items-center">
+    <div class="col-auto mb-3">
       <label for="firstName" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email">
+      <input type="email" class="form-control" id="email" name="email" readonly [(ngModel)]="user.email">
     </div>
+  </div>
+  <div class="row g-3 align-items-center">
+    <div class="col-auto mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password">
+    </div>
+    <div class="col-auto mb-3">
+      <label for="password" class="form-label">Confirm Password</label>
+      <input type="password" class="form-control" id="password2" name="password2">
+    </div>
+  </div>
 
     <div class="form-check">
       <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
       <label class="form-check-label" for="defaultCheck1">
-        Inactive
+        Active
       </label>
     </div>
 

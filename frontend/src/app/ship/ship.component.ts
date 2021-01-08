@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Ship } from '../ship';
-import { ShipService } from '../services/ship.service';
+import { Ship } from '../_models/ship';
+import { ShipService } from '../_services/ship.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 

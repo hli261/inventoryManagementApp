@@ -51,7 +51,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { AccountService, AlertService } from '../services';
+import { AccountService, AlertService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

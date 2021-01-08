@@ -1,11 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ɵɵsanitizeUrlOrResourceUrl } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Injectable } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UserService } from './services/user.service';
-import { ShipService } from './services/ship.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor, ErrorInterceptor, ShipService, AccountService } from './_services';
 import { CommonModule } from "@angular/common";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -52,8 +49,18 @@ import { ProfileComponent } from './profile/profile.component';
     CommonModule
   ],
   providers: [
-    UserService,
-    ShipService
+    ShipService,
+    AccountService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

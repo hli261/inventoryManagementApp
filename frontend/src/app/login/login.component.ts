@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from '../services/account.service';
+import { AccountService } from '../_services/account.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -36,13 +36,12 @@ export class LoginComponent implements OnInit {
   }
 
   signinUser() {
-    console.log(this.SigninForm.value);
-    this.authService.loginUser(this.SigninForm.value).subscribe(
+    this.authService.login(this.SigninForm.value.email, this.SigninForm.value.password).subscribe(
       data => {
         this.SigninForm.reset();
         setTimeout(() => {
           this.router.navigate(['home']);
-        }, 3000);
+        }, 1000);
       },
       err => {
         if (err.error.msg) {

@@ -1,9 +1,10 @@
-<div class="container pt-5" >
-  <div class="card  mx-auto " style="width: 45rem;">
-  <div class="card-header">
+<div class="container mt-3 mb-5" >
+  <div class="card  mx-auto mb-3" style="width: 45rem;">
+  <h3 class="card-header">
       Shipping Record
-    </div>
-    <div class="card-body">
+  </h3>
+  <br>
+    <div class="container mb-3">
   <form [formGroup]="shipForm" (ngSubmit)="onSubmit()" class="row g-3">
       <div class="mb-3 col-md-6">
         <label for="dp" class="form-label">Arrival Date</label>
@@ -57,10 +58,10 @@
           <b> Add</b>
       </button>
     </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-evenly">
+      <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
       <button type="submit" class="btn btn-primary">Create</button>
   </div>
     </form>
-  </div>
+  <!-- </div> -->
   </div>
 

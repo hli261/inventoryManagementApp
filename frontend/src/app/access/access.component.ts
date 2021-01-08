@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { UserService } from '../services/user.service';
+import { User } from '../_models/user';
+import { AccountService } from '../_services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,8 +13,9 @@ export class AccessComponent implements OnInit {
 
   user!: User;
   sub!: Subscription;
+  accesses!: Array<string>;
 
-  constructor(private data: UserService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private data: AccountService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
      this.sub = this.route.params.subscribe(param=>{

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Ship } from '../ship';
-import { ShipService } from '../services/ship.service';
+import { Ship } from '../_models/ship';
+import { ShipService } from '../_services/ship.service';
 import { Router } from '@angular/router';
 
 @Component({

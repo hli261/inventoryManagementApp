@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { User } from '../user';
-import { UserService } from '../services/user.service';
+import { User } from '../_models/user';
+import { AccountService } from '../_services/account.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,19 +13,20 @@ export class RegisterComponent implements OnInit {
 
   user: User = new User();
   password2!: string;
+  errorMessage!: string;
 
-  constructor(private data:UserService, private router: Router) { }
+  constructor(private data:AccountService, private router: Router) { }
 
   ngOnInit(): void {
-
   }
 
   onSubmit(f: NgForm): void {
-    if(f.value.password === f.value.password2) {
-       console.log('user submit: ', this.user);     //use to test ngForm
-        this.data.add(this.user);
+    if(f.value.password !== f.value.password2) {  
+         this.errorMessage = "inconsistent password!";
+         return;
      }
-     this.router.navigate(['/login']);
+      this.data.register(this.user);
+      this.router.navigate(['/login']);     
    }
 
 }

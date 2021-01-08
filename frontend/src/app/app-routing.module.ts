@@ -10,12 +10,16 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ShipsComponent } from './ships/ships.component';
 import { ShipComponent } from './ship/ship.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AuthGuard } from './_services/auth.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'users', component: UsersComponent },
   { path: 'access/:id', component: AccessComponent },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
+  // { path: 'profile/:email', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'forget-password', component: ForgetPasswordComponent},
   { path: 'reset-password', component: ResetPasswordComponent},
@@ -23,7 +27,7 @@ const routes: Routes = [
   { path: 'ship', component: ShipComponent },
   { path: 'ship/:id', component: ShipComponent },
   { path: 'response-reset-password/:token', component: ResetPasswordComponent},
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

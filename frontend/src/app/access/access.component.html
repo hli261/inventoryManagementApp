@@ -10,14 +10,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor = 'let access of accesses' >
         <td>warehouse</td>
         <td></td>
-        <td>{{user.access}}</td>
-        <td *ngIf="!user.access">
+        <td>{{access}}</td>
+        <td *ngIf="!access">
           <button type="button" class="btn btn-secondary" (click)="addFunction()">Add Access</button>
         </td>
-        <td *ngIf="user.access">
+        <td *ngIf="access">
           <button type="button" class="btn btn-danger" (click)="removeFunction()">Remove Access</button>
         </td>
       </tr>
