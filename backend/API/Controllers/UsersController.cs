@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -45,7 +48,61 @@ namespace API.Controllers
             return _mapper.Map<MemberDto>(user);
         }
 
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+        {
 
+            // var user = _mapper.Map<AppUser>(model);
+            // user.Id = id;
+
+            //     // update user 
+            // _userRepository.Update(user, model.Password);
+
+            // return Ok();
+
+            var user = await _userRepository.GetUserByIdAsync(memberUpdateDto.Id);
+              if (!string.IsNullOrWhiteSpace(memberUpdateDto.Email) && memberUpdateDto.Email != memberUpdateDto.Email)
+            {
+                // throw error if the new username is already taken
+                //if (_userRepository.Users.Any(x => x.Email == userParam.Email))
+                //    throw new AppException("Username " + userParam.Username + " is already taken");
+
+                user.Email = memberUpdateDto.Email;
+            }
+
+            // update user properties if provided
+            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Firstname))
+                user.FirstName = memberUpdateDto.Firstname;
+
+            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Lastname))
+                user.LastName = memberUpdateDto.Lastname;
+
+
+            using var hmac = new HMACSHA512();
+            // update password if provided
+            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Password))
+            {
+                byte[] passwordHash, passwordSalt;
+   //             CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(memberUpdateDto.Password));
+                passwordSalt = hmac.Key;
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+            }
+
+            // var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // var user = await _userRepository.GetUserByEmailAsync(userEmail);
+
+        //    _mapper.Map(memberUpdateDto, user);
+
+            _userRepository.Update(user);
+
+            if(await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to update user");
+
+        }
         //testing only
         // [HttpPost]
         // public async Task<ActionResult<AppUser>> Register(AppUser model)

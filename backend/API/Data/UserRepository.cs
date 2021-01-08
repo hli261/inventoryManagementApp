@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using API.Entities;
 using API.Interfaces;
@@ -39,7 +42,44 @@ namespace API.Data
         {
             _context.Entry(user).State = EntityState.Modified;
         }
+//         public void Update(AppUser userParam, string password = null)
+//         {
+//             var user = _context.Users.Find(userParam.Id);
 
+//             // update username if it has changed
+//             if (!string.IsNullOrWhiteSpace(userParam.Email) && userParam.Email != user.Email)
+//             {
+//                 // throw error if the new username is already taken
+//                 if (_context.Users.Any(x => x.Email == userParam.Email))
+//                 //    throw new AppException("Username " + userParam.Username + " is already taken");
+
+//                 user.Email = userParam.Email;
+//             }
+
+//             // update user properties if provided
+//             if (!string.IsNullOrWhiteSpace(userParam.FirstName))
+//                 user.FirstName = userParam.FirstName;
+
+//             if (!string.IsNullOrWhiteSpace(userParam.LastName))
+//                 user.LastName = userParam.LastName;
+
+
+//             using var hmac = new HMACSHA512();
+//             // update password if provided
+//             if (!string.IsNullOrWhiteSpace(password))
+//             {
+//                 byte[] passwordHash, passwordSalt;
+//    //             CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+//                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+//                 passwordSalt = hmac.Key;
+//                 user.PasswordHash = passwordHash;
+//                 user.PasswordSalt = passwordSalt;
+//             }
+
+//             _context.Users.Update(user);
+//             _context.SaveChanges();
+//         }
 //
         public async Task<bool> Delete(int id){
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);

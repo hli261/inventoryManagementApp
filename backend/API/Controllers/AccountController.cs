@@ -38,7 +38,8 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
             return new UserDto{
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                Id = user.Id
             };
         }
 
