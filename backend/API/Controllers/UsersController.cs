@@ -48,27 +48,12 @@ namespace API.Controllers
             return _mapper.Map<MemberDto>(user);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+        [HttpPut("{id}")]
+       public async Task<ActionResult> UpdateUser(int id, MemberUpdateDto memberUpdateDto)
+        //public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
 
-            // var user = _mapper.Map<AppUser>(model);
-            // user.Id = id;
-
-            //     // update user 
-            // _userRepository.Update(user, model.Password);
-
-            // return Ok();
-
-            var user = await _userRepository.GetUserByIdAsync(memberUpdateDto.Id);
-              if (!string.IsNullOrWhiteSpace(memberUpdateDto.Email) && memberUpdateDto.Email != memberUpdateDto.Email)
-            {
-                // throw error if the new username is already taken
-                //if (_userRepository.Users.Any(x => x.Email == userParam.Email))
-                //    throw new AppException("Username " + userParam.Username + " is already taken");
-
-                user.Email = memberUpdateDto.Email;
-            }
+            var user = await _userRepository.GetUserByIdAsync(id);
 
             // update user properties if provided
             if (!string.IsNullOrWhiteSpace(memberUpdateDto.Firstname))
@@ -83,7 +68,6 @@ namespace API.Controllers
             if (!string.IsNullOrWhiteSpace(memberUpdateDto.Password))
             {
                 byte[] passwordHash, passwordSalt;
-   //             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(memberUpdateDto.Password));
                 passwordSalt = hmac.Key;
@@ -91,6 +75,7 @@ namespace API.Controllers
                 user.PasswordSalt = passwordSalt;
             }
 
+            user.Active = memberUpdateDto.Active;
             // var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             // var user = await _userRepository.GetUserByEmailAsync(userEmail);
 
