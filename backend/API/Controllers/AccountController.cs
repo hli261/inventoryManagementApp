@@ -31,14 +31,16 @@ namespace API.Controllers
                 FirstName = registerDto.Firstname,
                 LastName = registerDto.Lastname,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
+                PasswordSalt = hmac.Key,
+                Active = true
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return new UserDto{
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                Id = user.Id
             };
         }
 
@@ -58,7 +60,8 @@ namespace API.Controllers
 
             return new UserDto{
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                Id = user.Id
             };
         }
 

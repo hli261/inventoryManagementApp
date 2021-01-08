@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using API.Entities;
 using API.Interfaces;
@@ -40,7 +43,6 @@ namespace API.Data
             _context.Entry(user).State = EntityState.Modified;
         }
 
-//
         public async Task<bool> Delete(int id){
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
             if (user != null)

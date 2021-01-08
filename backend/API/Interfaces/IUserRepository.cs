@@ -6,7 +6,7 @@ namespace API.Interfaces
 {
     public interface IUserRepository
     {
-         void Update(AppUser user);
+        void Update(AppUser userParam);
 
          Task<bool> SaveAllAsync();
 
