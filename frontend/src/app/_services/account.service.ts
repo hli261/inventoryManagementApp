@@ -92,7 +92,7 @@ export class AccountService {
     }
 
     public getByEmail(email: any) : Observable<User> {
-        return this.http.get<User>(`${environment.apiUrl}/api/users/${email}`);
+        return this.http.get<User>(`${environment.apiUrl}/api/users/email/${email}`);
     }
 
     public register(user: User){

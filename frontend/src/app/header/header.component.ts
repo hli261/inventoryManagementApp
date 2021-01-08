@@ -10,22 +10,24 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  id: number;
+  // id: number;
+  email: string;
   sub!: Subscription;
   loggedIn = false;
 
   constructor(private data: AccountService ) { }
 
   ngOnInit(): void {
-    console.log(this.data.userValue);
-    //  this.sub = this.data.isLoggedIn.subscribe((log:any)=>this.loggedIn=log);
-    this.loggedIn = this.data.isAuthenticated();
-    this.id = this.data.readToken().id;    
+    console.log("user Value:", this.data.userValue);
+     this.sub = this.data.isLoggedIn.subscribe((log:any)=>this.loggedIn=log);
+     this.email = this.data.userValue.email;
+     console.log(this.email);
+    // this.loggedIn = this.data.isAuthenticated();
+    // this.id = this.data.readToken().id;    
   } 
 
   onLogout(): void{
     this.data.logout();
-    this.id = null ;
   }
  
 
