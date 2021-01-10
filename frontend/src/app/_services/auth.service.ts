@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
@@ -11,22 +10,16 @@ import { User } from '../_models/user';
 const helper = new JwtHelperService();
 
 @Injectable({ providedIn: 'root' })
-export class AccountService {
-    private userSubject: BehaviorSubject<User>;
-    public user: Observable<User>;
-    private loggedIn = new BehaviorSubject<boolean>(false);
+export class AuthService {
 
     constructor(
         private router: Router,
         private http: HttpClient
     ) {
-        this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-        this.user = this.userSubject.asObservable();
+      
     }
 
-    public get userValue(): User {
-         return this.userSubject.value;
-    }
+  
 
     public getToken(): string {
         return localStorage.getItem('accessToken');
@@ -50,9 +43,23 @@ export class AccountService {
      
       }
 
-    get isLoggedIn() {            
-         return this.loggedIn.asObservable(); 
-      }
+    // login(email:any, password: any){
+    //    return this.http.post<User>(`${environment.apiUrl}/api/account/login`, {email, password})
+    //                    .shareReplay();
+
+    // }
+    loginn(email:any, password:any) {
+      return this.http.post<User>(`${environment.apiUrl}/api/account/login`, { email, password })
+          .pipe(map(user => {
+              // store user details and jwt token in local storage to keep user logged in between page refreshes
+              localStorage.setItem('user', JSON.stringify(user));   
+              // localStorage.setItem('accessToken', JSON.stringify(user.token));  
+              
+              return user;
+          }));        
+  }
+
+    }
 
   
 
@@ -62,4 +69,4 @@ export class AccountService {
 
 
 
-}
+

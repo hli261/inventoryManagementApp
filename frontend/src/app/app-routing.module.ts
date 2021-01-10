@@ -14,20 +14,26 @@ import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './_services/auth.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'access/:id', component: AccessComponent },
-  { path: 'profile/:id', component: ProfileComponent},
-  { path: 'profile/:email', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'forget-password', component: ForgetPasswordComponent},
-  { path: 'reset-password', component: ResetPasswordComponent},
-  { path: 'ships', component: ShipsComponent },
-  { path: 'ship', component: ShipComponent },
-  { path: 'ship/:id', component: ShipComponent },
-  { path: 'response-reset-password/:token', component: ResetPasswordComponent},
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: '',
+    canActivate: [AuthGuard], 
+    children: [
+      { path: 'register', component: RegisterComponent },
+      { path: 'users', component: UsersComponent },
+      { path: 'access/:id', component: AccessComponent },  
+      { path: 'profile/:id', component: ProfileComponent},
+      { path: 'profile/:email', component: ProfileComponent},
+      { path: 'forget-password', component: ForgetPasswordComponent},
+      { path: 'reset-password', component: ResetPasswordComponent},
+      { path: 'ships', component: ShipsComponent},
+      { path: 'ship', component: ShipComponent },
+      { path: 'ship/:id', component: ShipComponent },
+      { path: 'response-reset-password/:token', component: ResetPasswordComponent},
+        ],
+    },  
+  // { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

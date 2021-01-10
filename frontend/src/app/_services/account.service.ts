@@ -13,8 +13,6 @@ import { EmailValidator } from "@angular/forms";
 
 const BASEURL = 'http://localhost:3000/api/resetpassword';
 
-const helper = new JwtHelperService();
-
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     private userSubject: BehaviorSubject<User>;
@@ -33,30 +31,13 @@ export class AccountService {
          return this.userSubject.value;
     }
 
-    public getToken(): string {
-        return localStorage.getItem('accessToken');
-      }
-    
-      public readToken(): any{
-        const token = localStorage.getItem('accessToken');
-        return helper.decodeToken(token);
-      }
-
-      isAuthenticated(): boolean {
-        const token = localStorage.getItem('access_token');
-
-        if(helper.isTokenExpired(token))  {
-            console.log("tokenExpire:", helper.isTokenExpired(token));
-            return true;
-        }
-        else {
-            return false;
-        }   
-     
-      }
-
     get isLoggedIn() {            
          return this.loggedIn.asObservable(); 
+      }
+
+      getAuthorizationToken() {
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        return currentUser.token;
       }
 
     requestReset(body: any): Observable<any> {
@@ -76,7 +57,7 @@ export class AccountService {
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));   
-                localStorage.setItem('accessToken', JSON.stringify(user.token));  
+                // localStorage.setItem('accessToken', JSON.stringify(user.token));  
                 this.userSubject.next(user);  
                 this.loggedIn.next(true);
                 return user;
@@ -102,7 +83,7 @@ export class AccountService {
     logout() {
         // remove user from local storage and set current user to null
         localStorage.removeItem('user');
-        localStorage.removeItem('accessToken');
+        // localStorage.removeItem('accessToken');
         this.userSubject.next(null);
         this.loggedIn.next(false);
         this.router.navigate(['/login']);

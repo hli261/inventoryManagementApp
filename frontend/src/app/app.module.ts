@@ -2,7 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ɵɵsanitizeUrlOrResourceUrl } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtInterceptor, ErrorInterceptor, ShipService, AccountService } from './_services';
+import { JwtInterceptor,
+         ErrorInterceptor, 
+         ShipService, 
+         AccountService,
+         AuthGuard } from './_services';
 import { CommonModule } from "@angular/common";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -51,6 +55,7 @@ import { ProfileComponent } from './profile/profile.component';
   providers: [
     ShipService,
     AccountService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

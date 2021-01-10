@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../_services/account.service';
+import { AccountService, AuthService } from '../_services';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
 
@@ -13,13 +13,13 @@ export class UsersComponent implements OnInit {
   users!: Array<User>;
   private liveUsersSub :any;
 
-  constructor(private data:AccountService, private router: Router) {
+  constructor(private data:AccountService,private authService: AuthService, private router: Router) {
 
   }
 
   ngOnInit(): void {
     this.liveUsersSub = this.data.getAll().subscribe(data=>this.users = data); 
-    console.log("read token:", this.data.readToken());
+    console.log("read token:", this.authService.readToken());
   }
 
   ngOnDestroy(){
