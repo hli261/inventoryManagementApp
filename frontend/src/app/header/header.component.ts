@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { User } from '../_models/user';
-import { AccountService } from '../_services/account.service';
-import { Subscription } from 'rxjs';
+import { AccountService, AuthService } from '../_services';
+import { Router, Event, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -9,25 +8,21 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  
+  token: any;
 
-  // id: number;
-  email: string;
-  sub!: Subscription;
-  loggedIn = false;
-
-  constructor(private data: AccountService ) { }
+  constructor(private data: AccountService, private router: Router, private authService:AuthService ) { }
 
   ngOnInit(): void {
-    console.log("user Value:", this.data.userValue);
-     this.sub = this.data.isLoggedIn.subscribe((log:any)=>this.loggedIn=log);
-     this.email = this.data.userValue.email;
-     console.log(this.email);
-    // this.loggedIn = this.data.isAuthenticated();
-    // this.id = this.data.readToken().id;    
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) { // only read the token on "NavigationStart"
+        this.token = this.authService.readToken();
+      }
+    });
   } 
 
   onLogout(): void{
-    this.data.logout();
+    this.authService.logout();
   }
  
 

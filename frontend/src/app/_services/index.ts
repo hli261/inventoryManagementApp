@@ -2,6 +2,7 @@
 export * from './alert.service';
 export * from './ship.service';
 export * from './auth.guard';
+export * from './role.guard';
 export * from './jwt.interceptor';
 export * from './error.interceptor';
 export * from './auth.service';

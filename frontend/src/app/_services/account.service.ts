@@ -15,9 +15,9 @@ const BASEURL = 'http://localhost:3000/api/resetpassword';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-    private userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
-    private loggedIn = new BehaviorSubject<boolean>(false);
+    private userSubject: BehaviorSubject<User>;
+    // private loggedIn = new BehaviorSubject<boolean>(false);
 
     constructor(
         private router: Router,
@@ -29,16 +29,7 @@ export class AccountService {
 
     public get userValue(): User {
          return this.userSubject.value;
-    }
-
-    get isLoggedIn() {            
-         return this.loggedIn.asObservable(); 
-      }
-
-      getAuthorizationToken() {
-        const currentUser = JSON.parse(localStorage.getItem('user'));
-        return currentUser.token;
-      }
+    } 
 
     requestReset(body: any): Observable<any> {
         return this.http.post(`${BASEURL}/req-reset-password`, body);
@@ -50,19 +41,7 @@ export class AccountService {
 
     ValidPasswordToken(body:any): Observable<any> {
         return this.http.post(`${BASEURL}/valid-password-token`, body);
-    }
-
-    login(email:any, password:any) {
-        return this.http.post<User>(`${environment.apiUrl}/api/account/login`, { email, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));   
-                // localStorage.setItem('accessToken', JSON.stringify(user.token));  
-                this.userSubject.next(user);  
-                this.loggedIn.next(true);
-                return user;
-            }));        
-    }
+    } 
 
     public getAll() : Observable<User[]>{
         return this.http.get<User[]>(`${environment.apiUrl}/api/users`);
@@ -78,32 +57,41 @@ export class AccountService {
 
     public register(user: User){
         return this.http.post(`${environment.apiUrl}/api/account/register`, user).subscribe();
-      }
+      }  
 
-    logout() {
-        // remove user from local storage and set current user to null
-        localStorage.removeItem('user');
-        // localStorage.removeItem('accessToken');
-        this.userSubject.next(null);
-        this.loggedIn.next(false);
-        this.router.navigate(['/login']);
+
+      update(id:any, params:any) {
+        return this.http.put(`${environment.apiUrl}/users/${id}`,  params);
+            // .pipe(map(x => {
+            //     // update stored user if the logged in user updated their own record
+            //     if (id == this.userValue.id) {
+            //         // update local storage
+            //         const user = { ...this.userValue, ...params };
+            //         localStorage.setItem('user', JSON.stringify(user));
+
+            //         // publish updated user to subscribers
+            //         this.userSubject.next(user);
+            //     }
+            //     return x;
+            // }));
     }
 
-    update(id:any, params:any) {
-        return this.http.put(`${environment.apiUrl}/users/${id}`, params)
-            .pipe(map(x => {
-                // update stored user if the logged in user updated their own record
-                if (id == this.userValue.id) {
-                    // update local storage
-                    const user = { ...this.userValue, ...params };
-                    localStorage.setItem('user', JSON.stringify(user));
 
-                    // publish updated user to subscribers
-                    this.userSubject.next(user);
-                }
-                return x;
-            }));
-    }
+    // update(id:any, params:any) {
+    //     return this.http.put(`${environment.apiUrl}/users/${id}`, params)
+    //         .pipe(map(x => {
+    //             // update stored user if the logged in user updated their own record
+    //             if (id == this.userValue.id) {
+    //                 // update local storage
+    //                 const user = { ...this.userValue, ...params };
+    //                 localStorage.setItem('user', JSON.stringify(user));
+
+    //                 // publish updated user to subscribers
+    //                 this.userSubject.next(user);
+    //             }
+    //             return x;
+    //         }));
+    // }
 
     // delete(id: string) {
     //     return this.http.delete(`${environment.apiUrl}/users/${id}`)
@@ -115,4 +103,28 @@ export class AccountService {
     //             return x;
     //         }));
     // }
+
+       // login(email:any, password:any) {
+    //     return this.http.post<User>(`${environment.apiUrl}/api/account/login`, { email, password })
+    //         .pipe(map(user => {
+    //             // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //             localStorage.setItem('user', JSON.stringify(user));   
+    //             // localStorage.setItem('accessToken', JSON.stringify(user.token));  
+    //             this.userSubject.next(user);  
+    //             return user;
+    //         }));        
+    // }
+
+      // logout() {
+    //     // remove user from local storage and set current user to null
+    //     localStorage.removeItem('user');
+    //     this.userSubject.next(null);
+    //     this.loggedIn.next(false);
+    //     this.router.navigate(['/login']);
+    // }
+
+        //  getAuthorizationToken() {
+    //     const currentUser = JSON.parse(localStorage.getItem('user'));
+    //     return currentUser.token;
+    //   }
 }

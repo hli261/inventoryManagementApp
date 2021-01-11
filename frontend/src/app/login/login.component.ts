@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from '../_services/account.service';
+import { AccountService, AuthService } from '../_services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AccountService,
+    private authService: AuthService,
     private router: Router,
   ) { this.buildSigninForm(); }
 
@@ -38,9 +38,10 @@ export class LoginComponent implements OnInit {
   signinUser() {
     this.authService.login(this.SigninForm.value.email, this.SigninForm.value.password).subscribe(
       data => {
+        // localStorage.setItem('currentToken', data.token);
         this.SigninForm.reset();
         setTimeout(() => {
-          this.router.navigate(['home']);
+          this.router.navigate(['']);
         }, 1000);
       },
       err => {

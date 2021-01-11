@@ -24,23 +24,24 @@
   <div class="row g-3 align-items-center">
     <div class="col-auto mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password">
+      <input type="password" class="form-control" id="password" name="password" placeholder="********" [(ngModel)]="user.password">
     </div>
     <div class="col-auto mb-3">
       <label for="password" class="form-label">Confirm Password</label>
-      <input type="password" class="form-control" id="password2" name="password2">
+      <input type="password" class="form-control" id="password2" name="password2" placeholder="********" >
     </div>
   </div>
 
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-      <label class="form-check-label" for="defaultCheck1">
+      <input class="form-check-input" type="checkbox" value="" id="active" name="active" [(ngModel)]="user.active" >
+      <label class="form-check-label" for="active">
         Active
       </label>
     </div>
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-evenly">
-      <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Update</button>
+      <button type="submit" class="btn btn-primary" >Update</button>
+      <!-- <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Update</button> -->
       </div>
     </form>
   </div>

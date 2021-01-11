@@ -15,33 +15,24 @@ export class ProfileComponent implements OnInit {
 
   user: User;
   sub: Subscription;
-  is: boolean = false;
-  id: number;
-  email: string;
+  // id: number;
 
   constructor(private data: AccountService, private route: ActivatedRoute, private router: Router) { 
-    this.id = this.route.snapshot.params['id'];
-    this.email = this.route.snapshot.params['email'];
+    // this.id = this.route.snapshot.params['id'];
   }
 
   ngOnInit(): void {
 
-    if(this.id){
-      this.data.getById(this.id).subscribe(user=> this.user=user);
-    }
-    if(this.email){
-      this.data.getByEmail(this.email).subscribe(user=> this.user=user);
-    }
-  //   this.sub = this.route.params.subscribe(param=>{     
-  //       this.data.getById(param['id']).subscribe((user:User)=>{
-  //         this.user=user;
-  //       })
-  //   });
-  //   this.sub = this.route.params.subscribe(param=>{     
-  //     this.data.getByEmail(param['email']).subscribe((user:User)=>{
-  //       this.user=user;
-  //     })
-  // });
+    // if(this.id){
+    //   this.sub = this.data.getById(this.id).subscribe(user=> this.user=user);
+    //   console.log("user:", this.user);
+    // }
+    this.sub = this.route.params.subscribe(param=>{     
+        this.data.getById(param['id']).subscribe((user:User)=>{
+          this.user=user;
+        })
+    });
+    console.log("user:", this.user);
   }
 
 ngOnDestroy() {
@@ -50,10 +41,10 @@ ngOnDestroy() {
 
  onSubmit(f: NgForm): void {
   if(f.value.password === f.value.password2) {
-     console.log('user submit: ', this.user);     //use to test ngForm
-      // this.data.update(this.user, f.value);
+     console.log('update form submit: ', this.user);
+      this.data.update(this.user, f.value);
    }
-   this.router.navigate(['/login']);
+   this.router.navigate(['users']);
  }
 
 }

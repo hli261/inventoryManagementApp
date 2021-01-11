@@ -6,5 +6,5 @@
     password!: string;
     token!: string;
     // access!: string[];
-    // active!: boolean;
+    active!: boolean;
   }
