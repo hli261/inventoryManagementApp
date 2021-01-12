@@ -59,21 +59,9 @@ export class AccountService {
         return this.http.post(`${environment.apiUrl}/api/account/register`, user).subscribe();
       }  
 
-
-      update(id:any, params:any) {
-        return this.http.put(`${environment.apiUrl}/users/${id}`,  params);
-            // .pipe(map(x => {
-            //     // update stored user if the logged in user updated their own record
-            //     if (id == this.userValue.id) {
-            //         // update local storage
-            //         const user = { ...this.userValue, ...params };
-            //         localStorage.setItem('user', JSON.stringify(user));
-
-            //         // publish updated user to subscribers
-            //         this.userSubject.next(user);
-            //     }
-            //     return x;
-            // }));
+    public update(id:number, user: User) : Observable<User>{
+        console.log('user in accout api:', user);
+        return this.http.put<User>(`${environment.apiUrl}/api/users/${id}`, JSON.stringify(user));        
     }
 
 

@@ -50,8 +50,7 @@ export class AuthService {
        return this.http.post<User>(`${environment.apiUrl}/api/account/login`, {email, password})
        .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentToken', JSON.stringify(user.token));                
-        console.log("localStorage:", localStorage);
+        localStorage.setItem('currentToken', JSON.stringify(user.token));      
         return user;
     }));        
 

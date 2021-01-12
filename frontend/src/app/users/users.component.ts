@@ -18,8 +18,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.liveUsersSub = this.data.getAll().subscribe(data=>this.users = data); 
-    console.log("read token:", this.authService.readToken());
+    this.liveUsersSub = this.data.getAll().subscribe(data=>this.users = data);
   }
 
   ngOnDestroy(){

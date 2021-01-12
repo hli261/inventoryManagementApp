@@ -15,24 +15,16 @@ export class ProfileComponent implements OnInit {
 
   user: User;
   sub: Subscription;
-  // id: number;
 
   constructor(private data: AccountService, private route: ActivatedRoute, private router: Router) { 
-    // this.id = this.route.snapshot.params['id'];
   }
 
-  ngOnInit(): void {
-
-    // if(this.id){
-    //   this.sub = this.data.getById(this.id).subscribe(user=> this.user=user);
-    //   console.log("user:", this.user);
-    // }
+  ngOnInit(): void {    
     this.sub = this.route.params.subscribe(param=>{     
         this.data.getById(param['id']).subscribe((user:User)=>{
           this.user=user;
         })
     });
-    console.log("user:", this.user);
   }
 
 ngOnDestroy() {
@@ -42,7 +34,7 @@ ngOnDestroy() {
  onSubmit(f: NgForm): void {
   if(f.value.password === f.value.password2) {
      console.log('update form submit: ', this.user);
-      this.data.update(this.user, f.value);
+      this.data.update(this.user.id, this.user);
    }
    this.router.navigate(['users']);
  }
