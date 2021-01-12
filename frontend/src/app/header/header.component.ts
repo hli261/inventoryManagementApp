@@ -10,8 +10,12 @@ import { Router, Event, NavigationStart } from '@angular/router';
 export class HeaderComponent implements OnInit {
   
   token: any;
+  title: string | any;
 
-  constructor(private data: AccountService, private router: Router, private authService:AuthService ) { }
+  constructor(private data: AccountService, 
+              private router: Router, 
+              private authService:AuthService, 
+              private headerService: AccountService ) { }
 
   ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
@@ -19,6 +23,8 @@ export class HeaderComponent implements OnInit {
         this.token = this.authService.readToken();
       }
     });
+
+    this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);
   } 
 
   onLogout(): void{

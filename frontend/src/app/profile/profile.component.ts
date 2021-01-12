@@ -15,9 +15,13 @@ export class ProfileComponent implements OnInit {
 
   user: User;
   sub: Subscription;
+  pageTitle: string;
   // id: number;
 
-  constructor(private data: AccountService, private route: ActivatedRoute, private router: Router) { 
+  constructor(private data: AccountService, 
+              private route: ActivatedRoute, 
+              private router: Router,
+              private headerService: AccountService) { 
     // this.id = this.route.snapshot.params['id'];
   }
 
@@ -33,6 +37,8 @@ export class ProfileComponent implements OnInit {
         })
     });
     console.log("user:", this.user);
+
+    this.headerService.setTitle('User Profile');
   }
 
 ngOnDestroy() {

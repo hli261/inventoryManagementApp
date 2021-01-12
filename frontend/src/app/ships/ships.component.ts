@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Ship } from '../_models/ship';
-import { ShipService } from '../_services/ship.service';
+import { ShipService, AccountService } from '../_services';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-ships',
@@ -11,14 +12,16 @@ import { Router } from '@angular/router';
 export class ShipsComponent implements OnInit {
 
   ships!: Array<Ship>;
+  pageTitle: string;
   private liveShipsSub :any;
 
-  constructor(private data:ShipService, private router: Router) {
+  constructor(private data:ShipService, private router: Router, private headerService: AccountService) {
 
   }
 
   ngOnInit(): void {
     this.liveShipsSub = this.data.get().subscribe(data=>this.ships = data);
+    this.headerService.setTitle('List of Ships');
   }
 
   ngOnDestroy(){

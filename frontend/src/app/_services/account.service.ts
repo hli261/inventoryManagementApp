@@ -19,6 +19,16 @@ export class AccountService {
     private userSubject: BehaviorSubject<User>;
     // private loggedIn = new BehaviorSubject<boolean>(false);
 
+    private title = new BehaviorSubject<String>('Home');
+    private title$ = this.title.asObservable();
+    setTitle(title: String) {
+        this.title.next(title);
+    }
+
+    getTitle(): Observable<String> {
+        return this.title$;
+    }
+    
     constructor(
         private router: Router,
         private http: HttpClient
