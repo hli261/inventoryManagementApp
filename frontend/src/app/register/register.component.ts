@@ -13,11 +13,15 @@ export class RegisterComponent implements OnInit {
 
   user: User = new User();
   password2!: string;
+  pageTitle: string;
   errorMessage!: string;
 
-  constructor(private data:AccountService, private router: Router) { }
+  constructor(private data:AccountService, 
+              private router: Router, 
+              private headerService: AccountService) { }
 
   ngOnInit(): void {
+    this.headerService.setTitle('Register');
   }
 
   onSubmit(f: NgForm): void {

@@ -6,7 +6,7 @@ import { Ship } from '../_models/ship';
 import { ShipService } from '../_services/ship.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-
+import { AccountService } from '../_services/account.service';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class ShipComponent implements OnInit {
   ship!: Ship;
   model!: NgbDateStruct;
   sub!: Subscription;
+  pageTitle: string;
 
   shipForm = this.fb.group({
     arrivalDate: [''],
@@ -33,7 +34,8 @@ export class ShipComponent implements OnInit {
   constructor(private data: ShipService,
               private router: Router,
               private route: ActivatedRoute,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private headerService: AccountService) { }
 
 
   ngOnInit(): void {
@@ -42,6 +44,8 @@ export class ShipComponent implements OnInit {
          this.ship=ship;
       })
     })
+
+    this.headerService.setTitle('Ship information');
   }
 
   get parcels() {

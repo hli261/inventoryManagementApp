@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountService, AuthService } from '../_services';
-import { Router } from '@angular/router';
+import { AccountService, AuthService, AlertService } from '../_services';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  pageTitle: string;
   SigninForm=new FormGroup({});
   forbiddenEmails: any;
   errorMessage: string | any;
@@ -19,20 +19,18 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private alertService: AlertService,
+    private route: ActivatedRoute,
+    private headerService: AccountService
   ) { this.buildSigninForm(); }
 
-  ngOnInit() {
-  }
+  ngOnInit() {this.headerService.setTitle('Login');}
 
   private buildSigninForm() {
     this.SigninForm = this.fb.group({
       email: [null, [Validators.required, Validators.email], this.forbiddenEmails],
       password: [null, [Validators.required, Validators.minLength(4)]],
     });
-  }
-
-  onSubmit() {
-    this.SigninForm.reset();
   }
 
   signinUser() {
@@ -44,15 +42,14 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         }, 1000);
       },
-      err => {
-        if (err.error.msg) {
-          this.errorMessage = err.error.msg[0].message;
-        }
-        if (err.error.message) {
-          this.errorMessage = err.error.message;
+      error => {        
+        if (error.message) {
+          this.errorMessage = "Please input correct email or password";
         }
       }
+
     );
+
   }
 
 }
