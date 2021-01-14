@@ -9,6 +9,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+//        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
@@ -48,63 +50,15 @@ namespace API.Controllers
             return _mapper.Map<MemberDto>(user);
         }
 
-        [HttpPut("{id}")]
-       public async Task<ActionResult> UpdateUser(int id, MemberUpdateDto memberUpdateDto)
-        //public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
-        {
-
-            var user = await _userRepository.GetUserByIdAsync(id);
-
-            // update user properties if provided
-            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Firstname))
-                user.FirstName = memberUpdateDto.Firstname;
-
-            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Lastname))
-                user.LastName = memberUpdateDto.Lastname;
-
-
-            using var hmac = new HMACSHA512();
-            // update password if provided
-            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Password))
-            {
-                byte[] passwordHash, passwordSalt;
-
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(memberUpdateDto.Password));
-                passwordSalt = hmac.Key;
-                user.PasswordHash = passwordHash;
-                user.PasswordSalt = passwordSalt;
-            }
-
-            user.Active = memberUpdateDto.Active;
-            // var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // var user = await _userRepository.GetUserByEmailAsync(userEmail);
-
-        //    _mapper.Map(memberUpdateDto, user);
-
-            _userRepository.Update(user);
-
-            if(await _userRepository.SaveAllAsync())  return Ok();   //return NoContent();
-
-            return BadRequest("Failed to update user");
-
-        }
-        //testing only
-        // [HttpPost]
-        // public async Task<ActionResult<AppUser>> Register(AppUser model)
-        // {
-        //     _context.Add(model);
-        //     await _context.SaveChangesAsync();
-        //     return Ok();
-        // }
-
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult> DeleteUser(int id){
             var user = await _userRepository.GetUserByIdAsync(id);
 
-            if (user == null) return NotFound(); //?
+            if (user == null) return NotFound();
             
-         //   _userRepository.Delete(id);
             return Ok(await _userRepository.Delete(id));
         }
+
+
     }
 }

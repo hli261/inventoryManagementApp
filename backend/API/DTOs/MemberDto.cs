@@ -10,6 +10,6 @@ namespace API.DTOs
 
         public string LastName {get; set;}
 
-        public bool Active { get; set; }
+        public bool Active {get; set;}
     }
 }
