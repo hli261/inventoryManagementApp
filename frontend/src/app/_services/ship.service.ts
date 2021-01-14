@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Ship } from '../_models/ship';
+import { Ship } from '../_models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +10,22 @@ import { Ship } from '../_models/ship';
 
 export class ShipService {
 
-  private url : string = "https://localhost:5001/api/ship";
-
   constructor(private http: HttpClient) { }
 
   public get(): Observable<Ship[]> {
-    return this.http.get<Ship[]> (this.url);
+    return this.http.get<Ship[]> (`${environment.apiUrl}/api/ship`);
   }
 
   public add(ship: Ship){
-     return this.http.post(this.url, ship).subscribe();
+     return this.http.post(`${environment.apiUrl}/api/ship`, ship).subscribe();
    }
 
    public getById(id: number): Observable<Ship> {
-    return this.http.get<Ship> (this.url + `/${id}`);
+    return this.http.get<Ship> (`${environment.apiUrl}/api/ship/${id}`);
   }
 
   public update(id: number, ship: Ship): Observable<Ship> {
-    return this.http.put<Ship> (this.url + `/${id}`, ship);
+    return this.http.put<Ship> (`${environment.apiUrl}/api/ship/${id}`, ship);
   }
 
 }

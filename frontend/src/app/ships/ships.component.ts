@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Ship } from '../_models/ship';
+import { Ship } from '../_models';
 import { ShipService, AccountService } from '../_services';
 import { Router } from '@angular/router';
 

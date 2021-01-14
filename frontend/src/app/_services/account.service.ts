@@ -3,13 +3,11 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
-import { User } from '../_models/user';
+import { User } from '../_models';
 
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { EmailValidator } from "@angular/forms";
-//import { cookieService } from 'ngx-cookie-service';
 
 const BASEURL = 'http://localhost:3000/api/resetpassword';
 
@@ -17,8 +15,7 @@ const BASEURL = 'http://localhost:3000/api/resetpassword';
 export class AccountService {
     public user: Observable<User>;
     private userSubject: BehaviorSubject<User>;
-    // private loggedIn = new BehaviorSubject<boolean>(false);
-
+    
     private title = new BehaviorSubject<String>('Home');
     private title$ = this.title.asObservable();
     setTitle(title: String) {
@@ -69,9 +66,9 @@ export class AccountService {
         return this.http.post(`${environment.apiUrl}/api/account/register`, user).subscribe();
       }  
 
-    public update(id:number, user: User) : Observable<User>{
+    public update(id:number, user: User) : Observable<User> {
         console.log('user in accout api:', user);
-        return this.http.put<User>(`${environment.apiUrl}/api/users/${id}`, JSON.stringify(user));        
+        return this.http.put<User>(`${environment.apiUrl}/api/users/${id}`, user);
     }
 
 

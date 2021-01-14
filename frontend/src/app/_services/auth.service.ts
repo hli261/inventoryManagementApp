@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
@@ -10,6 +10,8 @@ const helper = new JwtHelperService();
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  
+  cachedRequests: Array<HttpRequest<any>> = [];
 
     constructor(
         private router: Router,
@@ -62,6 +64,16 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+
+  public collectFailedRequest(request: any): void {
+    this.cachedRequests.push(request);
+  }
+
+  public retryFailedRequests(): void {
+    // retry the requests. this method can
+    // be called after the token is refreshed
+    this.router.navigate([`${this.cachedRequests[0]}`]);
+  }
 
 // getExpiration() {
 //   const expiration = localStorage.getItem("expires_at");

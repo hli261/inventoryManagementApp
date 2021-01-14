@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AccountService, AuthService } from '../_services';
 import { Router, Event, NavigationStart } from '@angular/router';
 
@@ -12,8 +12,7 @@ export class HeaderComponent implements OnInit {
   token: any;
   title: string | any;
 
-  constructor(private data: AccountService, 
-              private router: Router, 
+  constructor(private router: Router, 
               private authService:AuthService, 
               private headerService: AccountService ) { }
 

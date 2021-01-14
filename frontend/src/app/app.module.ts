@@ -25,6 +25,7 @@ import { ShipsComponent } from './ships/ships.component';
 import { ShipComponent } from './ship/ship.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
+import { BinManagementComponent } from './bin-management/bin-management.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ProfileComponent } from './profile/profile.component';
     ResetPasswordComponent,
     ShipsComponent,
     ShipComponent,
-    ProfileComponent
+    ProfileComponent,
+    BinManagementComponent
   ],
   imports: [
     BrowserModule,

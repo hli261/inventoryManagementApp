@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../_models/user';
-import { AccountService } from '../_services/account.service';
+import { User } from '../_models';
+import { AccountService } from '../_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
-
 
 @Component({
   selector: 'app-profile',
@@ -16,13 +15,11 @@ export class ProfileComponent implements OnInit {
   user: User;
   sub: Subscription;
   pageTitle: string;
-  // id: number;
 
   constructor(private data: AccountService, 
               private route: ActivatedRoute, 
               private router: Router,
               private headerService: AccountService) { 
-    // this.id = this.route.snapshot.params['id'];
   }
 
   ngOnInit(): void {    
@@ -40,10 +37,14 @@ ngOnDestroy() {
 
  onSubmit(f: NgForm): void {
   if(f.value.password === f.value.password2) {
-     console.log('update form submit: ', this.user);
-      this.data.update(this.user.id, this.user);
+      this.data.update(this.user.id, this.user)
+               .subscribe((user:User)=>{
+                this.user=user;
+              })
    }
    this.router.navigate(['users']);
  }
 
 }
+
+

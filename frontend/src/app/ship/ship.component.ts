@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Ship } from '../_models/ship';
-import { ShipService } from '../_services/ship.service';
+import { Ship } from '../_models';
+import { ShipService, AccountService } from '../_services';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { AccountService } from '../_services/account.service';
-
 
 @Component({
   selector: 'app-ship',

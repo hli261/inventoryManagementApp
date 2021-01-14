@@ -11,6 +11,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ShipsComponent } from './ships/ships.component';
 import { ShipComponent } from './ship/ship.component';
 import { ProfileComponent } from './profile/profile.component';
+import { BinManagementComponent } from './bin-management/bin-management.component';
+
 import { AuthGuard } from './_services/auth.guard';
 
 const routes: Routes = [
@@ -27,6 +29,7 @@ const routes: Routes = [
       { path: 'profile/:email', component: ProfileComponent},
       { path: 'forget-password', component: ForgetPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent},
+      { path: 'bins', component: BinManagementComponent},
       { path: 'ships', component: ShipsComponent},
       { path: 'ship', component: ShipComponent },
       { path: 'ship/:id', component: ShipComponent },
