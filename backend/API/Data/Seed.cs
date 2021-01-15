@@ -21,7 +21,7 @@ namespace API.Data
             // var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
             // if(users == null) return;
 
-            if(await roleManager.Roles.AnyAsync()) return; //exit when there is no roles in the database
+            if(await roleManager.Roles.AnyAsync()) return; //exit when there is any roles in the database
 
             var roles = new List<AppRole>
             {
