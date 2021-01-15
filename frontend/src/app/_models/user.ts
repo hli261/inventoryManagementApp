@@ -5,6 +5,6 @@
     email: string;
     password: string;
     token: string;
-    // access: string[];
+    access: Array<string>;
     active: boolean;
   }

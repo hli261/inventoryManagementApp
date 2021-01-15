@@ -7,3 +7,4 @@ export * from './jwt.interceptor';
 export * from './error.interceptor';
 export * from './auth.service';
 export * from './bin.service';
+export * from './access.service';

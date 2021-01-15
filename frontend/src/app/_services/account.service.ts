@@ -62,14 +62,15 @@ export class AccountService {
         return this.http.get<User>(`${environment.apiUrl}/api/users/email/${email}`);
     }
 
-    public register(user: User){
-        return this.http.post(`${environment.apiUrl}/api/account/register`, user).subscribe();
+    public register(user: User) {
+        return this.http.post(`${environment.apiUrl}/api/account/register`, user);
       }  
 
-    public update(id:number, user: User) : Observable<User> {
-        console.log('user in accout api:', user);
-        return this.http.put<User>(`${environment.apiUrl}/api/users/${id}`, user);
+    public update(email:string, user: User) : Observable<User> {
+        return this.http.put<User>(`${environment.apiUrl}/api/account/update/${email}`, user);
     }
+
+
 
 
     // update(id:any, params:any) {

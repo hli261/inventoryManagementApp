@@ -22,6 +22,12 @@
                 <a class="nav-link dropdown-toggle" href="#" id="receivingDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Warehouse</a>
                  <ul class="dropdown-menu bg-dark" aria-labelledby="receivingDropdown">
                 <!-- Level 2 -->
+                <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Bin Management</a>
+                  <ul class="dropdown-menu bg-dark ">
+                  <li><a class="dropdown-item text-secondary" routerLink="/bins">Bin Manager</a></li>
+                  <li><a class="dropdown-item text-secondary" routerLink="/item">Item Manager</a></li>
+                  </ul>
+                </li>
                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Receiving</a>
                   <ul class="dropdown-menu bg-dark ">
                   <li><a class="dropdown-item text-secondary" routerLink="ships">Ship Information</a></li>
@@ -33,13 +39,7 @@
                   <li><a class="dropdown-item text-secondary" routerLink="/putaway">Put Away</a></li>
                   <li><a class="dropdown-item text-secondary" routerLink="/report">Report</a></li>
                   </ul>
-                </li>
-                <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Bin Management</a>
-                  <ul class="dropdown-menu bg-dark ">
-                  <li><a class="dropdown-item text-secondary" routerLink="/bins">Bin Manager</a></li>
-                  <li><a class="dropdown-item text-secondary" routerLink="/item">Item Manager</a></li>
-                  </ul>
-                </li>
+                </li>              
                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Replenishment</a>
                   <ul class="dropdown-menu bg-dark ">
                   <li><a class="dropdown-item text-secondary" routerLink="/replenishment">Replenishment</a></li>

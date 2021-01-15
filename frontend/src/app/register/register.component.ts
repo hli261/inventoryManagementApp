@@ -29,8 +29,10 @@ export class RegisterComponent implements OnInit {
          this.errorMessage = "inconsistent password!";
          return;
      }
-      this.data.register(this.user);
-      this.router.navigate(['/login']);     
-   }
-
-}
+      this.data.register(this.user).subscribe(
+        () => this.router.navigate(['/login']),
+        error => {this.errorMessage = JSON.stringify(error.error);}
+        );
+     
+      }
+    }

@@ -31,18 +31,18 @@ export class ProfileComponent implements OnInit {
     this.headerService.setTitle('User Profile');
   }
 
+
 ngOnDestroy() {
     if(this.sub){this.sub.unsubscribe();}
  }
 
  onSubmit(f: NgForm): void {
   if(f.value.password === f.value.password2) {
-      this.data.update(this.user.id, this.user)
-               .subscribe((user:User)=>{
-                this.user=user;
-              })
+      this.data.update(this.user.email, this.user)
+               .subscribe(user=>this.user = user)
    }
-   this.router.navigate(['users']);
+   this.router.navigate(['']);
+  //  this.router.navigate(['users']);
  }
 
 }
