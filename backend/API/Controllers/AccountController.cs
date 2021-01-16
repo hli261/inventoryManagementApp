@@ -45,11 +45,11 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if(!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
             var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
-            if(!roleResult.Succeeded) return BadRequest(result.Errors);
+            if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
             return new UserDto
             {
@@ -68,7 +68,7 @@ namespace API.Controllers
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-            if(!result.Succeeded) return Unauthorized();
+            if (!result.Succeeded) return Unauthorized();
 
             return new UserDto
             {
@@ -84,112 +84,109 @@ namespace API.Controllers
             return await _userManager.Users.AnyAsync(x => x.Email == username.ToLower());
         }
 
-       [HttpPut("update/{email}")]
-       public async Task<ActionResult> UpdateUser(string email, MemberUpdateDto memberUpdateDto)
+        [HttpPut("update/{email}")]
+        public async Task<ActionResult> UpdateUser(string email, MemberUpdateDto memberUpdateDto)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if(user == null) return NotFound("Could not find the user");
+            if (user == null) return NotFound("Could not find the user");
 
-            if(!string.IsNullOrWhiteSpace(memberUpdateDto.Password))
+            if (!string.IsNullOrWhiteSpace(memberUpdateDto.Password))
             {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            var result = await _userManager.ResetPasswordAsync(user, token, memberUpdateDto.Password);
+                var result = await _userManager.ResetPasswordAsync(user, token, memberUpdateDto.Password);
 
-            if(!result.Succeeded) return BadRequest("Failed to update password");
+                if (!result.Succeeded) return BadRequest("Failed to update password");
             }
-    
+
             // update user properties if provided
             if (!string.IsNullOrWhiteSpace(memberUpdateDto.Firstname))
             {
                 user.FirstName = memberUpdateDto.Firstname;
                 var result = await _userManager.UpdateAsync(user);
-                if(!result.Succeeded) return BadRequest("Failed to update Firstname");
+                if (!result.Succeeded) return BadRequest("Failed to update Firstname");
             }
 
             if (!string.IsNullOrWhiteSpace(memberUpdateDto.Lastname))
             {
                 user.LastName = memberUpdateDto.Lastname;
                 var result = await _userManager.UpdateAsync(user);
-                if(!result.Succeeded) return BadRequest("Failed to update Lastname");
+                if (!result.Succeeded) return BadRequest("Failed to update Lastname");
             }
 
-            if(memberUpdateDto.Active == true || memberUpdateDto.Active == false){
+            if (memberUpdateDto.Active == true || memberUpdateDto.Active == false)
+            {
                 user.Active = memberUpdateDto.Active;
                 var result = await _userManager.UpdateAsync(user);
-                if(!result.Succeeded) return BadRequest("Failed to update active");
+                if (!result.Succeeded) return BadRequest("Failed to update active");
             }
 
             return Ok();
 
         }
 
-[HttpPost("ForgotPassword")]
-public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
-{
-    if (!ModelState.IsValid)
-        return BadRequest();
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-    var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
-    if (user == null)
-        return BadRequest("Invalid Request");
+            var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+            if (user == null)
+                return BadRequest("Invalid Request");
 
-    var token = await _userManager.GeneratePasswordResetTokenAsync(user);         
-    var param = new Dictionary<string, string>
-    {
-        {"token", token },
-        {"email", forgotPasswordDto.Email }
-    };
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var param = new Dictionary<string, string> { { "token", token }, { "email", forgotPasswordDto.Email } };
 
-    var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientURI, param);
+            var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientURI, param);
 
-MimeMessage message = new MimeMessage();
+            MimeMessage message = new MimeMessage();
 
-MailboxAddress from = new MailboxAddress("Admin", "txy20011109@gmail.com");
-message.From.Add(from);
+            MailboxAddress from = new MailboxAddress("Admin", "txy20011109@gmail.com");
+            message.From.Add(from);
 
-//MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
-MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
-message.To.Add(to);
+            //MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
+            MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
+            message.To.Add(to);
 
-message.Subject = "Reset Password (This is email title)";
+            message.Subject = "Reset Password (This is email title)";
 
-BodyBuilder bodyBuilder = new BodyBuilder();
-bodyBuilder.HtmlBody = "<h1>Hello World! Here is link to reset your passowrd</h1> </br>" + callback;
-//bodyBuilder.TextBody = "Hello World!  " + callback;
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = "<h1>Hello World! Here is link to reset your passowrd</h1> </br>" + callback;
+            //bodyBuilder.TextBody = "Hello World!  " + callback;
 
- message.Body = bodyBuilder.ToMessageBody();
+            message.Body = bodyBuilder.ToMessageBody();
 
- SmtpClient client = new SmtpClient();
-client.Connect("smtp.gmail.com", 465, true);
-client.Authenticate("txy20011109@gmail.com", "vinatang2001");
+            SmtpClient client = new SmtpClient();
+            client.Connect("smtp.gmail.com", 465, true);
+            client.Authenticate("txy20011109@gmail.com", "vinatang2001");
 
-client.Send(message);
-client.Disconnect(true);
-client.Dispose();
+            client.Send(message);
+            client.Disconnect(true);
+            client.Dispose();
 
-    return Ok();
-}
+            return Ok();
+        }
 
-[HttpPost("ResetPassword")]
-public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto resetPasswordDto)
-{
-    if (!ModelState.IsValid)
-        return BadRequest();
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-    var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
-    if (user == null)
-        return BadRequest("Invalid Request");
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+            if (user == null)
+                return BadRequest("Invalid Request");
 
-    var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
-    if (!resetPassResult.Succeeded)
-    {
-        var errors = resetPassResult.Errors.Select(e => e.Description);
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+            if (!resetPassResult.Succeeded)
+            {
+                var errors = resetPassResult.Errors.Select(e => e.Description);
 
-        return BadRequest(new { Errors = errors });
-    }
+                return BadRequest(new { Errors = errors });
+            }
 
-    return Ok();
-}
+            return Ok();
+        }
     }
 }
