@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace API.Controllers
 {
@@ -141,10 +143,32 @@ public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto for
 
     var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientURI, param);
 
-    // var message = new Message(new string[] { "codemazetest@gmail.com" }, "Reset password token", callback, null);
-    // await _emailSender.SendEmailAsync(message);
+MimeMessage message = new MimeMessage();
 
-    return Ok(callback);
+MailboxAddress from = new MailboxAddress("Admin", "txy20011109@gmail.com");
+message.From.Add(from);
+
+//MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
+MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
+message.To.Add(to);
+
+message.Subject = "Reset Password (This is email title)";
+
+BodyBuilder bodyBuilder = new BodyBuilder();
+bodyBuilder.HtmlBody = "<h1>Hello World! Here is link to reset your passowrd</h1> </br>" + callback;
+//bodyBuilder.TextBody = "Hello World!  " + callback;
+
+ message.Body = bodyBuilder.ToMessageBody();
+
+ SmtpClient client = new SmtpClient();
+client.Connect("smtp.gmail.com", 465, true);
+client.Authenticate("txy20011109@gmail.com", "vinatang2001");
+
+client.Send(message);
+client.Disconnect(true);
+client.Dispose();
+
+    return Ok();
 }
 
 [HttpPost("ResetPassword")]
