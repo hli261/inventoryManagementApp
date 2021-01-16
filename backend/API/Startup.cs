@@ -19,6 +19,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using EmailService;
 
 namespace API
 {
@@ -37,7 +38,13 @@ namespace API
         {
             services.AddApplicationServices(_config);
             services.AddControllers();
-            services.AddCors();//what this does?
+            services.AddCors();
+
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
