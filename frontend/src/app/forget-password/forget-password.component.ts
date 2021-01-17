@@ -83,7 +83,8 @@ export class ForgetPasswordComponent implements OnInit {
     console.log(form)
     if (form.valid) {
       this.IsvalidForm = true;
-      this.authService.requestReset(this.RequestResetForm.value).subscribe(
+      console.log(this.RequestResetForm.value.email);
+      this.authService.requestReset(this.RequestResetForm.value.email, 'https://localhost:4200/reset-password').subscribe(
         data => {
           this.RequestResetForm.reset();
           this.successMessage = "Reset password link send to email sucessfully.";

@@ -148,8 +148,8 @@ MimeMessage message = new MimeMessage();
 MailboxAddress from = new MailboxAddress("Admin", "txy20011109@gmail.com");
 message.From.Add(from);
 
-//MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
-MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
+MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
+// MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
 message.To.Add(to);
 
 message.Subject = "Reset Password (This is email title)";
