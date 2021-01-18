@@ -21,21 +21,22 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: '',
-    canActivate: [AuthGuard], 
-    children: [      
+    canActivate: [AuthGuard],
+    children: [
       { path: 'users', component: UsersComponent },
-      { path: 'access/:id', component: AccessComponent },  
+      { path: 'access/:id', component: AccessComponent },
       { path: 'profile/:id', component: ProfileComponent},
       { path: 'profile/:email', component: ProfileComponent},
-      { path: 'forget-password', component: ForgetPasswordComponent},
-      { path: 'reset-password', component: ResetPasswordComponent},
       { path: 'bins', component: BinManagementComponent},
       { path: 'ships', component: ShipsComponent},
       { path: 'ship', component: ShipComponent },
       { path: 'ship/:id', component: ShipComponent },
       { path: 'response-reset-password/:token', component: ResetPasswordComponent},
         ],
-    },  
+    },
+
+    { path: 'reset-password', component: ResetPasswordComponent},
+    { path: 'forget-password', component: ForgetPasswordComponent},
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
