@@ -19,8 +19,8 @@ namespace API.Controllers
 
         //policy base or role base authorization
         [HttpGet("users-with-roles")]
-        //[Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
-        //[Authorize(Role = "Admin")]
+        // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
+        // [Authorize(Role = "Admin")]
         public async Task<ActionResult> GetUsersWithRoles()
         {
             var users = await _userManager

@@ -32,14 +32,14 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("register")] //add email confirmation
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExists(registerDto.Email)) return BadRequest("Email is taken");
 
             var user = _mapper.Map<AppUser>(registerDto);
 
-            user.Active = true;
+            user.Active = false;
 
             user.UserName = registerDto.Email;
 
@@ -47,9 +47,9 @@ namespace API.Controllers
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+            // var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
-            if (!roleResult.Succeeded) return BadRequest(result.Errors);
+            // if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
             return new UserDto
             {
@@ -145,8 +145,8 @@ namespace API.Controllers
             MailboxAddress from = new MailboxAddress("Admin", "txy20011109@gmail.com");
             message.From.Add(from);
 
-            //MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
-            MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
+            MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
+            // MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
             message.To.Add(to);
 
             message.Subject = "Reset Password (This is email title)";
@@ -159,7 +159,7 @@ namespace API.Controllers
 
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.gmail.com", 465, true);
-            client.Authenticate("txy20011109@gmail.com", "vinatang2001");
+            client.Authenticate("txy20011109@gmail.com", "WASDabcde13579!!!!!.....");
 
             client.Send(message);
             client.Disconnect(true);
@@ -188,5 +188,6 @@ namespace API.Controllers
 
             return Ok();
         }
+
     }
 }
