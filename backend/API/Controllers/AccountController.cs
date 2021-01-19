@@ -50,6 +50,12 @@ namespace API.Controllers
             // var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
             // if (!roleResult.Succeeded) return BadRequest(result.Errors);
+            var userDetail = "<h4>User Info</h4>" + 
+            $"</br> <p>User Id: {user.Id}</p>"  + 
+            $"</br> <p>User Name: {user.FirstName + " " + user.LastName}</p>" + 
+            $"</br> <p>User Account: {user.Email}</p>";
+
+            SendMail("Admin", "prj666testing@gmail.com", "New User Created", userDetail);
 
             return new UserDto
             {
@@ -140,30 +146,7 @@ namespace API.Controllers
 
             var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientURI, param);
 
-            MimeMessage message = new MimeMessage();
-
-            MailboxAddress from = new MailboxAddress("Admin", "txy20011109@gmail.com");
-            message.From.Add(from);
-
-            // MailboxAddress to = new MailboxAddress("User A", forgotPasswordDto.Email);
-            MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
-            message.To.Add(to);
-
-            message.Subject = "Reset Password (This is email title)";
-
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = "<h1>Hello World! Here is link to reset your passowrd</h1> </br>" + callback;
-            //bodyBuilder.TextBody = "Hello World!  " + callback;
-
-            message.Body = bodyBuilder.ToMessageBody();
-
-            SmtpClient client = new SmtpClient();
-            client.Connect("smtp.gmail.com", 465, true);
-            client.Authenticate("prj666testing@gmail.com", "WASDabcde13579!!!!!.....");
-
-            client.Send(message);
-            client.Disconnect(true);
-            client.Dispose();
+            SendMail(forgotPasswordDto.Email, forgotPasswordDto.Email, "Reset Password", "<p>Click to reset Password</p> </br>" + callback);
 
             return Ok();
         }
@@ -187,6 +170,34 @@ namespace API.Controllers
             }
 
             return Ok();
+        }
+
+        private void SendMail(string userName, string userEmail, string emailSubject, string emailBody)
+        {
+            MimeMessage message = new MimeMessage();
+
+            MailboxAddress from = new MailboxAddress("Admin", "prj666testing@gmail.com");
+            message.From.Add(from);
+
+            MailboxAddress to = new MailboxAddress(userName, userEmail);
+            // MailboxAddress to = new MailboxAddress("User A", "54sakkie@gmail.com"); //my own email to test only, replace with forgotPasswordDto.Email to use it
+            message.To.Add(to);
+
+            message.Subject = emailSubject;
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = emailBody;
+            //bodyBuilder.TextBody = "Hello World!  " + callback;
+
+            message.Body = bodyBuilder.ToMessageBody();
+
+            SmtpClient client = new SmtpClient();
+            client.Connect("smtp.gmail.com", 465, true);
+            client.Authenticate("prj666testing@gmail.com", "WASDabcde13579!!!!!.....");
+
+            client.Send(message);
+            client.Disconnect(true);
+            client.Dispose();
         }
 
     }

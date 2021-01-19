@@ -1,6 +1,8 @@
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +13,14 @@ namespace API.Controllers
     public class AdminController : BaseApiController
     {
         private readonly UserManager<AppUser> _userManager;
-        public AdminController(UserManager<AppUser> userManager)
+        private readonly IMapper _mapper;
+        public AdminController(UserManager<AppUser> userManager, IMapper mapper)
         {
+            _mapper = mapper;
             _userManager = userManager;
 
         }
 
-        //policy base or role base authorization
         [HttpGet("users-with-roles")]
         // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
         // [Authorize(Role = "Admin")]
@@ -37,8 +40,22 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("user-with-roles/{email}")]
+        // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
+        // [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetUserWithRoles(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return Ok(roles);
+        }
+
 
         [HttpPost("edit-roles/{email}")] //email is the username
+        // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
+        // [Authorize(Roles = "Admin")]
         public async Task<ActionResult> EditRoles(string email, [FromQuery] string roles)
         {
             var selectedRoles = roles.Split(",").ToArray();
