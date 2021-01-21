@@ -26,6 +26,7 @@ import { ShipComponent } from './ship/ship.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
 import { BinManagementComponent } from './bin-management/bin-management.component';
+import { PagingComponent } from './paging/paging.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { BinManagementComponent } from './bin-management/bin-management.componen
     ShipsComponent,
     ShipComponent,
     ProfileComponent,
-    BinManagementComponent
+    BinManagementComponent,
+    PagingComponent
   ],
   imports: [
     BrowserModule,

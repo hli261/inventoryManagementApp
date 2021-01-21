@@ -1,7 +1,7 @@
 <div><header title="pageTitle"></header></div>
 <div class="container-fluid mt-3 mb-3">
  <h3>List of bins</h3>
- <a routerLink="/bin" class="btn btn-primary">Create New</a>
+ <a routerLink="/bin" class="btn btn-primary">Create New</a> 
   <table class="table table-hover border-top mt-3">
     <thead class="table-light">
       <tr>
@@ -22,6 +22,9 @@
           <a [routerLink]="['/bin', bin.id]">Edit</a>
         </td>
       </tr>
+    
+      <!-- <div class="w-100"><app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging></div>   -->
+      <div class="justify-content-end"><app-paging></app-paging></div>  
     </tbody>
   </table>
   </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../_models';
-import { AccessService } from '../_services';
+import { AccessService, AccountService } from '../_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,9 +13,13 @@ export class AccessComponent implements OnInit {
 
   user!: User;
   sub!: Subscription;
-  accesses!: Array<string>;
+  accesses!: Array<string>;  
+  pageTitle: string;
 
-  constructor(private accessService: AccessService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private accessService: AccessService, 
+              private route: ActivatedRoute, 
+              private router: Router,
+              private headerService: AccountService) { }
 
   ngOnInit(): void {
     //  this.sub = this.route.params.subscribe(param=>{
@@ -24,6 +28,7 @@ export class AccessComponent implements OnInit {
     //    })
     //  });
     //  console.log(this.accesses);
+    this.headerService.setTitle('User Access Authorization');
 
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService, AuthService } from '../_services';
 import { Router, Event, NavigationStart } from '@angular/router';
+import { User } from '../_models';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ export class HeaderComponent implements OnInit {
   
   token: any;
   title: string | any;
+  user: User;
 
   constructor(private router: Router, 
               private authService:AuthService, 
@@ -22,7 +24,7 @@ export class HeaderComponent implements OnInit {
         this.token = this.authService.readToken();
       }
     });
-
+    this.authService.getLoginUser().subscribe(user=> this.user=user);
     this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);
   } 
 

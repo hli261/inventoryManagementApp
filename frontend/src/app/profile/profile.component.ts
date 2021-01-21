@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../_models';
-import { AccountService } from '../_services';
+import { AccountService, AuthService } from '../_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
@@ -19,7 +19,8 @@ export class ProfileComponent implements OnInit {
   constructor(private data: AccountService, 
               private route: ActivatedRoute, 
               private router: Router,
-              private headerService: AccountService) { 
+              private headerService: AccountService,
+              private authService: AuthService) { 
   }
 
   ngOnInit(): void {    
@@ -31,6 +32,9 @@ export class ProfileComponent implements OnInit {
     this.headerService.setTitle('User Profile');
   }
 
+ public isAdmin(): any {
+    return !(this.route.snapshot.params['id'] === this.authService.readToken().id);
+  }
 
 ngOnDestroy() {
     if(this.sub){this.sub.unsubscribe();}
@@ -41,8 +45,8 @@ ngOnDestroy() {
       this.data.update(this.user.email, this.user)
                .subscribe(user=>this.user = user)
    }
-   this.router.navigate(['']);
-  //  this.router.navigate(['users']);
+    if(this.isAdmin()) {this.router.navigate(['users']);}
+    else {this.router.navigate(['']);}
  }
 
 }

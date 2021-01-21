@@ -18,7 +18,9 @@ import { AuthGuard } from './_services/auth.guard';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegisterComponent },  
+  { path: 'forget-password', component: ForgetPasswordComponent},
+  { path: 'reset-password', component: ResetPasswordComponent},
   {
     path: '',
     canActivate: [AuthGuard], 
@@ -27,8 +29,6 @@ const routes: Routes = [
       { path: 'access/:id', component: AccessComponent },  
       { path: 'profile/:id', component: ProfileComponent},
       { path: 'profile/:email', component: ProfileComponent},
-      { path: 'forget-password', component: ForgetPasswordComponent},
-      { path: 'reset-password', component: ResetPasswordComponent},
       { path: 'bins', component: BinManagementComponent},
       { path: 'ships', component: ShipsComponent},
       { path: 'ship', component: ShipComponent },
@@ -36,7 +36,7 @@ const routes: Routes = [
       { path: 'response-reset-password/:token', component: ResetPasswordComponent},
         ],
     },  
-  // { path: '', redirectTo: 'home', pathMatch: 'full' },
+  // { path: '', redirectTo: 'home', pathMatch: 'full' },  
   { path: '**', component: PageNotFoundComponent }
 ];
 

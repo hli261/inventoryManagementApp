@@ -13,11 +13,24 @@ export class BinManagementComponent implements OnInit {
   pageTitle: string;
   private liveBinsSub :any;
 
-  constructor() { }
+  constructor(private binService : BinService) { }
+
+  getPage(num: any): void {
+    // this.liveBinsSub = this.binService.get(num, this.tag, this.category).subscribe(data => this.blogPosts = data);
+    //     if(this.liveBinSub.length > 0) {
+    //    this.blogPosts = this.livePostsSub;
+    //    this.page = num;
+    //   // console.log(this.page);
+    //  }
+    }
 
   ngOnInit(): void {
 
-
+     this.liveBinsSub = this.binService.get().subscribe(data=>this.bins=data);
   }
+
+  ngOnDestroy() {
+    if(this.liveBinsSub){this.liveBinsSub.unsubscribe();}
+ }
 
 }

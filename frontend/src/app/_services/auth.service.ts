@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 import { User } from '../_models/user';
+import { AccountService } from './account.service';
+import { Observable } from 'rxjs';
 
 const helper = new JwtHelperService();
 
@@ -15,7 +17,8 @@ export class AuthService {
 
     constructor(
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private accountService: AccountService
     ) { }  
 
     public getToken(): string {
@@ -64,6 +67,9 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  getLoginUser(): Observable<any>{
+    return this.accountService.getById(this.readToken().id);
+  }
 
   public collectFailedRequest(request: any): void {
     this.cachedRequests.push(request);
