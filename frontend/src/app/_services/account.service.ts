@@ -9,13 +9,13 @@ import { User } from '../_models';
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { EmailValidator } from "@angular/forms";
 
-const BASEURL = 'http://localhost:3000/api/resetpassword';
+const BASEURL = 'http://localhost:5001/api/account/ResetPassword';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     public user: Observable<User>;
     private userSubject: BehaviorSubject<User>;
-    
+
     private title = new BehaviorSubject<String>('Home');
     private title$ = this.title.asObservable();
     setTitle(title: String) {
@@ -25,7 +25,7 @@ export class AccountService {
     getTitle(): Observable<String> {
         return this.title$;
     }
-    
+
     constructor(
         private router: Router,
         private http: HttpClient
@@ -36,10 +36,10 @@ export class AccountService {
 
     public get userValue(): User {
          return this.userSubject.value;
-    } 
+    }
 
-    requestReset(body: any): Observable<any> {
-        return this.http.post(`${BASEURL}/req-reset-password`, body);
+    requestReset(email: any, url:string): Observable<any> {
+        return this.http.post(`https://localhost:5001/api/account/forgotpassword`, {email,url});
     }
 
     newPassword(body:any): Observable<any> {
@@ -48,7 +48,7 @@ export class AccountService {
 
     ValidPasswordToken(body:any): Observable<any> {
         return this.http.post(`${BASEURL}/valid-password-token`, body);
-    } 
+    }
 
     public getAll() : Observable<User[]>{
         return this.http.get<User[]>(`${environment.apiUrl}/api/users`);
@@ -64,7 +64,7 @@ export class AccountService {
 
     public register(user: User) {
         return this.http.post(`${environment.apiUrl}/api/account/register`, user);
-      }  
+      }
 
     public update(email:string, user: User) : Observable<User> {
         return this.http.put<User>(`${environment.apiUrl}/api/account/update/${email}`, user);
@@ -104,11 +104,11 @@ export class AccountService {
     //     return this.http.post<User>(`${environment.apiUrl}/api/account/login`, { email, password })
     //         .pipe(map(user => {
     //             // store user details and jwt token in local storage to keep user logged in between page refreshes
-    //             localStorage.setItem('user', JSON.stringify(user));   
-    //             // localStorage.setItem('accessToken', JSON.stringify(user.token));  
-    //             this.userSubject.next(user);  
+    //             localStorage.setItem('user', JSON.stringify(user));
+    //             // localStorage.setItem('accessToken', JSON.stringify(user.token));
+    //             this.userSubject.next(user);
     //             return user;
-    //         }));        
+    //         }));
     // }
 
       // logout() {

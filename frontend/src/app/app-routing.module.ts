@@ -23,10 +23,10 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent},
   {
     path: '',
-    canActivate: [AuthGuard], 
-    children: [      
+    canActivate: [AuthGuard],
+    children: [
       { path: 'users', component: UsersComponent },
-      { path: 'access/:id', component: AccessComponent },  
+      { path: 'access/:id', component: AccessComponent },
       { path: 'profile/:id', component: ProfileComponent},
       { path: 'profile/:email', component: ProfileComponent},
       { path: 'bins', component: BinManagementComponent},

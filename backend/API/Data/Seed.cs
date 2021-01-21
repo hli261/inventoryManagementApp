@@ -12,8 +12,9 @@ namespace API.Data
     public class Seed
     {
         public static async Task SeedUsers(UserManager<AppUser> userManager,
-         RoleManager<AppRole> roleManager){
-           ////seed the database if there is no sample data inside the database
+         RoleManager<AppRole> roleManager)
+        {
+            ////seed the database if there is no sample data inside the database
             // if(await userManager.Users.AnyAsync()) return;
 
             // var userData = await System.IO.File.ReadAllTextAsync("Data/UserSeedData.json");
@@ -21,17 +22,19 @@ namespace API.Data
             // var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
             // if(users == null) return;
 
-            if(await roleManager.Roles.AnyAsync()) return; //exit when there is any roles in the database
+            if (await roleManager.Roles.AnyAsync()) return; //exit when there is any roles in the database
 
             var roles = new List<AppRole>
             {
                 new AppRole{Name = "Admin"},
-                new AppRole{Name = "Access1"},
-                new AppRole{Name = "Access2"},
-                new AppRole{Name = "Member"}
+                new AppRole{Name = "PutAway"},
+                new AppRole{Name = "BinManagement"},
+                new AppRole{Name = "Receiving"},
+                new AppRole{Name = "Replenishment"}
             };
 
-            foreach (var role in roles){
+            foreach (var role in roles)
+            {
                 await roleManager.CreateAsync(role);
             }
 
@@ -42,13 +45,14 @@ namespace API.Data
             //     await userManager.AddToRoleAsync(user, "Member");
             // }
 
-            var admin = new AppUser{
+            var admin = new AppUser
+            {
                 UserName = "admin@admin.com",
                 Email = "admin@admin.com"
             };
 
             await userManager.CreateAsync(admin, "Password123!");
-            await userManager.AddToRolesAsync(admin, new[] {"Admin", "Access1", "Access2", "Member"});
+            await userManager.AddToRolesAsync(admin, new[] { "Admin", "PutAway", "BinManagement", "Receiving", "Replenishment" });
         }
     }
 }

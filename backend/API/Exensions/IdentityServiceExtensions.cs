@@ -11,8 +11,10 @@ namespace API.Exensions
 {
     public static class IdentityServiceExtensions
     {
-        public static IServiceCollection AddIdentitySerivces(this IServiceCollection services, IConfiguration config){
-            services.AddIdentityCore<AppUser>(opt => {
+        public static IServiceCollection AddIdentitySerivces(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddIdentityCore<AppUser>(opt =>
+            {
                 opt.Password.RequireNonAlphanumeric = false;
 
             })
@@ -24,8 +26,10 @@ namespace API.Exensions
             .AddDefaultTokenProviders(); //added for password token
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters{
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
                     ValidateIssuer = false,
@@ -33,8 +37,9 @@ namespace API.Exensions
                 };
             });
 
-//for policy based authroization
-            services.AddAuthorization(opt => {
+            //for policy based authroization
+            services.AddAuthorization(opt =>
+            {
                 opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
             });
 
