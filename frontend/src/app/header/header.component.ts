@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService, AuthService } from '../_services';
+import { AccountService, AuthService, AccessService } from '../_services';
 import { Router, Event, NavigationStart } from '@angular/router';
 import { User } from '../_models';
 
@@ -13,10 +13,13 @@ export class HeaderComponent implements OnInit {
   token: any;
   title: string | any;
   user: User;
+  access: Array<string>;
+  
 
   constructor(private router: Router, 
               private authService:AuthService, 
-              private headerService: AccountService ) { }
+              private headerService: AccountService,
+              private accessService: AccessService ) { }
 
   ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
@@ -30,6 +33,13 @@ export class HeaderComponent implements OnInit {
 
   onLogout(): void{
     this.authService.logout();
+  }
+
+  isAdmin(): any{
+    if(this.user){
+      this.accessService.getByEmail(this.user.email).subscribe((data:any) => this.access = data);
+    }
+    return this.access.includes('Admin');
   }
  
 

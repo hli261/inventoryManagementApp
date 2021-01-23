@@ -15,6 +15,9 @@ export class AccessComponent implements OnInit {
   sub!: Subscription;
   accesses!: Array<string>;  
   pageTitle: string;
+  functions: Array<string> = [
+         "Admin", "PutAway" , "BinManagement" , "Receiving", "Replenishment"        
+  ]
 
   constructor(private accessService: AccessService, 
               private route: ActivatedRoute, 
@@ -25,8 +28,9 @@ export class AccessComponent implements OnInit {
 
   ngOnInit(): void {
      this.sub = this.route.params.subscribe(param=>{
-       this.accessService.getByEmail(param['email']).subscribe((data: any)=>{
+       this.accessService.getByEmail(this.email).subscribe((data: any)=>{
          this.accesses=data;
+         console.log(data);
        })
      });
    this.headerService.setTitle('User Access Authorization');
@@ -36,14 +40,20 @@ export class AccessComponent implements OnInit {
     if(this.sub){this.sub.unsubscribe();}
  }
 
+ hasAccess(func: any){
+    return this.accesses.includes(func);
+ }
+
  addFunction(access: string){
-      this.accesses.push(access);
-      this.accessService.update(this.email, this.accesses);
-      // this.router.navigate['./', ];
+      this.accessService.update(this.email, access);
+      // this.router.navigateByUrl('./');
  }
 
  removeFunction(access: string){
-       
+       console.log('remove access:',access);
+      this.router.navigate(['./.']);
  }
+
+
 
 }

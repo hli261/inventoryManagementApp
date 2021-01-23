@@ -11,15 +11,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor = 'let access of accesses' >
+      <tr *ngFor = 'let func of functions' >
         <td>warehouse</td>
-        <td>{{access}}</td>
-        <td *ngIf="!access">
-          <button type="button" class="btn btn-secondary" (click)="addFunction()">Add Access</button>
+        <td>{{func}}</td>
+        <td>
+          <div *ngIf="!(hasAccess(func)); then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock>
+            <button type="button" class="btn btn-secondary" (click)="addFunction(func)">Add Access</button>
+          </ng-template>
+          <ng-template #elseBlock>
+            <button type="button" class="btn btn-danger" (click)="removeFunction(func)">Remove Access</button>
+          </ng-template>
         </td>
-        <td *ngIf="access">
-          <button type="button" class="btn btn-danger" (click)="removeFunction()">Remove Access</button>
-        </td>
+   
       </tr>
     </tbody>
   </table>
