@@ -162,10 +162,10 @@ namespace API.Controllers
                 return BadRequest("Invalid Request");
 
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+
             if (!resetPassResult.Succeeded)
             {
                 var errors = resetPassResult.Errors.Select(e => e.Description);
-
                 return BadRequest(new { Errors = errors });
             }
 

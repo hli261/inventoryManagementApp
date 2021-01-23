@@ -53,26 +53,56 @@ namespace API.Controllers
         }
 
 
-        [HttpPost("edit-roles/{email}")] //email is the username
+        // //add and remove user role at once.
+        // [HttpPost("edit-roles/{email}")] //email is the username 
+        // // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
+        // // [Authorize(Roles = "Admin")]
+        // public async Task<ActionResult> EditRoles(string email, [FromQuery] string roles)
+        // {
+        //     var selectedRoles = roles.Split(",").ToArray();
+
+        //     var user = await _userManager.FindByEmailAsync(email);
+
+        //     if (user == null) return NotFound("Could not find the user");
+
+        //     var userRoles = await _userManager.GetRolesAsync(user);
+
+        //     var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
+
+        //     if (!result.Succeeded) return BadRequest("Failed to add to roles");
+
+        //     result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
+
+        //     if (!result.Succeeded) return BadRequest("Failed to remove from roles");
+
+        //     return Ok(await _userManager.GetRolesAsync(user));
+        // }
+
+
+        [HttpDelete("delete-role/{email}")]
         // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
         // [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> EditRoles(string email, [FromQuery] string roles)
+        public async Task<ActionResult> DeleteUserRole(string email, RoleDto userRole)
         {
-            var selectedRoles = roles.Split(",").ToArray();
-
             var user = await _userManager.FindByEmailAsync(email);
-
             if (user == null) return NotFound("Could not find the user");
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
-
-            if (!result.Succeeded) return BadRequest("Failed to add to roles");
-
-            result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
-
+            var result = await _userManager.RemoveFromRoleAsync(user, userRole.role);
             if (!result.Succeeded) return BadRequest("Failed to remove from roles");
+
+            return Ok(await _userManager.GetRolesAsync(user));
+        }
+
+        [HttpPost("add-role/{email}")]
+        // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
+        // [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AddUserRole(string email, RoleDto userRole)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NotFound("Could not find the user");
+
+            var result = await _userManager.AddToRoleAsync(user, userRole.role);
+            if (!result.Succeeded) return BadRequest("Failed to add to roles");
 
             return Ok(await _userManager.GetRolesAsync(user));
         }
