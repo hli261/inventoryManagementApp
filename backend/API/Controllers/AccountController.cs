@@ -193,7 +193,7 @@ namespace API.Controllers
 
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.gmail.com", 465, true);
-            client.Authenticate("prj666testing@gmail.com", "WASDabcde13579!!!!!.....");
+            client.Authenticate("prj666666666666666666666666666@gmail.com", "WASDabcde13579!!!!!...............");
 
             client.Send(message);
             client.Disconnect(true);
