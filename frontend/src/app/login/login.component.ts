@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         // localStorage.setItem('currentToken', data.token);
         this.SigninForm.reset();
         setTimeout(() => {
-          this.router.navigate(['']);
+          this.router.navigateByUrl('/home');
         }, 1000);
       },
       error => {        

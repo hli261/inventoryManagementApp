@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class AccessComponent implements OnInit {
 
-  user!: User;
+  email: string;
   sub!: Subscription;
   accesses!: Array<string>;  
   pageTitle: string;
@@ -19,29 +19,31 @@ export class AccessComponent implements OnInit {
   constructor(private accessService: AccessService, 
               private route: ActivatedRoute, 
               private router: Router,
-              private headerService: AccountService) { }
+              private headerService: AccountService) { 
+        this.email = this.route.snapshot.params['email'];
+              }
 
   ngOnInit(): void {
-    //  this.sub = this.route.params.subscribe(param=>{
-    //    this.accessService.get(param['id']).subscribe((data: any)=>{
-    //      this.accesses=data;
-    //    })
-    //  });
-    //  console.log(this.accesses);
-    this.headerService.setTitle('User Access Authorization');
-
+     this.sub = this.route.params.subscribe(param=>{
+       this.accessService.getByEmail(param['email']).subscribe((data: any)=>{
+         this.accesses=data;
+       })
+     });
+   this.headerService.setTitle('User Access Authorization');
   }
 
   ngOnDestroy() {
     if(this.sub){this.sub.unsubscribe();}
  }
 
- addFunction(){
-
+ addFunction(access: string){
+      this.accesses.push(access);
+      this.accessService.update(this.email, this.accesses);
+      // this.router.navigate['./', ];
  }
 
- removeFunction(){
-
+ removeFunction(access: string){
+       
  }
 
 }
