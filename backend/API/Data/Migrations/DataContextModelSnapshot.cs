@@ -132,6 +132,111 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("API.Entities.Bin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BinCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BinReference")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BinTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WarehouseLocationId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BinTypeId");
+
+                    b.HasIndex("WarehouseLocationId");
+
+                    b.ToTable("Bins");
+                });
+
+            modelBuilder.Entity("API.Entities.BinItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("binId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("itemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("binId");
+
+                    b.HasIndex("itemId");
+
+                    b.ToTable("BinItems");
+                });
+
+            modelBuilder.Entity("API.Entities.BinType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TypeName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BinTypes");
+                });
+
+            modelBuilder.Entity("API.Entities.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemNumber")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("API.Entities.WarehouseLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LocationName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WarehouseLocations");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -235,6 +340,40 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.Entities.Bin", b =>
+                {
+                    b.HasOne("API.Entities.BinType", "BinType")
+                        .WithMany("Bins")
+                        .HasForeignKey("BinTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.WarehouseLocation", "WarehouseLocation")
+                        .WithMany("Bins")
+                        .HasForeignKey("WarehouseLocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BinType");
+
+                    b.Navigation("WarehouseLocation");
+                });
+
+            modelBuilder.Entity("API.Entities.BinItem", b =>
+                {
+                    b.HasOne("API.Entities.Bin", "bin")
+                        .WithMany("BinItems")
+                        .HasForeignKey("binId");
+
+                    b.HasOne("API.Entities.Item", "item")
+                        .WithMany("BinItems")
+                        .HasForeignKey("itemId");
+
+                    b.Navigation("bin");
+
+                    b.Navigation("item");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("API.Entities.AppRole", null)
@@ -279,6 +418,26 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("API.Entities.Bin", b =>
+                {
+                    b.Navigation("BinItems");
+                });
+
+            modelBuilder.Entity("API.Entities.BinType", b =>
+                {
+                    b.Navigation("Bins");
+                });
+
+            modelBuilder.Entity("API.Entities.Item", b =>
+                {
+                    b.Navigation("BinItems");
+                });
+
+            modelBuilder.Entity("API.Entities.WarehouseLocation", b =>
+                {
+                    b.Navigation("Bins");
                 });
 #pragma warning restore 612, 618
         }
