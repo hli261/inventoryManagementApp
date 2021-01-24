@@ -144,7 +144,7 @@ namespace API.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var param = new Dictionary<string, string> { { "token", token }, { "email", forgotPasswordDto.Email } };
 
-            var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientURI, param);
+            var callback = QueryHelpers.AddQueryString("https://localhost:4200/reset-password", param);
 
             SendMail(forgotPasswordDto.Email, forgotPasswordDto.Email, "Reset Password", "<p>Click to reset Password</p> </br>" + callback);
 
