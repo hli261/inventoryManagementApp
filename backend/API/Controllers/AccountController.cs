@@ -162,10 +162,10 @@ namespace API.Controllers
                 return BadRequest("Invalid Request");
 
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+
             if (!resetPassResult.Succeeded)
             {
                 var errors = resetPassResult.Errors.Select(e => e.Description);
-
                 return BadRequest(new { Errors = errors });
             }
 
@@ -193,7 +193,7 @@ namespace API.Controllers
 
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.gmail.com", 465, true);
-            client.Authenticate("prj666testing@gmail.com", "WASDabcde13579!!!!!.....");
+            client.Authenticate("prj666666666666666666666666666@gmail.com", "WASDabcde13579!!!!!...............");
 
             client.Send(message);
             client.Disconnect(true);
