@@ -7,15 +7,15 @@ namespace API.DTOs
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         [Required]
-        public string Email { get; set; }
+        public string Email {get; set;}
 
         [Required]
-        public string Firstname { get; set; }
+        public string Firstname {get;set;}
 
         [Required]
-        public string Lastname { get; set; }
-
+        public string Lastname {get;set;}
+        
         [Required]
-        public string Password { get; set; }
+        public string Password {get; set;}
     }
 }

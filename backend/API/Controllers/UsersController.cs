@@ -26,7 +26,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        //        [Authorize(Roles = "Admin")]
+//        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
@@ -51,12 +51,11 @@ namespace API.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteUser(int id)
-        {
+        public async Task<ActionResult> DeleteUser(int id){
             var user = await _userRepository.GetUserByIdAsync(id);
 
             if (user == null) return NotFound();
-
+            
             return Ok(await _userRepository.Delete(id));
         }
 

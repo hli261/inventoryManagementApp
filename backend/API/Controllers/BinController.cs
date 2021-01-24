@@ -39,9 +39,7 @@ namespace API.Controllers
                  BinReference = createBinDto.BinReference,
                  BinCode = createBinDto.BinCode,
                  BinTypeId = createBinDto.BinTypeId,
-                 WarehouseLocationId = createBinDto.WarehouseLocationId
-                 //BinType = new BinType(),
-                 //WarehouseLocation = new WarehouseLocation()    
+                 WarehouseLocationId = createBinDto.WarehouseLocationId      
             };
 
             _binRepository.AddBin(bin);
