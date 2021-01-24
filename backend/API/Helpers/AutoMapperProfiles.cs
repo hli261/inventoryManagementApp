@@ -11,6 +11,10 @@ namespace API.Helpers
             CreateMap<AppUser, MemberDto>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<MemberUpdateDto, AppUser>();
+
+            CreateMap<BinDto, Bin>();
+            CreateMap<Bin, BinDto>();
+            CreateMap<CreateBinDto, Bin>();
         }
     }
 }

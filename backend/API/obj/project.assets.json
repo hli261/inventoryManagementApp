@@ -2247,23 +2247,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\xxxpp\\.nuget\\packages\\": {},
+    "E:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj",
+      "projectUniqueName": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "c:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Admin\\Documents\\GitHub\\inventoryManagementApp\\backend\\API\\obj\\",
+      "projectPath": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\xxxpp\\.nuget\\packages\\",
+      "outputPath": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
+        "E:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\xxxpp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -2353,7 +2353,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
