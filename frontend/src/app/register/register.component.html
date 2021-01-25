@@ -24,8 +24,8 @@
         <input type="password" class="form-control" id="password2" name="password2" [(ngModel)]="password2">
       </div>
       <div class="text-danger pb-3" *ngIf="errors">
-        <!-- <ul *ngFor = "let error of errors">
-          <li>{{error.description}}</li>
+        <!-- <ul *ngFor = "let error of errorMessage">
+          <li>{{error}}</li>
         </ul> -->
         {{errors}}
     </div>

@@ -26,10 +26,18 @@
       "API/1.0.0": {
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "8.1.0",
+<<<<<<< HEAD
+=======
+          "ETP.DevKit-PDS": "1.1.20180212.1",
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
           "MailKit": "2.10.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.1",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "5.0.1",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.1",
+<<<<<<< HEAD
+=======
+          "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "5.0.2",
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
           "Microsoft.EntityFrameworkCore.Design": "5.0.1",
           "Microsoft.EntityFrameworkCore.Sqlite": "5.0.1",
           "Swashbuckle.AspNetCore": "5.6.3",
@@ -320,6 +328,24 @@
           "API.dll": {}
         }
       },
+<<<<<<< HEAD
+=======
+      "Apache.Avro/1.7.7.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.2",
+          "log4net": "2.0.5"
+        },
+        "runtime": {
+          "lib/Avro.dll": {
+            "assemblyVersion": "0.9.0.0",
+            "fileVersion": "0.9.0.0"
+          }
+        },
+        "compile": {
+          "lib/Avro.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "AutoMapper/10.1.0": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -351,6 +377,42 @@
           "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
+<<<<<<< HEAD
+=======
+      "ETP/1.5.0": {
+        "dependencies": {
+          "Apache.Avro": "1.7.7.2"
+        },
+        "runtime": {
+          "lib/ETP.Messages.dll": {
+            "assemblyVersion": "1.5.0.0",
+            "fileVersion": "1.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/ETP.Messages.dll": {}
+        }
+      },
+      "ETP.DevKit-PDS/1.1.20180212.1": {
+        "dependencies": {
+          "Apache.Avro": "1.7.7.2",
+          "ETP": "1.5.0",
+          "Newtonsoft.Json": "12.0.2",
+          "SuperWebSocket": "0.9.0.2",
+          "WebSocket4Net": "0.14.1",
+          "log4net": "2.0.5"
+        },
+        "runtime": {
+          "lib/net452/ETP.DevKit.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        },
+        "compile": {
+          "lib/net452/ETP.DevKit.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "Humanizer.Core/2.8.26": {
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {
@@ -359,6 +421,20 @@
           }
         }
       },
+<<<<<<< HEAD
+=======
+      "log4net/2.0.5": {
+        "runtime": {
+          "lib/net45-full/log4net.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        },
+        "compile": {
+          "lib/net45-full/log4net.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "MailKit/2.10.1": {
         "dependencies": {
           "MimeKit": "2.10.1"
@@ -441,6 +517,40 @@
           "lib/net5.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {}
         }
       },
+<<<<<<< HEAD
+=======
+      "Microsoft.AspNetCore.JsonPatch/5.0.2": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Newtonsoft.Json": "12.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.220.61302"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Mvc.NewtonsoftJson/5.0.2": {
+        "dependencies": {
+          "Microsoft.AspNetCore.JsonPatch": "5.0.2",
+          "Newtonsoft.Json": "12.0.2",
+          "Newtonsoft.Json.Bson": "1.0.2"
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll": {
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.220.61302"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "Microsoft.CSharp/4.7.0": {},
       "Microsoft.Data.Sqlite.Core/5.0.1": {
         "dependencies": {
@@ -746,6 +856,34 @@
           "lib/netstandard2.1/MimeKit.dll": {}
         }
       },
+<<<<<<< HEAD
+=======
+      "Newtonsoft.Json/12.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.2.23222"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Newtonsoft.Json.Bson/1.0.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.Bson.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.2.22727"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.Bson.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "Portable.BouncyCastle/1.8.8": {
         "runtime": {
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
@@ -875,6 +1013,39 @@
           "lib/netstandard2.0/SQLitePCLRaw.provider.dynamic_cdecl.dll": {}
         }
       },
+<<<<<<< HEAD
+=======
+      "SuperWebSocket/0.9.0.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.2",
+          "log4net": "2.0.5"
+        },
+        "runtime": {
+          "lib/net40/SuperSocket.Common.dll": {
+            "assemblyVersion": "1.6.0.4",
+            "fileVersion": "1.6.0.4"
+          },
+          "lib/net40/SuperSocket.SocketBase.dll": {
+            "assemblyVersion": "1.6.0.4",
+            "fileVersion": "1.6.0.4"
+          },
+          "lib/net40/SuperSocket.SocketEngine.dll": {
+            "assemblyVersion": "1.6.0.4",
+            "fileVersion": "1.6.0.4"
+          },
+          "lib/net40/SuperWebSocket.dll": {
+            "assemblyVersion": "0.9.0.0",
+            "fileVersion": "0.9.0.0"
+          }
+        },
+        "compile": {
+          "lib/net40/SuperSocket.Common.dll": {},
+          "lib/net40/SuperSocket.SocketBase.dll": {},
+          "lib/net40/SuperSocket.SocketEngine.dll": {},
+          "lib/net40/SuperWebSocket.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "Swashbuckle.AspNetCore/5.6.3": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "3.0.0",
@@ -958,6 +1129,20 @@
           "Microsoft.NETCore.Platforms": "2.0.0"
         }
       },
+<<<<<<< HEAD
+=======
+      "WebSocket4Net/0.14.1": {
+        "runtime": {
+          "lib/net45/WebSocket4Net.dll": {
+            "assemblyVersion": "0.14.1.0",
+            "fileVersion": "0.14.1.0"
+          }
+        },
+        "compile": {
+          "lib/net45/WebSocket4Net.dll": {}
+        }
+      },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Antiforgery.dll": {}
@@ -2634,6 +2819,16 @@
       "serviceable": false,
       "sha512": ""
     },
+<<<<<<< HEAD
+=======
+    "Apache.Avro/1.7.7.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4zx8Y5wnavxi57ivpMIon4XAnY0d69e4KoiTkMgy4LcstVUPXqD1YZ+IKl3TV2dzV6PJvYGrsLViN+dAN16yvg==",
+      "path": "apache.avro/1.7.7.2",
+      "hashPath": "apache.avro.1.7.7.2.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "AutoMapper/10.1.0": {
       "type": "package",
       "serviceable": true,
@@ -2648,6 +2843,23 @@
       "path": "automapper.extensions.microsoft.dependencyinjection/8.1.0",
       "hashPath": "automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512"
     },
+<<<<<<< HEAD
+=======
+    "ETP/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bff2J/i5jxfKFy7Xtw7eRv+z2DaX09bRU4/8PRJKFTAVcD41O8KbFweFEvLocKnkUyvjMb5e9+E6wIis680T9A==",
+      "path": "etp/1.5.0",
+      "hashPath": "etp.1.5.0.nupkg.sha512"
+    },
+    "ETP.DevKit-PDS/1.1.20180212.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-c4KLrumn6uZuS4gv/R2gDBTAXoFZuk8P8HnOBGUFC9S9luxaVUU5eF9tX2U6EWivEACJ+HjcINz2Gt7LRT+G6w==",
+      "path": "etp.devkit-pds/1.1.20180212.1",
+      "hashPath": "etp.devkit-pds.1.1.20180212.1.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
@@ -2655,6 +2867,16 @@
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
     },
+<<<<<<< HEAD
+=======
+    "log4net/2.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AEqPZz+v+OikfnR2SqRVdQPnSaLq5y9Iz1CfRQZ9kTKPYCXHG6zYmDHb7wJotICpDLMr/JqokyjiqKAjUKp0ng==",
+      "path": "log4net/2.0.5",
+      "hashPath": "log4net.2.0.5.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "MailKit/2.10.1": {
       "type": "package",
       "serviceable": true,
@@ -2697,6 +2919,23 @@
       "path": "microsoft.aspnetcore.identity.entityframeworkcore/5.0.1",
       "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.5.0.1.nupkg.sha512"
     },
+<<<<<<< HEAD
+=======
+    "Microsoft.AspNetCore.JsonPatch/5.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4aPHlHLPISwGNe8I/fqxEoE4ZEivnpfaLDptRxvv9eV78VN3Bd+gd0hYN8GnQ1F9e7IdCcICqbAvNnU4EtYeEg==",
+      "path": "microsoft.aspnetcore.jsonpatch/5.0.2",
+      "hashPath": "microsoft.aspnetcore.jsonpatch.5.0.2.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Mvc.NewtonsoftJson/5.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xVoVqDufD71pK1iQdsmRHpAMXYBD7a3bu0waln7P5micZLiOZaHf/tpXQZrn3wDAEs7Rceluy/HANNc0nKu/qw==",
+      "path": "microsoft.aspnetcore.mvc.newtonsoftjson/5.0.2",
+      "hashPath": "microsoft.aspnetcore.mvc.newtonsoftjson.5.0.2.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "Microsoft.CSharp/4.7.0": {
       "type": "package",
       "serviceable": true,
@@ -2914,6 +3153,23 @@
       "path": "mimekit/2.10.1",
       "hashPath": "mimekit.2.10.1.nupkg.sha512"
     },
+<<<<<<< HEAD
+=======
+    "Newtonsoft.Json/12.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
+      "path": "newtonsoft.json/12.0.2",
+      "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
+    },
+    "Newtonsoft.Json.Bson/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
+      "path": "newtonsoft.json.bson/1.0.2",
+      "hashPath": "newtonsoft.json.bson.1.0.2.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "Portable.BouncyCastle/1.8.8": {
       "type": "package",
       "serviceable": true,
@@ -2949,6 +3205,16 @@
       "path": "sqlitepclraw.provider.dynamic_cdecl/2.0.4",
       "hashPath": "sqlitepclraw.provider.dynamic_cdecl.2.0.4.nupkg.sha512"
     },
+<<<<<<< HEAD
+=======
+    "SuperWebSocket/0.9.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LL9VMo6eqAQ0yCF1P9UCEaitEABt2p77eHmTsApNzJwoDyhHwn/LrYarOvOZZdgPjF3Ro3s36dba2TmnY9uFVA==",
+      "path": "superwebsocket/0.9.0.2",
+      "hashPath": "superwebsocket.0.9.0.2.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "Swashbuckle.AspNetCore/5.6.3": {
       "type": "package",
       "serviceable": true,
@@ -3054,6 +3320,16 @@
       "path": "system.text.encoding.codepages/4.4.0",
       "hashPath": "system.text.encoding.codepages.4.4.0.nupkg.sha512"
     },
+<<<<<<< HEAD
+=======
+    "WebSocket4Net/0.14.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-01v/KxbZ9hTY8kXPL9erpU9HPCvd++OifmU29OvgTKzBaSDfZRIFZB9mdTrRjMY/Q+7Llq0VINWPpazpYNbx4g==",
+      "path": "websocket4net/0.14.1",
+      "hashPath": "websocket4net.0.14.1.nupkg.sha512"
+    },
+>>>>>>> parent of d3c9062... Merge branch 'master' into xing
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,

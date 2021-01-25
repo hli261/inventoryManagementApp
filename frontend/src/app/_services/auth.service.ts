@@ -64,13 +64,11 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem("currentToken");
-    this.router.navigateByUrl('/login');
+    this.router.navigate(['/login']);
   }
 
   getLoginUser(): Observable<any>{
-    if(this.readToken())
-        return this.accountService.getById(this.readToken().id);
-    return null;
+    return this.accountService.getById(this.readToken().id);
   }
 
   public collectFailedRequest(request: any): void {
