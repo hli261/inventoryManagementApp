@@ -79,7 +79,7 @@ namespace API.Controllers
         // }
 
 
-        [HttpDelete("delete-role/{email}")]
+        [HttpPost("delete-role/{email}")]
         // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
         // [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUserRole(string email, RoleDto userRole)
@@ -90,6 +90,7 @@ namespace API.Controllers
             var result = await _userManager.RemoveFromRoleAsync(user, userRole.role);
             if (!result.Succeeded) return BadRequest("Failed to remove from roles");
 
+            // return Ok();
             return Ok(await _userManager.GetRolesAsync(user));
         }
 

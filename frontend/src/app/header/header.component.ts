@@ -34,14 +34,7 @@ export class HeaderComponent implements OnInit {
   onLogout(): void{
     this.authService.logout();
   }
-
-  // isAdmin(): any{
-  //   if(this.user){
-  //     this.accessService.getByEmail(this.user.email).subscribe((data:any) => this.access = data);
-  //     return this.access.includes('Admin');
-  //   }
-  //   return false;
-  // }
+  
  
 
 }

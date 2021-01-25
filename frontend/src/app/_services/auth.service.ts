@@ -68,7 +68,9 @@ export class AuthService {
   }
 
   getLoginUser(): Observable<any>{
-    return this.accountService.getById(this.readToken().id);
+    if(this.readToken())
+        return this.accountService.getById(this.readToken().id);
+    return null;
   }
 
   public collectFailedRequest(request: any): void {

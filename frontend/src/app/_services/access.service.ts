@@ -27,7 +27,7 @@ export class AccessService {
   }
 
   public deleteAccess(email: string, role: any): Observable<any> {
-    return this.http.delete<any>(`${environment.apiUrl}/api/admin/delete-role/${email}`, role);
+    return this.http.post<any>(`${environment.apiUrl}/api/admin/delete-role/${email}`, role);
   }
   // public deleteAccess(email: string, role: any) {
   //   return this.http.delete(`${environment.apiUrl}/api/admin/delete-role/${email}`, role);

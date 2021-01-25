@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.resetToken = params.token;
       console.log(this.resetToken);
-      this.VerifyToken();
+      // this.VerifyToken();
     });
   }
 
@@ -36,16 +36,16 @@ export class ResetPasswordComponent implements OnInit {
     this.Init();
   }
 
-  VerifyToken() {
-    this.authService.ValidPasswordToken({ resettoken: this.resetToken }).subscribe(
-      (data:any) => {
-        this.CurrentState = 'Verified';
-      },
-      (err:any) => {
-        this.CurrentState = 'NotVerified';
-      }
-    );
-  }
+  // VerifyToken() {
+  //   this.authService.ValidPasswordToken({ resettoken: this.resetToken }).subscribe(
+  //     (data:any) => {
+  //       this.CurrentState = 'Verified';
+  //     },
+  //     (err:any) => {
+  //       this.CurrentState = 'NotVerified';
+  //     }
+  //   );
+  // }
 
   Init() {
     this.ResponseResetForm = this.fb.group(
