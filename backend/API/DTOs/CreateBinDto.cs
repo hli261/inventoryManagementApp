@@ -19,11 +19,11 @@ namespace API.DTOs
         // public string LocationName { get; set; }
 
        
-        //public BinType BinType { get; set; }
+        // public BinType BinType { get; set; }
 
         public int BinTypeId { get; set; }
 
-        //public WarehouseLocation WarehouseLocation { get; set; }
+        // public WarehouseLocation WarehouseLocation { get; set; }
 
         public int WarehouseLocationId { get; set; }
     }

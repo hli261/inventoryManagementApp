@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210125210051_InitialCreate")]
+    [Migration("20210120054001_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,20 +173,20 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BinId")
+                    b.Property<int?>("binId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ItemId")
+                    b.Property<int?>("itemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("quantity")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BinId");
+                    b.HasIndex("binId");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("itemId");
 
                     b.ToTable("BinItems");
                 });
@@ -363,17 +363,17 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.BinItem", b =>
                 {
-                    b.HasOne("API.Entities.Bin", "Bin")
-                        .WithMany()
-                        .HasForeignKey("BinId");
-
-                    b.HasOne("API.Entities.Item", "Item")
+                    b.HasOne("API.Entities.Bin", "bin")
                         .WithMany("BinItems")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("binId");
 
-                    b.Navigation("Bin");
+                    b.HasOne("API.Entities.Item", "item")
+                        .WithMany("BinItems")
+                        .HasForeignKey("itemId");
 
-                    b.Navigation("Item");
+                    b.Navigation("bin");
+
+                    b.Navigation("item");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -420,6 +420,11 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("API.Entities.Bin", b =>
+                {
+                    b.Navigation("BinItems");
                 });
 
             modelBuilder.Entity("API.Entities.BinType", b =>

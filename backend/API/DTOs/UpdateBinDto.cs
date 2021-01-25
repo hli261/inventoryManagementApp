@@ -8,6 +8,7 @@ namespace API.DTOs
          public string BinReference { get; set; }
 
         [Required]
+        [BinCodeUnique]
         public string BinCode { get; set; }
 
         public int BinTypeId { get; set; }

@@ -14,7 +14,7 @@ namespace API.Entities
 
         // public string Warehouse { get; set; }
 
-        //public ICollection<BinItem> BinItems { get; set; }
+        public ICollection<BinItem> BinItems { get; set; }
 
         public string Creator { get; set; }
 
