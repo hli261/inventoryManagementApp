@@ -16,7 +16,7 @@ import { BinManagementComponent } from './bin-management/bin-management.componen
 import { AuthGuard } from './_services/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },  
   { path: 'forget-password', component: ForgetPasswordComponent},
@@ -36,7 +36,7 @@ const routes: Routes = [
       { path: 'response-reset-password/:token', component: ResetPasswordComponent},
         ],
     },  
-  // { path: '', redirectTo: 'home', pathMatch: 'full' },  
+  { path: '', redirectTo: 'home', pathMatch: 'full' },  
   { path: '**', component: PageNotFoundComponent }
 ];
 
