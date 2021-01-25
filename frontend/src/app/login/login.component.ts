@@ -47,9 +47,8 @@ export class LoginComponent implements OnInit {
           this.errorMessage = "Please input correct email or password";
         }
       }
-
     );
-
+    //  window.location.reload();
   }
 
 }

@@ -22,8 +22,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.liveUsersSub = this.data.getAll().subscribe(data=>{this.users = data; console.log("data",this.users);});
-    console.log("length");
+    this.liveUsersSub = this.data.getAll().subscribe(data=>{this.users = data;});
     this.headerService.setTitle('User List');
   }
 

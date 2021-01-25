@@ -41,17 +41,26 @@ export class AccessComponent implements OnInit {
  }
 
  hasAccess(func: any){
-    return this.accesses.includes(func);
+   if(this.accesses)   return this.accesses.includes(func);
+    return false;
  }
 
  addFunction(access: string){
-      this.accessService.update(this.email, access);
-      // this.router.navigateByUrl('./');
+      let role = `{"role": "${access}"}`;    
+      this.accessService.addAccess(this.email, JSON.parse(role)).subscribe(
+        (data: any) => this.accesses = data,
+        err => console.log(err)
+      )
  }
 
  removeFunction(access: string){
-       console.log('remove access:',access);
-      this.router.navigate(['./.']);
+    console.log("delete access:", access);
+     let role = `{"role": "${access}"}`;    
+     this.accessService.deleteAccess(this.email, JSON.parse(role)).subscribe(
+        (data: any) => this.accesses = data,
+         err => console.log("err message:",err)
+  )
+      // this.router.navigate(['./.']);
  }
 
 

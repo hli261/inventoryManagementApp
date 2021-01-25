@@ -37,7 +37,11 @@ export class RegisterComponent implements OnInit {
       this.data.register(this.user).subscribe(
         () => this.router.navigate(['/login']),
         // error => {error.error.map((data:any)=>console.log( data.description));}
-        error => {this.errors= JSON.stringify(error.error); console.log(typeof error.error)}
+        error => {this.errors= JSON.stringify(error.error); 
+                  this.errors.map((element: any) => {
+                    this.errorMessage.push(element.description);
+                  });
+                  console.log(this.errorMessage)}
         // error => { this.errors = Object.values(error.error);                  
         //             console.log(this.errors)}
         );
