@@ -13,6 +13,23 @@ namespace API.Helpers
             CreateMap<BinDto, Bin>();
             CreateMap<Bin, BinDto>();
             CreateMap<CreateBinDto, Bin>();
+            CreateMap<UpdateBinDto, Bin>();
+
+            CreateMap<BinTypeDto, BinType>();
+            CreateMap<BinType, BinTypeDto>();
+            CreateMap<CreateBinTypeDto, BinType>();
+
+            CreateMap<ItemDto, Item>();
+            CreateMap<Item, ItemDto>();
+            CreateMap<CreateItemDto, Item>();
+
+            CreateMap<WarehouseLocationDto, WarehouseLocation>();
+            CreateMap<WarehouseLocation, WarehouseLocationDto>();
+            CreateMap<CreateWarehouseLocationDto, WarehouseLocation>();
+
+            CreateMap<BinItemDto, BinItem>();
+            CreateMap<BinItem, BinItemDto>();
+            CreateMap<CreateBinItemDto, BinItem>();
         }
     }
 }

@@ -428,3 +428,16 @@ E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\o
 E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\obj\Debug\net5.0\ref\API.dll
 E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\obj\Debug\net5.0\API.pdb
 E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\obj\Debug\net5.0\API.genruntimeconfig.cache
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Avro.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\ETP.Messages.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\ETP.DevKit.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\log4net.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Newtonsoft.Json.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\SuperSocket.Common.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\SuperSocket.SocketBase.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\SuperSocket.SocketEngine.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\SuperWebSocket.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\WebSocket4Net.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
