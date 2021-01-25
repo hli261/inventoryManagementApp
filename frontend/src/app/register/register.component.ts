@@ -27,7 +27,9 @@ export class RegisterComponent implements OnInit {
     this.headerService.setTitle('Register');
   }
 
-
+ readError(err : any): void{
+    
+ }
 
   onSubmit(f: NgForm): void {
     if(f.value.password !== f.value.password2) {  
@@ -35,13 +37,15 @@ export class RegisterComponent implements OnInit {
          return;
      }
       this.data.register(this.user).subscribe(
-        () => this.router.navigate(['/login']),
-        // error => {error.error.map((data:any)=>console.log( data.description));}
-        error => {this.errors= JSON.stringify(error.error); console.log(typeof error.error)}
-        // error => { this.errors = Object.values(error.error);                  
-        //             console.log(this.errors)}
-        );
-     
+        () => this.router.navigate(['/login']),        
+          error=> {
+          this.errors=Object.values(error.error).map((value)=>JSON.stringify(value));
+          console.log(typeof this.errors);
+          console.log(this.errors.description);
+          this.errorMessage = this.errors.map((value:any)=>JSON.stringify(value.description));
+          console.log(typeof this.errorMessage, this.errorMessage);
+          });
+        
       }
     }
 

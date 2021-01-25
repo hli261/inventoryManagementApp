@@ -47,9 +47,14 @@ export class AccountService {
         return this.http.post(`${BASEURL}/new-password`, body);
       }
 
-    ValidPasswordToken(body:any): Observable<any> {
-        return this.http.post(`${BASEURL}/valid-password-token`, body);
+    ValidEmail(body:any): Observable<any> {
+        return this.http.post(`${environment.apiUrl}/api/account/resetpassword`, body);
     }
+
+    // ValidPasswordToken(body:any): Observable<any> {
+    //     return this.http.post(`${environment.apiUrl}/valid-password-token`, body);
+    // }
+    
 
     public getAll() : Observable<User[]>{
         return this.http.get<User[]>(`${environment.apiUrl}/api/users`);

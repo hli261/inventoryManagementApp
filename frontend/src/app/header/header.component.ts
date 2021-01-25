@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   
   token: any;
   title: string | any;
-  user: User;
+  name: string = null;
   access: Array<string>;
   
 
@@ -27,20 +27,14 @@ export class HeaderComponent implements OnInit {
         this.token = this.authService.readToken();
       }
     });
-    this.authService.getLoginUser().subscribe(user=> this.user=user);
+    this.authService.getLoginUser().subscribe(user=> this.name=user.firstName);
     this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);
   } 
 
   onLogout(): void{
     this.authService.logout();
   }
-
-  isAdmin(): any{
-    if(this.user){
-      this.accessService.getByEmail(this.user.email).subscribe((data:any) => this.access = data);
-    }
-    return this.access.includes('Admin');
-  }
+  
  
 
 }
