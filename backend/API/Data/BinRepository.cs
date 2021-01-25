@@ -33,19 +33,21 @@ namespace API.Data
         public async Task<IEnumerable<Bin>> GetBins()
         {
            
-           var result = await _context.Bins.OrderBy(b => b.BinCode).ToListAsync();
+           var result = await _context.Bins
+                .Include(t => t.BinType)
+                .Include(w => w.WarehouseLocation)
+                .OrderBy(b => b.BinCode)
+                .ToListAsync();
+
            return result;
-            // return await _context.Bins
-            //     //.Include(i => i.BinItems)
-            //     .OrderBy(m => m.BinCode)
-            //     .ToListAsync();
+            
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByType(string type)
         {
             return await _context.Bins
-                .Include(i => i.BinItems)
                 .Include(t => t.BinType)
+                .Include(w => w.WarehouseLocation)
                 .Where(x => x.BinType.TypeName == type)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
@@ -54,8 +56,8 @@ namespace API.Data
         public async Task<IEnumerable<Bin>> GetBinsByWarehouse(string warehouse)
         {
             return await _context.Bins
-                .Include(i => i.BinItems)
-                .Include(l => l.WarehouseLocation)
+                .Include(t => t.BinType)
+                .Include(w => w.WarehouseLocation)
                 .Where(x => x.WarehouseLocation.LocationName == warehouse)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
@@ -64,7 +66,8 @@ namespace API.Data
         public async Task<Bin> GetBinByCode(string code)
         {
             return await _context.Bins
-                .Include(i => i.BinItems)
+                .Include(t => t.BinType)
+                .Include(w => w.WarehouseLocation)
                 .SingleOrDefaultAsync(x => x.BinCode == code);
         }
 

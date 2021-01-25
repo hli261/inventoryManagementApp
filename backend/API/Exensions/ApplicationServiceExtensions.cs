@@ -14,7 +14,12 @@ namespace API.Exensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config){
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddScoped<IBinRepository, BinRepository>();
+            services.AddScoped<IBinTypeRepository, BinTypeRepository>();
+            services.AddScoped<IBinItemRepository, BinItemRepository>();
+            services.AddScoped<IWarehouseLocationRepository, WarehouseLocationRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>

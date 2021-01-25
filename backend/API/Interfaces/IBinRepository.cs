@@ -6,7 +6,7 @@ namespace API.Interfaces
 {
     public interface IBinRepository
     {
-         void AddBin(Bin bin);
+        void AddBin(Bin bin);
         void DeleteBin (Bin bin);
 
         void UpdateBin (Bin bin);

@@ -234,22 +234,22 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    binId = table.Column<int>(type: "INTEGER", nullable: true),
-                    itemId = table.Column<int>(type: "INTEGER", nullable: true),
-                    quantity = table.Column<int>(type: "INTEGER", nullable: false)
+                    BinId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BinItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BinItems_Bins_binId",
-                        column: x => x.binId,
+                        name: "FK_BinItems_Bins_BinId",
+                        column: x => x.BinId,
                         principalTable: "Bins",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BinItems_Items_itemId",
-                        column: x => x.itemId,
+                        name: "FK_BinItems_Items_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -293,14 +293,14 @@ namespace API.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BinItems_binId",
+                name: "IX_BinItems_BinId",
                 table: "BinItems",
-                column: "binId");
+                column: "BinId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BinItems_itemId",
+                name: "IX_BinItems_ItemId",
                 table: "BinItems",
-                column: "itemId");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bins_BinTypeId",
