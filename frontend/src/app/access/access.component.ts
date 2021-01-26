@@ -54,13 +54,11 @@ export class AccessComponent implements OnInit {
  }
 
  removeFunction(access: string){
-    console.log("delete access:", access);
      let role = `{"role": "${access}"}`;    
      this.accessService.deleteAccess(this.email, JSON.parse(role)).subscribe(
-        // (data: any) => this.accesses = data,
-        //  err => console.log("err message:",err)
+        (data: any) => this.accesses = data,
+         err => console.log("err message:",err)
   )
-      // this.router.navigate(['./.']);
  }
 
 

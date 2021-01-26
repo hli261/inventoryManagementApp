@@ -43,8 +43,10 @@ namespace API.Data
             // }
 
             var admin = new AppUser{
-                UserName = "admin@admin.com",
-                Email = "admin@admin.com"
+                FirstName = "admin",
+                LastName = "group10",
+                Email = "admin@admin.com",
+                Active = true
             };
 
             await userManager.CreateAsync(admin, "Password123!");

@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.resetToken = params.token;
       console.log(this.resetToken);
-      // this.VerifyToken();
+      // this.Verify();
     });
   }
 
@@ -36,7 +36,7 @@ export class ResetPasswordComponent implements OnInit {
     this.Init();
   }
 
-  // VerifyToken() {
+  // Verify() {
   //   this.authService.ValidPasswordToken({ resettoken: this.resetToken }).subscribe(
   //     (data:any) => {
   //       this.CurrentState = 'Verified';
