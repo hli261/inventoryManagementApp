@@ -9,7 +9,7 @@ import { User } from '../_models';
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { EmailValidator } from "@angular/forms";
 
-const BASEURL = 'http://localhost:5001/api/account/ResetPassword';
+// const BASEURL = 'http://localhost:5001/api/account/ResetPassword';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -40,15 +40,15 @@ export class AccountService {
     }
 
     requestReset(email: any, url:string): Observable<any> {
-        return this.http.post(`https://localhost:5001/api/account/forgotpassword`, {email,url});
+        return this.http.post(`${environment.apiUrl}/api/account/forgotpassword`, {email,url});
     }
 
     newPassword(body:any): Observable<any> {
-        return this.http.post(`${BASEURL}/new-password`, body);
+        return this.http.post(`${environment.apiUrl}/api/account/resetpassword`, body);
       }
 
-    ValidEmail(body:any): Observable<any> {
-        return this.http.post(`${environment.apiUrl}/api/account/resetpassword`, body);
+    ValidEmail(email:any): Observable<any> {
+        return this.http.post<any>(`${environment.apiUrl}/api/account/verifyemail`, email);
     }
 
     // ValidPasswordToken(body:any): Observable<any> {

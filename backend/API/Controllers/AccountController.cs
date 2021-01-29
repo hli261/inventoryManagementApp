@@ -146,11 +146,12 @@ namespace API.Controllers
 
             var callback = QueryHelpers.AddQueryString("https://localhost:4200/reset-password", param);
 
-            SendMail(forgotPasswordDto.Email, forgotPasswordDto.Email, "Reset Password", "<p>Click to reset Password</p> </br>" + callback);
+            SendMail(forgotPasswordDto.Email, forgotPasswordDto.Email, "Reset Password", $"<a href=`{callback}`>Click to reset Password</a>");
 
             return Ok();
         }
 
+              
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {

@@ -16,7 +16,8 @@ export class RegisterComponent implements OnInit {
   password2!: string;
   pageTitle: string;
   errorMessage!: Array<string>;
-  // errors: any;
+  errors: any;
+  errs: any;
 
   constructor(private data:AccountService, 
               private router: Router, 
@@ -32,13 +33,16 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(f: NgForm): void {
     if(f.value.password !== f.value.password2) {  
-         this.errorMessage.push("inconsistent password!");
+         this.errorMessage.push("Confirm Password does not match with password!");
          return;
      }
       this.data.register(this.user).subscribe(
         () => this.router.navigate(['/login']),        
           error=> {
           // this.errors=Object.values(error.error).map((value)=>JSON.stringify(value));
+          // this.errors = eval(error.error);
+          // console.log(this.errors);
+          
            this.errorMessage = ["Passwords must be at least 6 characters.", 
                           "Passwords must have at least one digit ('0'-'9')",
                           "Passwords must have at least one lowercase ('a'-'z')",
