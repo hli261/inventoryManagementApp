@@ -16,6 +16,12 @@ namespace API.Exensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBinRepository, BinRepository>();
 
+            services.AddScoped<IBinRepository, BinRepository>();
+            services.AddScoped<IBinTypeRepository, BinTypeRepository>();
+            services.AddScoped<IBinItemRepository, BinItemRepository>();
+            services.AddScoped<IWarehouseLocationRepository, WarehouseLocationRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {

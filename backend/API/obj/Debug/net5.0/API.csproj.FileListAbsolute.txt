@@ -428,3 +428,7 @@ E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\o
 E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\obj\Debug\net5.0\ref\API.dll
 E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\obj\Debug\net5.0\API.pdb
 E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\obj\Debug\net5.0\API.genruntimeconfig.cache
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Newtonsoft.Json.dll
+E:\Seneca_Study\2021WINTER_SENECA\PRJ666NCC\inventoryManagementApp\backend\API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

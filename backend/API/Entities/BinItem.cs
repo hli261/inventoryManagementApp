@@ -4,9 +4,9 @@ namespace API.Entities
     {
         public int Id { get; set; }
         
-        public Bin bin { get; set; }
-        public Item item { get; set; }
+        public Bin Bin { get; set; }
+        public Item Item { get; set; }
 
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

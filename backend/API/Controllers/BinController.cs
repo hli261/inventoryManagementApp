@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BinController : BaseApiController
     {
         private readonly IMapper _mapper;
@@ -22,24 +22,33 @@ namespace API.Controllers
 
         private readonly IBinRepository _binRepository;
 
-        public BinController(IMapper mapper, IBinRepository binRepository, IUserRepository userRepository)
+        private readonly IBinTypeRepository _binTypeRepository;
+
+        private readonly IWarehouseLocationRepository _warehouseLocationRepository;
+
+        public BinController(IMapper mapper, IBinRepository binRepository, IUserRepository userRepository, 
+            IBinTypeRepository binTypeRepository, IWarehouseLocationRepository warehouseLocationRepository)
         {
             _mapper = mapper;
             _binRepository = binRepository;
             _userRepository = userRepository;
+            _binTypeRepository = binTypeRepository;
+            _warehouseLocationRepository = warehouseLocationRepository;
         }
 
         [HttpPost("createBin")]
         public async Task<ActionResult<BinDto>> CreateBin(CreateBinDto createBinDto)
         {
             var creator = User.GetUserName();
+            var binType = await _binTypeRepository.GetBinTypeById(createBinDto.BinTypeId);
+            var warehouserLocation = await _warehouseLocationRepository.GetWarehouseLocationById(createBinDto.WarehouseLocationId);
 
             var bin = new Bin{
                 Creator = creator,
-                 BinReference = createBinDto.BinReference,
-                 BinCode = createBinDto.BinCode,
-                 BinTypeId = createBinDto.BinTypeId,
-                 WarehouseLocationId = createBinDto.WarehouseLocationId      
+                BinReference = createBinDto.BinReference,
+                BinCode = createBinDto.BinCode,
+                BinType = binType,
+                WarehouseLocation = warehouserLocation
             };
 
             _binRepository.AddBin(bin);
