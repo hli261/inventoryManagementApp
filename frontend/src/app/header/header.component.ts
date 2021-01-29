@@ -13,7 +13,8 @@ export class HeaderComponent implements OnInit {
   token: any;
   title: string | any;
   name: string = null;
-  access: Array<string>;
+  accesses: Array<string>;
+  user: User;
   
 
   constructor(private router: Router, 
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit {
         this.token = this.authService.readToken();
       }
     });
-    this.authService.getLoginUser().subscribe(user=> this.name=user.firstName);
+    this.authService.getLoginUser().subscribe(user=> this.user=user);
     this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);
   } 
 
@@ -35,6 +36,44 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
   }
   
- 
+  isBinManagement():any{
+    
+    if (this.user) {
+      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+    }
+    console.log(this.accesses);   
+    return this.accesses.includes('BinManagement');
+  }
+
+  isPutAway():any{
+    
+    if (this.user) {
+      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+    }
+    return this.accesses.includes('PutAway');
+  }
+
+  isReceiving():any{
+    
+    if (this.user) {
+      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+    }
+    return this.accesses.includes('Receiving');
+  }
+
+  isReplenishment():any{
+    
+    if (this.user) {
+      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+    }
+    return this.accesses.includes('Replenishment');
+  }
+
+  isAdmin(): any {
+    if (this.user) {
+      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);
+    }
+    return this.accesses.includes('Admin');
+  }
 
 }
