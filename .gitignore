@@ -29,7 +29,9 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+Debug/net5.0
 bin/Debug/net5.0
+obj/Debug/net5.0
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
