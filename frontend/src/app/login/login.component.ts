@@ -37,13 +37,13 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.SigninForm.value.email, this.SigninForm.value.password).subscribe(
       data => {
         //  if(data.active) {
-             // localStorage.setItem('currentToken', data.token);
+        //      localStorage.setItem('currentToken', data.token);
         this.SigninForm.reset();
         setTimeout(() => {
           this.router.navigateByUrl('/home');
         }, 1000);
       // }
-        // this.errorMessage = "The user is inactive";        
+      //   this.errorMessage = "The user is inactive";        
       },
       error => {        
         if (error.message) {

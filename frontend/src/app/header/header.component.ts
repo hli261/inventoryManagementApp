@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService, AuthService, AccessService } from '../_services';
-import { Router, Event, NavigationStart } from '@angular/router';
+import { Router, Event, NavigationStart, ActivatedRoute } from '@angular/router';
 import { User } from '../_models';
+import { getOriginalNode } from 'typescript';
 
 @Component({
   selector: 'app-header',
@@ -15,65 +16,72 @@ export class HeaderComponent implements OnInit {
   name: string = null;
   accesses: Array<string>;
   user: User;
+
   
 
   constructor(private router: Router, 
+              private route: ActivatedRoute,
               private authService:AuthService, 
               private headerService: AccountService,
               private accessService: AccessService ) { }
 
   ngOnInit(): void {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) { // only read the token on "NavigationStart"
+    // this.router.events.subscribe((event: Event) => {
+    //   if (event instanceof NavigationStart) {  // only read the token on "NavigationStart"
         this.token = this.authService.readToken();
-      }
-    });
-    this.authService.getLoginUser().subscribe(user=> this.user=user);
+    //   }
+    // });    
     this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);
+    this.getRole();
   } 
 
   onLogout(): void{
     this.authService.logout();
+    this.router.navigate([''], { relativeTo: this.route });
   }
   
-  isBinManagement():any{
+  getRole(): void{
+    this.authService.getLoginUser().subscribe(user=> this.user=user);
+    this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data); 
+  }
+  // isBinManagement():any{
     
-    if (this.user) {
-      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-    }
-    console.log(this.accesses);   
-    return this.accesses.includes('BinManagement');
-  }
+  //   if (this.user) {
+  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+  //   }
+  //   console.log(this.accesses);   
+  //   return this.accesses.includes('BinManagement');
+  // }
 
-  isPutAway():any{
+  // isPutAway():any{
     
-    if (this.user) {
-      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-    }
-    return this.accesses.includes('PutAway');
-  }
+  //   if (this.user) {
+  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+  //   }
+  //   return this.accesses.includes('PutAway');
+  // }
 
-  isReceiving():any{
+  // isReceiving():any{
     
-    if (this.user) {
-      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-    }
-    return this.accesses.includes('Receiving');
-  }
+  //   if (this.user) {
+  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+  //   }
+  //   return this.accesses.includes('Receiving');
+  // }
 
-  isReplenishment():any{
+  // isReplenishment():any{
     
-    if (this.user) {
-      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-    }
-    return this.accesses.includes('Replenishment');
-  }
+  //   if (this.user) {
+  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
+  //   }
+  //   return this.accesses.includes('Replenishment');
+  // }
 
-  isAdmin(): any {
-    if (this.user) {
-      this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);
-    }
-    return this.accesses.includes('Admin');
-  }
+  // isAdmin(): any {
+  //   if (this.user) {
+  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);
+  //   }
+  //   return this.accesses.includes('Admin');
+  // }
 
 }

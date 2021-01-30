@@ -83,22 +83,21 @@ export class ResetPasswordComponent implements OnInit {
 
 
   ResetPassword(form:any) {
-    console.log("get confirm:", form.get('confirmPassword'));
     if (form.valid) {
       console.log("form value:",this.ResponseResetForm.value);
       this.IsResetFormValid = true;
       this.authService.newPassword(this.ResponseResetForm.value).subscribe(
         (data:any) => {
-          this.ResponseResetForm.reset();
+          // this.ResponseResetForm.reset();
+          this.successMessage = "Your password has been reset successfully";
           setTimeout(() => {
-            this.successMessage = "Your password has been reset successfully";
+            this.successMessage = "";
             this.router.navigate(['login']);
           }, 3000);
         },
-        (err:any) => {          
-          if (err.errors) {
-            this.errorMessage = err.errors;
-            console.log("err: ", this.errorMessage);
+        (err:any) => {        
+          if (err.error.errors) {
+            this.errorMessage = err.error.errors;            
           }
         }
       );

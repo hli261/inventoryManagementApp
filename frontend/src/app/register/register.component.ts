@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
   user: User = new User();
   password2!: string;
   pageTitle: string;
-  errorMessage!: Array<string>;
+  errorMessage!: any;
   errors: any;
   errs: any;
 
@@ -33,7 +33,10 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(f: NgForm): void {
     if(f.value.password !== f.value.password2) {  
-         this.errorMessage.push("Confirm Password does not match with password!");
+         this.errorMessage= "Confirm Password does not match with password!";
+         setTimeout(() => {
+          this.errorMessage = "";
+        }, 1000);
          return;
      }
       this.data.register(this.user).subscribe(
