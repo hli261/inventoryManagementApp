@@ -80,7 +80,8 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 Token = await _tokenService.CreateToken(user),
-                Id = user.Id
+                Id = user.Id,
+                Active =user.Active
             };
         }
 

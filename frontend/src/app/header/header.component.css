@@ -17,6 +17,11 @@
 	  left: 100%;
 }
 
+/* .side-dropdown {
+    width: 50px !important;
+    height: 400px !important;
+} */
+
 @media (max-width: 992px) {
     .dropdown-menu{
 		   width: 20%;

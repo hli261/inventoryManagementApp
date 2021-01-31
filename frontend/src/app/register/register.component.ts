@@ -24,11 +24,10 @@ export class RegisterComponent implements OnInit {
               private headerService: AccountService) { }
 
   ngOnInit(): void {
-    this.headerService.setTitle('Register');
+    this.headerService.setTitle('');
   }
 
- readError(err : any): void{
-    
+ readError(err : any): void{    
  }
 
   onSubmit(f: NgForm): void {
@@ -40,12 +39,11 @@ export class RegisterComponent implements OnInit {
          return;
      }
       this.data.register(this.user).subscribe(
-        () => this.router.navigate(['/login']),        
+        () => this.router.navigate(['login']),        
           error=> {
           // this.errors=Object.values(error.error).map((value)=>JSON.stringify(value));
           // this.errors = eval(error.error);
-          // console.log(this.errors);
-          
+          // console.log(this.errors);          
            this.errorMessage = ["Passwords must be at least 6 characters.", 
                           "Passwords must have at least one digit ('0'-'9')",
                           "Passwords must have at least one lowercase ('a'-'z')",

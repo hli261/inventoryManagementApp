@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   SigninForm=new FormGroup({});
   forbiddenEmails: any;
   errorMessage: string | any;
+  active: any;
+
 
   constructor(
     private fb: FormBuilder,
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit {
     private headerService: AccountService
   ) { this.buildSigninForm(); }
 
-  ngOnInit() {this.headerService.setTitle('Login');}
+  ngOnInit() {this.headerService.setTitle('');}
 
   private buildSigninForm() {
     this.SigninForm = this.fb.group({
@@ -33,17 +35,24 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  navByActive(): void{
+    
+  }
+
   signinUser() {
     this.authService.login(this.SigninForm.value.email, this.SigninForm.value.password).subscribe(
       data => {
-         if(data.active) {
-             localStorage.setItem('currentToken', data.token);
-        this.SigninForm.reset();
-        setTimeout(() => {
-          this.router.navigateByUrl('/home');
-        }, 1000);
-      }
-        this.errorMessage = "The user is inactive";        
+           localStorage.setItem('currentToken', data.token);
+           if(data.active) {
+           this.router.navigate(['home']); 
+         // this.SigninForm.reset();        
+        }
+       else{
+         this.errorMessage = "The user is inactive";  
+         setTimeout(() => {
+           this.errorMessage = "";
+         }, 3000);
+       }       
       },
       error => {        
         if (error.message) {

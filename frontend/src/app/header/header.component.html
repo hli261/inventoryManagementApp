@@ -23,26 +23,26 @@
               <a class="nav-link dropdown-toggle" href="#" id="receivingDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Warehouse</a>
              <ul class="dropdown-menu bg-dark" aria-labelledby="receivingDropdown">
               <!-- Level 2 -->
-              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Bin Management</a>
+              <li *ngIf="isBinManagement()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Bin Management</a>
                 <ul class="dropdown-menu bg-dark ">
                 <li><a class="dropdown-item text-secondary" routerLink="/bins">Bin Manager</a></li>
                 <li><a class="dropdown-item text-secondary" routerLink="/item">Item Manager</a></li>
                 </ul>
               </li>
-              <li  class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Receiving</a>
+              <li *ngIf="isReceiving()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Receiving</a>
                 <ul  class="dropdown-menu bg-dark ">
                 <li><a class="dropdown-item text-secondary" routerLink="ships">Ship Information</a></li>
                 <li><a class="dropdown-item text-secondary" routerLink="/orders">Receive Order</a></li>
                 </ul>
               </li>
-              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary" routerLink="/putaway">Put Away</a>
+              <li *ngIf="isPutAway()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary" routerLink="/putaway">Put Away</a>
                 <ul class="dropdown-menu bg-dark ">
                 <li><a class="dropdown-item text-secondary" routerLink="/putaway">Put Away</a></li>
                 <li><a class="dropdown-item text-secondary" routerLink="/report">Report</a></li>
                 </ul>
               </li>
               <li><hr class="dropdown-divider text-secondary"></li>
-              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Replenishment</a>
+              <li *ngIf="isReplenishment()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Replenishment</a>
                 <ul  class="dropdown-menu bg-dark ">
                 <li><a class="dropdown-item text-secondary" routerLink="/replenishment">Replenishment</a></li>
                 <li><a class="dropdown-item text-secondary" routerLink="/report">Report</a></li>
@@ -52,10 +52,10 @@
               </ul>
               </li>
               <!-- End Level 1 -->
-              <li class="nav-item dropdown">
+              <li *ngIf="isAdmin()"  class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
-                <ul  *ngIf="token" class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item text-secondary" routerLink="/users">User List</a></li>
+                <ul  class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                  <li ><a class="dropdown-item text-secondary" routerLink="/users">User List</a></li>
                 </ul>
               </li>
             </ul>
@@ -73,9 +73,12 @@
                 </div>
                </ng-template>
               <ng-template #elseBlock>
-                <div class="dropdown me-3">
+                <div class="dropdown me-5 dropdown-menu-dark">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{user.firstName}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    </svg>
+                    {{user?.firstName}}
                   </button>
                   <ul class="dropdown-menu bg-secondary" aria-labelledby="dropdownMenuButton">
                    <li><a [routerLink]="['/profile', token.id]" class="dropdown-item text-white ">
@@ -83,46 +86,17 @@
                       <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
                       <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                       <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                    </svg>&nbsp;&nbsp;Profile</a></li>
+                    </svg>&nbsp;&nbsp;
+                    Profile</a></li>
                   <li>  <a  (click)="onLogout()" class="dropdown-item text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
                       <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-11.5.5a.5.5 0 0 1 0-1h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5z"/>
-                    </svg>&nbsp;&nbsp;Log out</a></li>
+                    </svg>&nbsp;&nbsp;
+                    Log out</a></li>
                   </ul>
                 </div>
               </ng-template>
 
-
-                <!-- <span *ngIf="!(token)" routerLinkActive="active" >
-                  <div class="dropdown me-3">
-                  <a routerLink="login" class="btn btn-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                  <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                  </svg>&nbsp;&nbsp;Log in</a>
-                </div>
-              </span>
-
-              
-              <span *ngIf="token" routerLinkActive="active">
-                <div class="dropdown me-3">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{user.firstName}}
-                  </button>
-                  <ul class="dropdown-menu bg-secondary" aria-labelledby="dropdownMenuButton">
-                   <li><a [routerLink]="['/profile', token.id]" class="dropdown-item text-white ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                      <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                      <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                      <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                    </svg>&nbsp;&nbsp;Profile</a></li>
-                  <li>  <a  (click)="onLogout()" class="dropdown-item text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-11.5.5a.5.5 0 0 1 0-1h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5z"/>
-                    </svg>&nbsp;&nbsp;Log out</a></li>
-                  </ul>
-                </div>
-                </span> -->
-               <!-- </div> -->
             </div>
         </div>
       </div>

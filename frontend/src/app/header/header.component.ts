@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService, AuthService, AccessService } from '../_services';
-import { Router, Event, NavigationStart, ActivatedRoute } from '@angular/router';
+import { AccountService, AuthService } from '../_services';
+import { Router, Event,NavigationEnd } from '@angular/router';
 import { User } from '../_models';
 import { getOriginalNode } from 'typescript';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,75 +14,58 @@ export class HeaderComponent implements OnInit {
   
   token: any;
   title: string | any;
-  name: string = null;
-  accesses: Array<string>;
+  email: string;
+  sub!: Subscription;
   user: User;
-
   
 
   constructor(private router: Router, 
-              private route: ActivatedRoute,
               private authService:AuthService, 
-              private headerService: AccountService,
-              private accessService: AccessService ) { }
+              private headerService: AccountService) { }
 
   ngOnInit(): void {
-    // this.router.events.subscribe((event: Event) => {
-    //   if (event instanceof NavigationStart) {  // only read the token on "NavigationStart"
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) { 
         this.token = this.authService.readToken();
-    //   }
-    // });    
-    this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);
-    this.getRole();
+      }
+    });    
+    this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);    
+    this.authService.getLoginUser().subscribe(user=> this.user=user); 
   } 
 
   onLogout(): void{
     this.authService.logout();
-    this.router.navigate([''], { relativeTo: this.route });
+    this.router.navigate(['login']);
+  }  
+ 
+  isBinManagement():any{    
+    if(this.token) 
+      return this.token.role.includes('BinManagement');
+    return false;
   }
-  
-  getRole(): void{
-    this.authService.getLoginUser().subscribe(user=> this.user=user);
-    this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data); 
+
+  isPutAway():any{  
+    if(this.token) 
+      return this.token.role.includes('PutAway');
+    return false;
   }
-  // isBinManagement():any{
-    
-  //   if (this.user) {
-  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-  //   }
-  //   console.log(this.accesses);   
-  //   return this.accesses.includes('BinManagement');
-  // }
 
-  // isPutAway():any{
-    
-  //   if (this.user) {
-  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-  //   }
-  //   return this.accesses.includes('PutAway');
-  // }
+  isReceiving():any{ 
+    if(this.token) 
+      return this.token.role.includes('Receiving');
+    return false;
+  }
 
-  // isReceiving():any{
-    
-  //   if (this.user) {
-  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-  //   }
-  //   return this.accesses.includes('Receiving');
-  // }
+  isReplenishment():any{  
+    if(this.token) 
+      return this.token.role.includes('Replenishment');
+    return false;
+  }
 
-  // isReplenishment():any{
-    
-  //   if (this.user) {
-  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);     
-  //   }
-  //   return this.accesses.includes('Replenishment');
-  // }
-
-  // isAdmin(): any {
-  //   if (this.user) {
-  //     this.accessService.getByEmail(this.user.email).subscribe((data: any) => this.accesses = data);
-  //   }
-  //   return this.accesses.includes('Admin');
-  // }
+  isAdmin(): any {  
+    if(this.token) 
+      return this.token.role.includes('Admin');
+    return false;
+  }
 
 }

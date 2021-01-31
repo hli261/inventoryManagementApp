@@ -64,6 +64,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem("currentToken");
+    localStorage.clear();
     this.accountService.setTitle("");
     this.router.navigateByUrl('/login');
   }
