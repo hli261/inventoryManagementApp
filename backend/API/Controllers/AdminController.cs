@@ -109,5 +109,23 @@ namespace API.Controllers
         }
 
 
+        [HttpPost("user-active/{email}")]
+        // [Authorize(Policy = "RequireAdminRole")] //enable this to only allow admin to access
+        // [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> UserActive(string email, bool activeUser)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NotFound("Could not find the user");
+
+            user.Active = activeUser;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded) return BadRequest("Fail to set active");
+
+            // return Ok();
+            return Ok(user.Active);
+        }
+
+
+
     }
 }
