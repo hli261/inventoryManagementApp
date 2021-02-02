@@ -7,7 +7,7 @@
       <th scope="col">No</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
-      <th scope="col">Status</th>
+      <th scope="col">Active</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -16,8 +16,10 @@
       <td>{{user.id}}</td>
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>
-      <td *ngIf = "user.active" >Active</td>
-      <td *ngIf = "!(user.active)" >Inactive</td>
+      <td>
+        <input *ngIf = "user.active" class="form-check-input ms-1" type="checkbox" value="" (click)="inactive(user)" checked >
+        <input *ngIf = "!(user.active)" class="form-check-input ms-1" type="checkbox" value="" (click)="active(user)">
+      </td>
       <td>
         <button type="button" class="btn btn-secondary" [routerLink]="['/profile', user.id]">Edit User</button>&nbsp;&nbsp;
         <button type="button" class="btn btn-primary" [routerLink]="['/access', user.email]">Access Control</button>

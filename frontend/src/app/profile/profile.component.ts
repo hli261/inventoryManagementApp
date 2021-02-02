@@ -15,6 +15,9 @@ export class ProfileComponent implements OnInit {
   user: User;
   sub: Subscription;
   pageTitle: string;
+  errorMessage: string;
+  successMessage: string;
+  password2: string;
 
   constructor(private data: AccountService, 
               private route: ActivatedRoute, 
@@ -41,13 +44,40 @@ ngOnDestroy() {
  }
 
  onSubmit(f: NgForm): void {
-  if(f.value.password === f.value.password2) {
-      this.data.update(this.user.email, this.user)
-               .subscribe(user=>this.user = user)
-   }
-    if(this.isAdmin()) {this.router.navigate(['users']);}
-    else {this.router.navigate(['']);}
- }
+  if(f.value.password !== f.value.password2) {  
+    this.errorMessage= "Confirm Password does not match with password!"; 
+    setTimeout(() => {
+      this.errorMessage = "";
+    }, 3000); 
+    return;             
+  }      
+      this.data.update(this.user.email, this.user).subscribe(
+        user=>{
+          this.user = user;       
+          this.successMessage = "Profile has been updated!";
+          if(this.isAdmin()) {            
+            setTimeout(()=>{
+              this.successMessage="";
+              this.router.navigate(['users']);
+            }, 2000);
+         }         
+        else {          
+          setTimeout(()=>{
+            this.successMessage="";
+            this.router.navigate(['']);
+          }, 2000);          
+        }  
+        },
+        error=> {
+          console.log(error);
+          this.errorMessage = error.error; 
+          });
+          setTimeout(() => {
+            this.errorMessage = "";
+          }, 3000);  }     
+      
+   
+  
 
 }
 

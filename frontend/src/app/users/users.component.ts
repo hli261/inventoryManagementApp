@@ -30,5 +30,14 @@ export class UsersComponent implements OnInit {
     this.liveUsersSub.unsubscribe();
   }
 
+  inactive(user: User):void{
+    user.active = false;
+    this.data.update(user.email, user).subscribe();
+  }
+
+  active(user: User):void{
+    user.active = true;
+    this.data.update(user.email, user).subscribe();
+  }
 
 }

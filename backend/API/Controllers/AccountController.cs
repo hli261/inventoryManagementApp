@@ -45,7 +45,11 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            // if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest("Passwords must be at least 6 characters\n" +
+                                                     "Passwords must have at least one digit ('0'-'9')\n" + 
+                                                     "Passwords must have at least one lowercase ('a'-'z')\n" +
+                                                     "Passwords must have at least one uppercase ('A'-'Z')");
 
             // var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 

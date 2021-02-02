@@ -51,11 +51,6 @@ export class AccountService {
         return this.http.post<any>(`${environment.apiUrl}/api/account/verifyemail`, email);
     }
 
-    // ValidPasswordToken(body:any): Observable<any> {
-    //     return this.http.post(`${environment.apiUrl}/valid-password-token`, body);
-    // }
-    
-
     public getAll() : Observable<User[]>{
         return this.http.get<User[]>(`${environment.apiUrl}/api/users`);
     }

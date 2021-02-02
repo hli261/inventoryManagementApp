@@ -43,8 +43,11 @@ export class ForgetPasswordComponent implements OnInit {
         },
         err => {
           console.log(err);
-          if (err.error) {
-            this.errorMessage = err.error;            
+          if (err) {
+            this.errorMessage = "Invalid email";
+            setTimeout(() => {
+              this.errorMessage = "";
+            }, 3000);       
           }
         }
       );

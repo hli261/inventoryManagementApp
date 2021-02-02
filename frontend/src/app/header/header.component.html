@@ -21,7 +21,7 @@
             <!-- Level 1 -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="receivingDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Warehouse</a>
-             <ul class="dropdown-menu bg-dark" aria-labelledby="receivingDropdown">
+             <ul *ngIf="token.role"  class="dropdown-menu bg-dark" aria-labelledby="receivingDropdown">
               <!-- Level 2 -->
               <li *ngIf="isBinManagement()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Bin Management</a>
                 <ul class="dropdown-menu bg-dark ">
