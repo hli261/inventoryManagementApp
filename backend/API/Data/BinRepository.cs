@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -32,15 +34,23 @@ namespace API.Data
 
         public async Task<IEnumerable<Bin>> GetBins()
         {
-           
-           var result = await _context.Bins
-                .Include(t => t.BinType)
-                .Include(w => w.WarehouseLocation)
-                .OrderBy(b => b.BinCode)
-                .ToListAsync();
+            var result = await _context.Bins
+                 .Include(t => t.BinType)
+                 .Include(w => w.WarehouseLocation)
+                 .OrderBy(b => b.BinCode)
+                 .ToListAsync();
 
-           return result;
-            
+            return result;
+        }
+
+        public async Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams)
+        {
+            var query = _context.Bins
+                 .Include(t => t.BinType)
+                 .Include(w => w.WarehouseLocation)
+                 .OrderBy(b => b.BinCode).ProjectTo<Bin>(_mapper.ConfigurationProvider).AsNoTracking();
+
+            return await PagedList<Bin>.CreateAsync(query, binParams.pageNumber, binParams.PageSize);
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByType(string type)

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -16,7 +18,7 @@ namespace API.Data
             _mapper = mapper;
             _context = context;
         }
-        
+
         public void AddItem(Item item)
         {
             _context.Items.Add(item);
@@ -35,6 +37,13 @@ namespace API.Data
         public async Task<IEnumerable<Item>> GetItems()
         {
             return await _context.Items.ToListAsync();
+        }
+//in test
+        public async Task<PagedList<Item>> GetItemsAsync(PagingParams itemParams)
+        {
+            var query = _context.Items.ProjectTo<Item>(_mapper.ConfigurationProvider).AsNoTracking();
+
+            return await PagedList<Item>.CreateAsync(query, itemParams.pageNumber, itemParams.PageSize);
         }
 
         public async Task<bool> SaveAllAsync()

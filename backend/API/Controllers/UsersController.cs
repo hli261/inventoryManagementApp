@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -25,15 +27,29 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
 
+        // [HttpGet]
+        // //        [Authorize(Roles = "Admin")]
+        // public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        // {
+        //     var users = await _userRepository.GetUsersAsync();
+
+        //     var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
+
+        //     return Ok(usersToReturn);
+        // }
+
+        //paging
         [HttpGet]
-//        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsersWithPaging([FromQuery]PagingParams userParams)
         {
-            var users = await _userRepository.GetUsersAsync();
+            var users = await _userRepository.GetUsersAsync(userParams);
 
-            var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
-            return Ok(usersToReturn);
+            // var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
+
+            // return Ok(usersToReturn);
+            return Ok(users);
         }
 
         [HttpGet("email/{email}")] //get user by login email
@@ -51,11 +67,12 @@ namespace API.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteUser(int id){
+        public async Task<ActionResult> DeleteUser(int id)
+        {
             var user = await _userRepository.GetUserByIdAsync(id);
 
             if (user == null) return NotFound();
-            
+
             return Ok(await _userRepository.Delete(id));
         }
 

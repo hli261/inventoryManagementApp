@@ -47,16 +47,16 @@ namespace API.Controllers
 
             // if (!result.Succeeded) return BadRequest(result.Errors);
             if (!result.Succeeded) return BadRequest("Passwords must be at least 6 characters\n" +
-                                                     "Passwords must have at least one digit ('0'-'9')\n" + 
+                                                     "Passwords must have at least one digit ('0'-'9')\n" +
                                                      "Passwords must have at least one lowercase ('a'-'z')\n" +
                                                      "Passwords must have at least one uppercase ('A'-'Z')");
 
             // var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
             // if (!roleResult.Succeeded) return BadRequest(result.Errors);
-            var userDetail = "<h4>User Info</h4>" + 
-            $"</br> <p>User Id: {user.Id}</p>"  + 
-            $"</br> <p>User Name: {user.FirstName + " " + user.LastName}</p>" + 
+            var userDetail = "<h4>User Info</h4>" +
+            $"</br> <p>User Id: {user.Id}</p>" +
+            $"</br> <p>User Name: {user.FirstName + " " + user.LastName}</p>" +
             $"</br> <p>User Account: {user.Email}</p>";
 
             SendMail("Admin", "prj666testing@gmail.com", "New User Created", userDetail);
@@ -85,7 +85,7 @@ namespace API.Controllers
                 Email = user.Email,
                 Token = await _tokenService.CreateToken(user),
                 Id = user.Id,
-                Active =user.Active
+                Active = user.Active
             };
         }
 
@@ -156,7 +156,7 @@ namespace API.Controllers
             return Ok();
         }
 
-              
+
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
@@ -174,6 +174,8 @@ namespace API.Controllers
                 var errors = resetPassResult.Errors.Select(e => e.Description);
                 return BadRequest(new { Errors = errors });
             }
+
+            SendMail(resetPasswordDto.Email, resetPasswordDto.Email, "Password Reseted", "Your password has been reseted");
 
             return Ok();
         }

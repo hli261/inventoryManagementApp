@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +27,8 @@ namespace API.Controllers
         [HttpPost("CreateItem")]
         public async Task<ActionResult<ItemDto>> CreateBinType(CreateItemDto createItemDto)
         {
-            var item = new Item{
+            var item = new Item
+            {
                 ItemName = createItemDto.ItemName,
                 ItemNumber = createItemDto.ItemNumber,
                 Description = createItemDto.Description
@@ -33,8 +36,8 @@ namespace API.Controllers
 
             _itemRepository.AddItem(item);
 
-            if(await _itemRepository.SaveAllAsync())
-            
+            if (await _itemRepository.SaveAllAsync())
+
                 return Ok(_mapper.Map<ItemDto>(item));
 
             return BadRequest("Failed to add item.");
@@ -48,8 +51,19 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<ItemDto>>(items));
         }
 
+        //paging
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<ItemDto>>> GetUsersWithPaging([FromQuery] PagingParams itemParams)
+        // {
+        //     var items = await _itemRepository.GetItemsAsync(itemParams);
+
+        //     Response.AddPaginationHeader(items.CurrentPage, items.PageSize, items.TotalCount, items.TotalPages);
+
+        //     return Ok(_mapper.Map<IEnumerable<ItemDto>>(items));
+        // }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDto>> GetItemById(int id )
+        public async Task<ActionResult<ItemDto>> GetItemById(int id)
         {
             var item = await _itemRepository.GetItemById(id);
 
@@ -62,7 +76,8 @@ namespace API.Controllers
 
             var item = await _itemRepository.GetItemById(id);
 
-            if(item != null){
+            if (item != null)
+            {
                 _itemRepository.DeleteItem(item);
             }
 
@@ -80,7 +95,7 @@ namespace API.Controllers
 
             _itemRepository.UpdateItem(item);
 
-            if(await _itemRepository.SaveAllAsync()) return NoContent();
+            if (await _itemRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Failed to update item.");
         }

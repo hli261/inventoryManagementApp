@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -25,16 +27,17 @@ namespace API.Controllers
         [HttpPost("CreateBinItem")]
         public async Task<ActionResult<BinItemDto>> CreateBinItem(CreateBinItemDto createBinItemDto)
         {
-            var binItem = new BinItem{
+            var binItem = new BinItem
+            {
                 Quantity = createBinItemDto.Quantity,
                 Bin = createBinItemDto.Bin,
-                Item = createBinItemDto.Item 
+                Item = createBinItemDto.Item
             };
 
             _binItemRepository.AddBinItem(binItem);
 
-            if(await _binItemRepository.SaveAllAsync())
-            
+            if (await _binItemRepository.SaveAllAsync())
+
                 return Ok(_mapper.Map<BinItemDto>(binItem));
 
             return BadRequest("Failed to add item.");
@@ -47,6 +50,17 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
+
+        //paging
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<BinItemDto>>> GetUsersWithPaging([FromQuery] PagingParams binItemParams)
+        // {
+        //     var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);
+
+        //     Response.AddPaginationHeader(binItems.CurrentPage, binItems.PageSize, binItems.TotalCount, binItems.TotalPages);
+
+        //     return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
+        // }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<BinItemDto>> GetBinItemById(int id)
@@ -62,7 +76,8 @@ namespace API.Controllers
 
             var binItem = await _binItemRepository.GetBinItemById(id);
 
-            if(binItem != null){
+            if (binItem != null)
+            {
                 _binItemRepository.DeleteBinItem(binItem);
             }
 
@@ -80,7 +95,7 @@ namespace API.Controllers
 
             _binItemRepository.UpdateBinItem(binItem);
 
-            if(await _binItemRepository.SaveAllAsync()) return NoContent();
+            if (await _binItemRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Failed to update item.");
         }
