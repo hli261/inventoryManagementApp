@@ -1,0 +1,36 @@
+  <div class ="container-fluid">
+    <div class="col-8">
+        <h3>List of bins</h3>
+      </div>
+  <table class="table table-hover border-top mt-3">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Bin Id</th>
+        <th scope="col">Type</th>
+        <th scope="col">Code</th>
+        <th scope="col">Location</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = 'let bin of bins'>
+        <td>{{bin.id}}</td>
+        <td>{{bin.binType}}</td>
+        <td>{{bin.binCode}}</td>
+        <td>{{bin.location}}</td>
+        <td>
+          <a [routerLink]="['/bin', bin.id]">Edit</a>
+        </td>
+      </tr>    
+     </tbody>
+  </table>
+
+  <div class="d-flex justify-content-end">
+    <app-paging></app-paging>
+  </div> 
+  <!-- <div class="w-100"><app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging></div> --> 
+</div>
+
+
+
+

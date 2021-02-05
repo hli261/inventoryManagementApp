@@ -13,7 +13,7 @@ import { ShipComponent } from './ship/ship.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BinManagementComponent } from './bin-management/bin-management.component';
 
-import { AuthGuard } from './_services/auth.guard';
+import { AuthGuard, RoleGuard } from './_services';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -25,17 +25,43 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    children: [
-      { path: 'users', component: UsersComponent },
-      { path: 'access/:email', component: AccessComponent },
-      { path: 'profile/:id', component: ProfileComponent},
-      { path: 'bins', component: BinManagementComponent},
-      { path: 'ships', component: ShipsComponent},
-      { path: 'ship', component: ShipComponent },
-      { path: 'ship/:id', component: ShipComponent },
-      { path: 'response-reset-password/:token', component: ResetPasswordComponent},
+    children: [     
+      { path: 'profile/:id', component: ProfileComponent}
         ],
-    },  
+    }, 
+  {
+  path: '',
+  canActivate:[RoleGuard],
+  data:{
+   role:  "Admin"         
+  },
+  children: [
+    { path: 'users', component: UsersComponent },
+    { path: 'access/:email', component: AccessComponent },
+  ]  
+  },
+  {
+  path: '',
+  canActivate:[RoleGuard],
+  data:{
+   role:  "BinManagement"         
+  },
+  children: [
+    { path: 'bins', component: BinManagementComponent },
+  ]  
+},
+{
+  path: '',
+  canActivate:[RoleGuard],
+  data:{
+   role:  "Receiving"         
+  },
+  children: [
+    { path: 'ships', component: ShipsComponent },
+    { path: 'ship', component: ShipComponent },
+    { path: 'ship/:id', component: ShipComponent },
+  ]  
+},  
   { path: '**', component: PageNotFoundComponent }
 ];
 

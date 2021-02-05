@@ -1,68 +1,75 @@
-<div><header title="pageTitle"></header></div>
-<div class="container mt-3 mb-5" >
+<div>
+  <header title="pageTitle"></header>
+</div>
+<div class="container mt-3 mb-5">
   <div class="card  mx-auto mb-3" style="width: 45rem;">
-  <h3 class="card-header">
+    <h3 class="card-header">
       Shipping Record
-  </h3>
-  <br>
+    </h3>
+    <br>
     <div class="container mb-3">
-  <form [formGroup]="shipForm" (ngSubmit)="onSubmit()" class="row g-3">
-      <div class="mb-3 col-md-6">
-        <label for="dp" class="form-label">Arrival Date</label>
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-             name="dp" formControlName="arrivalDate" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary calender" (click)="d.toggle()" type="button">
-          <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-            <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-            <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-          </svg></span>
-        </button>
-      </div>
+      <form [formGroup]="shipForm" (ngSubmit)="onSubmit()" class="row g-3">
+        <div class="mb-3 col-md-6">
+          <label for="dp" class="form-label">Arrival Date</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="arrivalDate"
+              [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calender" (click)="d.toggle()" type="button">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-calendar3" viewBox="0 0 16 16">
+                    <path
+                      d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                    <path
+                      d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                  </svg></span>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="mb-3 col-md-6">
-        <label for="shipType" class="form-label">Type </label>
-        <select class="form-select" aria-label="example"  formControlName="shipType" >
-          <option value="1" selected>Truck</option>
-          <option value="2">FedEx</option>
-          <option value="3">UPS</option>
-          <option value="4">By Sea</option>
-          <option value="5">By Air</option>
-        </select>
+        <div class="mb-3 col-md-6">
+          <label for="shipType" class="form-label">Type </label>
+          <select class="form-select" aria-label="example" formControlName="shipType">
+            <option value="1" selected>Truck</option>
+            <option value="2">FedEx</option>
+            <option value="3">UPS</option>
+            <option value="4">By Sea</option>
+            <option value="5">By Air</option>
+          </select>
         </div>
 
         <h3>Parcels</h3>
         <div formArrayName="parcels">
           <div class="input-group mb-3" *ngFor="let parcel of parcels.controls; let i=index" [formGroupName]="i">
-          <div class="mb-3 col-md-3">
-          <label for="parcel" class="form-label">PO Number</label>
-          <input type="text" class="form-control" id="parcel" formControlName="poNum" >
+            <div class="mb-3 col-md-3">
+              <label for="parcel" class="form-label">PO Number</label>
+              <input type="text" class="form-control" id="parcel" formControlName="poNum">
+            </div>
+            <div class="mb-3 col-md-3">
+              <label for="parcel" class="form-label">Vender Number</label>
+              <input type="text" class="form-control" id="parcel" formControlName="venderNum">
+            </div>
+            <div class="mb-3 col-md-3">
+              <label for="parcel" class="form-label">LOT Number</label>
+              <input type="text" class="form-control" id="parcel" formControlName="lotNum">
+            </div>
+            <div class="mt-1 col-md-3">
+              <button type="button" class="btn btn-danger mt-4 " (click)="removeParcel(i)">Remove Parcel</button>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary" (click)="addParcel()" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+              <path
+                d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+            </svg>
+            <b> Add</b>
+          </button>
         </div>
-        <div class="mb-3 col-md-3">
-          <label for="parcel" class="form-label">Vender Number</label>
-          <input type="text" class="form-control" id="parcel" formControlName="venderNum">
+        <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
+          <button type="submit" class="btn btn-primary">Create</button>
         </div>
-        <div class="mb-3 col-md-3">
-          <label for="parcel" class="form-label">LOT Number</label>
-          <input type="text" class="form-control" id="parcel" formControlName="lotNum">
-        </div>
-        <div class="mt-1 col-md-3">
-          <button type="button" class="btn btn-danger mt-4 " (click)="removeParcel(i)">Remove Parcel</button>
-        </div>
-      </div>
-        <button class="btn btn-outline-secondary" (click)="addParcel()" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
-          </svg>
-          <b> Add</b>
-      </button>
+      </form>
     </div>
-      <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
-      <button type="submit" class="btn btn-primary">Create</button>
   </div>
-    </form>
-  <!-- </div> -->
-  </div>
-
+</div>
