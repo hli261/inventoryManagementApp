@@ -70,7 +70,7 @@ namespace API.Controllers
         }
 
         //////////////////////PAGING////////////////////////
-        // [HttpGet]
+        // [HttpGet("byParams")]
         // public async Task<ActionResult<IEnumerable<ItemDto>>> GetUsersWithPaging([FromQuery] PagingParams itemParams)
         // {
         //     var items = await _itemRepository.GetItemsAsync(itemParams);

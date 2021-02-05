@@ -66,7 +66,7 @@ namespace API.Controllers
         }
 
         //////////////////////PAGING////////////////////////
-        // [HttpGet]
+        // [HttpGet("byParams")]
         // public async Task<ActionResult<IEnumerable<BinItemDto>>> GetUsersWithPaging([FromQuery] PagingParams binItemParams)
         // {
         //     var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);

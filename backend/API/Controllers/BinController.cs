@@ -13,7 +13,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Services;
-using API.Helpers;
 using API.Exensions;
 
 namespace API.Controllers
@@ -79,14 +78,14 @@ namespace API.Controllers
             return BadRequest("Failed to add bin.");
         }
 
-        [HttpGet("byParams")]
-        public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByParams([FromQuery]BinParams binParams)
-        {
-            var bins = await _binRepository.GetBinsByParams(binParams);
+        // [HttpGet("byParams")]
+        // public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByParams([FromQuery]BinParams binParams)
+        // {
+        //     var bins = await _binRepository.GetBinsByParams(binParams);
 
-            return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
+        //     return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
 
-        }
+        // }
 
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBins()
@@ -98,7 +97,7 @@ namespace API.Controllers
         }
 
         //////////////////////PAGING////////////////////////
-        // [HttpGet]
+        // [HttpGet("byParams")]
         // public async Task<ActionResult<IEnumerable<BinDto>>> GetUsersWithPaging([FromQuery] PagingParams binParams)
         // {
         //     var bins = await _binRepository.GetBinsAsync(binParams);
