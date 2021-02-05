@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Data.Migrations
 {
-    public partial class initBin : Migration
+    public partial class InitialCreateItems : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,9 +70,14 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ItemName = table.Column<string>(type: "TEXT", nullable: true),
                     ItemNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    ItemDescription = table.Column<string>(type: "TEXT", nullable: true),
+                    ItemPrice = table.Column<double>(type: "REAL", nullable: false),
+                    UpcCode = table.Column<string>(type: "TEXT", nullable: true),
+                    ItemStatus = table.Column<string>(type: "TEXT", nullable: true),
+                    UnitOfMeasure = table.Column<string>(type: "TEXT", nullable: true),
+                    UomUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    FDA = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,8 +209,8 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BinReference = table.Column<string>(type: "TEXT", nullable: true),
                     BinCode = table.Column<string>(type: "TEXT", nullable: true),
+                    BinReference = table.Column<string>(type: "TEXT", nullable: true),
                     Creator = table.Column<string>(type: "TEXT", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     BinTypeId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -234,8 +239,8 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BinId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ItemId = table.Column<int>(type: "INTEGER", nullable: true),
+                    BinId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -246,13 +251,13 @@ namespace API.Data.Migrations
                         column: x => x.BinId,
                         principalTable: "Bins",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BinItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

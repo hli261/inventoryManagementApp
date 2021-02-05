@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,24 +16,38 @@ namespace API.Controllers
         private readonly IMapper _mapper;
 
         private readonly IBinTypeRepository _binTypeRepository;
+        private readonly CSVService _csvHandler;
 
-        public BinTypeController(IMapper mapper, IBinTypeRepository binTypeRepository)
+        public BinTypeController(IMapper mapper, IBinTypeRepository binTypeRepository, CSVService csvHandler)
         {
+            _csvHandler = csvHandler;
             _mapper = mapper;
             _binTypeRepository = binTypeRepository;
+        }
+
+        [HttpGet("bintypecsvfile")]
+        public ActionResult ImportBinTypeCsvFile()
+        {
+            if (_csvHandler.ReadBinTypeCsvFile() != null)
+            {
+                return Ok("Proces completed");
+            }
+            return BadRequest("Cannot reading file");
+
         }
 
         [HttpPost("CreateBinType")]
         public async Task<ActionResult<BinTypeDto>> CreateBinType(CreateBinTypeDto createBinTypeDto)
         {
-            var binType = new BinType{
+            var binType = new BinType
+            {
                 TypeName = createBinTypeDto.TypeName
             };
 
             _binTypeRepository.AddBinType(binType);
 
-            if(await _binTypeRepository.SaveAllAsync())
-            
+            if (await _binTypeRepository.SaveAllAsync())
+
                 return Ok(_mapper.Map<BinTypeDto>(binType));
 
             return BadRequest("Failed to add bin type.");
@@ -47,7 +62,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<BinTypeDto>> GetBinTypeById(int id )
+        public async Task<ActionResult<BinTypeDto>> GetBinTypeById(int id)
         {
             var binType = await _binTypeRepository.GetBinTypeById(id);
 
@@ -60,7 +75,8 @@ namespace API.Controllers
 
             var binType = await _binTypeRepository.GetBinTypeById(id);
 
-            if(binType != null){
+            if (binType != null)
+            {
                 _binTypeRepository.DeleteBinType(binType);
             }
 
@@ -78,7 +94,7 @@ namespace API.Controllers
 
             _binTypeRepository.UpdateBinType(binType);
 
-            if(await _binTypeRepository.SaveAllAsync()) return NoContent();
+            if (await _binTypeRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Failed to update bin type.");
         }

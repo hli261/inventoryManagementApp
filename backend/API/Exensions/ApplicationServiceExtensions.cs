@@ -21,6 +21,8 @@ namespace API.Exensions
             services.AddScoped<IBinItemRepository, BinItemRepository>();
             services.AddScoped<IWarehouseLocationRepository, WarehouseLocationRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<CSVService>();
+
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>

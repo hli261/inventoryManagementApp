@@ -6,15 +6,8 @@ namespace API.Entities
     public class Bin
     {
         public int Id { get; set; }
-
-        public string BinReference { get; set; }
         public string BinCode { get; set; }
-
-        // public string BinType { get; set; }
-
-        // public string Warehouse { get; set; }
-
-        //public ICollection<BinItem> BinItems { get; set; }
+        public string BinReference { get; set; }
 
         public string Creator { get; set; }
 
@@ -27,5 +20,7 @@ namespace API.Entities
         public WarehouseLocation WarehouseLocation { get; set; }
 
         public int WarehouseLocationId { get; set; }
+
+        public ICollection<BinItem> BinItems { get; set; }
     }
 }

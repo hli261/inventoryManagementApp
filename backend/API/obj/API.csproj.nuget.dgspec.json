@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[8.1.0, )"
             },
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[22.1.1, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[2.10.1, )"

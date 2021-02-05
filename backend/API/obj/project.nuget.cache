@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "1HxiQ8QOvidXFfxZXdpORkqQ97gj5aRTrtOCBrlqRfgxzXCqMZu0UtyMfHUjp6z/TZDiqhf5uAx+Ht1T7l6AoQ==",
+  "dgSpecHash": "dr5wwM46F8Y/F/89l5+yIo8P8mfGnulW0ll6Q9uXbBN9ccqmbnBI7kdVkVYInbrBzsvCp3xsl10NLlGct8EQzQ==",
   "success": true,
   "projectFilePath": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\xxxpp\\.nuget\\packages\\automapper\\10.1.0\\automapper.10.1.0.nupkg.sha512",
     "C:\\Users\\xxxpp\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",
+    "C:\\Users\\xxxpp\\.nuget\\packages\\csvhelper\\22.1.1\\csvhelper.22.1.1.nupkg.sha512",
     "C:\\Users\\xxxpp\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\xxxpp\\.nuget\\packages\\mailkit\\2.10.1\\mailkit.2.10.1.nupkg.sha512",
     "C:\\Users\\xxxpp\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.1\\microsoft.aspnetcore.authentication.jwtbearer.5.0.1.nupkg.sha512",
