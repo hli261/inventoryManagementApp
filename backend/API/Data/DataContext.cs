@@ -45,6 +45,7 @@ namespace API.Data
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
 
+           
         }
     }
 }

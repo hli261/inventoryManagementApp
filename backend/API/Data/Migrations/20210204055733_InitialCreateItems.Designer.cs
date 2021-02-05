@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210129194559_initBin")]
-    partial class initBin
+    [Migration("20210204055733_InitialCreateItems")]
+    partial class InitialCreateItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -173,10 +173,10 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BinId")
+                    b.Property<int>("BinId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ItemId")
+                    b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
@@ -211,13 +211,28 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("FDA")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ItemName")
+                    b.Property<string>("ItemDescription")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ItemNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("ItemPrice")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("ItemStatus")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UnitOfMeasure")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UomUnit")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UpcCode")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -365,11 +380,15 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entities.Bin", "Bin")
                         .WithMany()
-                        .HasForeignKey("BinId");
+                        .HasForeignKey("BinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.Item", "Item")
                         .WithMany("BinItems")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Bin");
 

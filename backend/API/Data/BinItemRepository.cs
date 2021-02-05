@@ -32,16 +32,16 @@ namespace API.Data
         public async Task<BinItem> GetBinItemById(int id)
         {
             return await _context.BinItems
-                .Include(b => b.Bin)
-                .Include(i => i.Item)
+                // .Include(b => b.Bin)
+                // .Include(i => i.Item)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<BinItem>> GetBinItems()
         {
             return await _context.BinItems
-                .Include(b => b.Bin)
-                .Include(i => i.Item)
+                // .Include(b => b.Bin)
+                // .Include(i => i.Item)
                 .ToListAsync();
         }
 //in testing

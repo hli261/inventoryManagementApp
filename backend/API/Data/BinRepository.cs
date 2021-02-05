@@ -1,5 +1,7 @@
 
 
+using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +11,8 @@ using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
+using API.DTOs;
 
 namespace API.Data
 {
@@ -34,31 +38,61 @@ namespace API.Data
 
         public async Task<IEnumerable<Bin>> GetBins()
         {
-            var result = await _context.Bins
-                 .Include(t => t.BinType)
-                 .Include(w => w.WarehouseLocation)
-                 .OrderBy(b => b.BinCode)
-                 .ToListAsync();
+            var result = await _context.Bins.ToListAsync();
 
             return result;
         }
 
-        public async Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams)
+        public async Task<IEnumerable<BinDto>> GetBinsByParams(BinParams binParams)
         {
-            var query = _context.Bins
-                 .Include(t => t.BinType)
-                 .Include(w => w.WarehouseLocation)
-                 .OrderBy(b => b.BinCode).ProjectTo<Bin>(_mapper.ConfigurationProvider).AsNoTracking();
+            var query = _context.Bins.AsQueryable();
 
-            return await PagedList<Bin>.CreateAsync(query, binParams.pageNumber, binParams.PageSize);
+            if(binParams.WarehouseLocationId != null)
+            {
+                query = query.Where(b => b.WarehouseLocationId == binParams.WarehouseLocationId);
+            }
+            if(binParams.BinTypeId != null)
+            {
+                query = query.Where(b => b.BinTypeId == binParams.BinTypeId);
+            }
+            if(binParams.MinCode != null && binParams.MaxCode != null)
+            {
+                query = query.Where(b => String.Compare(b.BinCode, binParams.MinCode) == 1 && String.Compare(b.BinCode, binParams.MaxCode) == -1 );
+            }
+
+            return await query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<Bin>> GetBinsByTypeId(int id)
+        {
+           
+        //    var result = await _context.Bins.Where(b => b.BinTypeId == id)
+        //         .Include(t => t.BinType)
+        //         .Include(w => w.WarehouseLocation)
+        //         .OrderBy(b => b.BinCode)
+        //         .ToListAsync();
+            var result = await _context.Bins.Where(b => b.BinTypeId == id).ToListAsync();
+
+            return result;
+            
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByType(string type)
         {
             return await _context.Bins
-                .Include(t => t.BinType)
-                .Include(w => w.WarehouseLocation)
+                // .Include(t => t.BinType)
+                // .Include(w => w.WarehouseLocation)
                 .Where(x => x.BinType.TypeName == type)
+                .OrderBy(m => m.BinCode)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Bin>> GetBinsByWarehouseLocationId(int id)
+        {
+            return await _context.Bins
+                // .Include(t => t.BinType)
+                // .Include(w => w.WarehouseLocation)
+                .Where(x => x.WarehouseLocationId == id)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
         }
@@ -66,8 +100,8 @@ namespace API.Data
         public async Task<IEnumerable<Bin>> GetBinsByWarehouse(string warehouse)
         {
             return await _context.Bins
-                .Include(t => t.BinType)
-                .Include(w => w.WarehouseLocation)
+                // .Include(t => t.BinType)
+                // .Include(w => w.WarehouseLocation)
                 .Where(x => x.WarehouseLocation.LocationName == warehouse)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
@@ -76,8 +110,8 @@ namespace API.Data
         public async Task<Bin> GetBinByCode(string code)
         {
             return await _context.Bins
-                .Include(t => t.BinType)
-                .Include(w => w.WarehouseLocation)
+                // .Include(t => t.BinType)
+                // .Include(w => w.WarehouseLocation)
                 .SingleOrDefaultAsync(x => x.BinCode == code);
         }
 
