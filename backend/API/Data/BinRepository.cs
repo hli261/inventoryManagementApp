@@ -43,6 +43,13 @@ namespace API.Data
             return result;
         }
 
+        public async Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams)
+        {
+            var query = _context.Bins.ProjectTo<Bin>(_mapper.ConfigurationProvider).AsNoTracking();
+
+            return await PagedList<Bin>.CreateAsync(query, binParams.pageNumber, binParams.PageSize);
+        }
+
         public async Task<IEnumerable<BinDto>> GetBinsByParams(BinParams binParams)
         {
             var query = _context.Bins.AsQueryable();

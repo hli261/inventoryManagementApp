@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Services;
 using API.Helpers;
+using API.Exensions;
 
 namespace API.Controllers
 {
@@ -96,7 +97,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        //paging
+        //////////////////////PAGING////////////////////////
         // [HttpGet]
         // public async Task<ActionResult<IEnumerable<BinDto>>> GetUsersWithPaging([FromQuery] PagingParams binParams)
         // {
@@ -106,6 +107,7 @@ namespace API.Controllers
 
         //     return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         // }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByTypeId(int id)
         {

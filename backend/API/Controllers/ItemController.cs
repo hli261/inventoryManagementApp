@@ -69,7 +69,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<ItemDto>>(items));
         }
 
-        //paging
+        //////////////////////PAGING////////////////////////
         // [HttpGet]
         // public async Task<ActionResult<IEnumerable<ItemDto>>> GetUsersWithPaging([FromQuery] PagingParams itemParams)
         // {

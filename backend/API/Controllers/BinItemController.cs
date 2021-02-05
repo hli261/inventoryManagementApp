@@ -65,7 +65,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
 
-        //paging
+        //////////////////////PAGING////////////////////////
         // [HttpGet]
         // public async Task<ActionResult<IEnumerable<BinItemDto>>> GetUsersWithPaging([FromQuery] PagingParams binItemParams)
         // {

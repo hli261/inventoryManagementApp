@@ -13,6 +13,7 @@ namespace API.Helpers
             
             CreateMap<BinDto, Bin>();
             CreateMap<Bin, BinDto>();
+            CreateMap<Bin, Bin>(); ///?????
             CreateMap<CreateBinDto, Bin>();
             CreateMap<UpdateBinDto, Bin>();
 
@@ -22,6 +23,7 @@ namespace API.Helpers
 
             CreateMap<ItemDto, Item>();
             CreateMap<Item, ItemDto>();
+            CreateMap<Item, Item>(); //?????why?
             CreateMap<CreateItemDto, Item>();
 
             CreateMap<WarehouseLocationDto, WarehouseLocation>();
@@ -30,6 +32,7 @@ namespace API.Helpers
 
             CreateMap<BinItemDto, BinItem>();
             CreateMap<BinItem, BinItemDto>();
+            CreateMap<BinItem, BinItem>(); ////???
             CreateMap<CreateBinItemDto, BinItem>();
         }
     }

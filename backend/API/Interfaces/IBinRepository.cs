@@ -15,7 +15,7 @@ namespace API.Interfaces
 
         Task<IEnumerable<Bin>> GetBins();
         
-        //Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams); //paging
+        Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams); //paging
 
         Task<IEnumerable<BinDto>> GetBinsByParams(BinParams binParams);
         Task<IEnumerable<Bin>> GetBinsByTypeId(int id);
