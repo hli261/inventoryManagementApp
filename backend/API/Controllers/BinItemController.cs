@@ -5,6 +5,7 @@ using API.Entities;
 using API.Exensions;
 using API.Helpers;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,24 @@ namespace API.Controllers
         private readonly IMapper _mapper;
 
         private readonly IBinItemRepository _binItemRepository;
+        private readonly CSVService _csvHandler;
 
-        public BinItemController(IMapper mapper, IBinItemRepository binItemRepository)
+        public BinItemController(IMapper mapper, IBinItemRepository binItemRepository, CSVService csvHandler)
         {
+            _csvHandler = csvHandler;
             _mapper = mapper;
             _binItemRepository = binItemRepository;
+        }
+
+        [HttpGet("binitemcsvfile")]
+        public ActionResult ImportBinItemCsvFile()
+        {
+            if (_csvHandler.ReadBinItemCsvFile() == "Completed")
+            {
+                return Ok("Proces completed");
+            }
+            return BadRequest("Cannot reading file");
+
         }
 
         [HttpPost("CreateBinItem")]

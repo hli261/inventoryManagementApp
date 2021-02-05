@@ -5,6 +5,7 @@ using API.Entities;
 using API.Exensions;
 using API.Helpers;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,23 @@ namespace API.Controllers
         private readonly IMapper _mapper;
 
         private readonly IItemRepository _itemRepository;
+        private readonly CSVService _csvHandler;
 
-        public ItemController(IMapper mapper, IItemRepository itemRepository)
+        public ItemController(IMapper mapper, IItemRepository itemRepository, CSVService csvHandler)
         {
+            _csvHandler = csvHandler;
             _mapper = mapper;
             _itemRepository = itemRepository;
+        }
+
+        [HttpGet("itemcsvfile")]
+        public ActionResult ImportItemCsvFile()
+        {
+            if(_csvHandler.ReadItemCsvFile() != null){
+                return Ok("Proces completed");
+            }
+            return BadRequest("Cannot reading file");
+
         }
 
         [HttpPost("CreateItem")]
@@ -29,9 +42,14 @@ namespace API.Controllers
         {
             var item = new Item
             {
-                ItemName = createItemDto.ItemName,
                 ItemNumber = createItemDto.ItemNumber,
-                Description = createItemDto.Description
+                ItemDescription = createItemDto.ItemDescription,
+                ItemPrice = createItemDto.ItemPrice,
+                UpcCode = createItemDto.UpcCode,
+                ItemStatus = createItemDto.ItemStatus,
+                UnitOfMeasure = createItemDto.UnitOfMeasure,
+                UomUnit = createItemDto.UomUnit,
+                FDA = createItemDto.FDA
             };
 
             _itemRepository.AddItem(item);
