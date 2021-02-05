@@ -135,6 +135,9 @@ namespace API.Controllers
         public async Task<ActionResult<BinDto>> GetBinByCode(string code)
         {
             var bin = await _binRepository.GetBinByCode(code);
+            if(bin == null){
+                return BadRequest("Bin Code cannot found");
+            }
 
             return Ok(_mapper.Map<BinDto>(bin));
         }

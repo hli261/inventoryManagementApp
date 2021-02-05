@@ -109,10 +109,13 @@ namespace API.Data
 
         public async Task<Bin> GetBinByCode(string code)
         {
-            return await _context.Bins
-                // .Include(t => t.BinType)
-                // .Include(w => w.WarehouseLocation)
-                .SingleOrDefaultAsync(x => x.BinCode == code);
+           // return await _context.Bins.SingleOrDefaultAsync(x => x.BinCode == code);
+           
+           var bin = await _context.Bins.Where(b => b.BinCode== code).FirstOrDefaultAsync();
+           if(bin == null){
+               return null;
+           }
+           return bin;
         }
 
         public async Task<bool> SaveAllAsync()
