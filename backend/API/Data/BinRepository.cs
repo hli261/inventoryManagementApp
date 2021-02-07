@@ -35,80 +35,132 @@ namespace API.Data
 
         public async Task<IEnumerable<Bin>> GetBins()
         {
-            var result = await _context.Bins.ToListAsync();
+            var bins = await _context.Bins.ToListAsync();
 
-            return result;
+            foreach(Bin bin in bins){
+               bin.BinType = await GetBinTypeById(bin.BinTypeId);
+               bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+            }
+
+            return bins;
         }
 
-        public async Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams)
-        {
-            var query = _context.Bins.ProjectTo<Bin>(_mapper.ConfigurationProvider).AsNoTracking();
+        // public async Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams)
+        // {
+        //     var query = _context.Bins.ProjectTo<Bin>(_mapper.ConfigurationProvider).AsNoTracking();
 
-            return await PagedList<Bin>.CreateAsync(query, binParams.pageNumber, binParams.PageSize);
-        }
+        //     return await PagedList<Bin>.CreateAsync(query, binParams.pageNumber, binParams.PageSize);
+        // }
 
-        public async Task<IEnumerable<BinDto>> GetBinsByParams(BinParams binParams)
+        public async Task<PagedList<BinDto>> GetBinsByParams(BinParams binParams)
         {
             var query = _context.Bins.AsQueryable();
 
-            if (binParams.WarehouseLocationId != null)
+            // if (binParams.WarehouseLocationId != null)
+            // {
+            //     query = query.Where(b => b.WarehouseLocationId == binParams.WarehouseLocationId);
+            // }
+            // if (binParams.BinTypeId != null)
+            // {
+            //     query = query.Where(b => b.BinTypeId == binParams.BinTypeId);
+            // }
+            if (binParams.LocationName != null)
             {
-                query = query.Where(b => b.WarehouseLocationId == binParams.WarehouseLocationId);
+                query = query.Where(b => b.WarehouseLocation.LocationName == binParams.LocationName);
             }
-            if (binParams.BinTypeId != null)
+            if (binParams.TypeName != null)
             {
-                query = query.Where(b => b.BinTypeId == binParams.BinTypeId);
+                query = query.Where(b => b.BinType.TypeName == binParams.TypeName);
             }
-            if (binParams.MinCode != null && binParams.MaxCode != null)
+            if (binParams.MinCode != null)
             {
-                query = query.Where(b => String.Compare(b.BinCode, binParams.MinCode) == 1 && String.Compare(b.BinCode, binParams.MaxCode) == -1);
+                if(binParams.MaxCode == null)
+                {
+                    query = query.Where(b => b.BinCode == binParams.MinCode);
+                }
+                else{
+                    query = query.Where(b => String.Compare(b.BinCode, binParams.MinCode) == 1 && String.Compare(b.BinCode, binParams.MaxCode) == -1);
+                }      
             }
 
-            return await query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
+            // return await query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
+            var bins = await PagedList<BinDto>.CreateAsync(
+                query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking(),
+                binParams.pageNumber,
+                binParams.PageSize
+            );
+
+            foreach(BinDto bin in bins){
+               bin.BinType = await GetBinTypeById(bin.BinTypeId);
+               bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+            }
+
+            return bins;
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByTypeId(int id)
         {
+            var bins = await _context.Bins.Where(b => b.BinTypeId == id).OrderBy(m => m.BinCode).ToListAsync();
 
-            //    var result = await _context.Bins.Where(b => b.BinTypeId == id)
-            //         .Include(t => t.BinType)
-            //         .Include(w => w.WarehouseLocation)
-            //         .OrderBy(b => b.BinCode)
-            //         .ToListAsync();
-            var result = await _context.Bins.Where(b => b.BinTypeId == id).ToListAsync();
+            foreach(Bin bin in bins){
+                bin.BinType = await GetBinTypeById(bin.BinTypeId);
+                bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+            }
 
-            return result;
+            return bins;
 
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByType(string type)
         {
-            return await _context.Bins
-                // .Include(t => t.BinType)
-                // .Include(w => w.WarehouseLocation)
+            var bins = await _context.Bins      
                 .Where(x => x.BinType.TypeName == type)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
+
+            foreach(Bin bin in bins){
+               bin.BinType = await GetBinTypeByName(type);
+               bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+            }
+
+            return bins;
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByWarehouseLocationId(int id)
         {
-            return await _context.Bins
-                // .Include(t => t.BinType)
-                // .Include(w => w.WarehouseLocation)
-                .Where(x => x.WarehouseLocationId == id)
-                .OrderBy(m => m.BinCode)
-                .ToListAsync();
+            var bins = await _context.Bins
+                            .Where(x => x.WarehouseLocationId == id)
+                            .OrderBy(m => m.BinCode)
+                            .ToListAsync();
+            // return await _context.Bins
+            //     // .Include(t => t.BinType)
+            //     // .Include(w => w.WarehouseLocation)
+            //     .Where(x => x.WarehouseLocationId == id)
+            //     .OrderBy(m => m.BinCode)
+            //     .ToListAsync();
+           foreach(Bin bin in bins){
+               bin.BinType = await GetBinTypeById(bin.BinTypeId);
+               bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+           }
+
+            return bins;
         }
+
 
         public async Task<IEnumerable<Bin>> GetBinsByWarehouse(string warehouse)
         {
-            return await _context.Bins
-                // .Include(t => t.BinType)
-                // .Include(w => w.WarehouseLocation)
+            var bins = await _context.Bins
                 .Where(x => x.WarehouseLocation.LocationName == warehouse)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
+
+            foreach(Bin bin in bins){
+               bin.BinType = await GetBinTypeById(bin.BinTypeId);
+               bin.WarehouseLocation = await GetWarehouseLocationByName(warehouse);
+            }
+
+            return bins;
+            
         }
 
         public async Task<Bin> GetBinByCode(string code)
@@ -116,6 +168,10 @@ namespace API.Data
             // return await _context.Bins.SingleOrDefaultAsync(x => x.BinCode == code);
 
             var bin = await _context.Bins.Where(b => b.BinCode == code).FirstOrDefaultAsync();
+
+            bin.BinType = await GetBinTypeById(bin.BinTypeId);
+            bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+
             if (bin == null)
             {
                 return null;
@@ -128,9 +184,33 @@ namespace API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void UpdateBin(Bin bin)
+        public async Task UpdateBinAsync(Bin bin)
         {
             _context.Entry(bin).State = EntityState.Modified;
+            bin.BinType = await GetBinTypeById(bin.BinTypeId);
+            bin.WarehouseLocation = await GetWarehouseLocationById(bin.WarehouseLocationId);
+        }
+
+
+        
+        public async Task<BinType> GetBinTypeById(int id)
+        {
+            return await _context.BinTypes.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<WarehouseLocation> GetWarehouseLocationById(int id)
+        {
+            return await _context.WarehouseLocations.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<BinType> GetBinTypeByName(string name)
+        {
+            return await _context.BinTypes.SingleOrDefaultAsync(x => x.TypeName == name);
+        }
+
+        public async Task<WarehouseLocation> GetWarehouseLocationByName(string name)
+        {
+            return await _context.WarehouseLocations.SingleOrDefaultAsync(x => x.LocationName == name);
         }
     }
 }

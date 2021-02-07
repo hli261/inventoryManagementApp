@@ -31,6 +31,11 @@ namespace API.Data
             return await _context.WarehouseLocations.SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<WarehouseLocation> GetWarehouseLocationByName(string name)
+        {
+            return await _context.WarehouseLocations.SingleOrDefaultAsync(x => x.LocationName == name);
+        }
+
         public async Task<IEnumerable<WarehouseLocation>> GetWarehouseLocations()
         {
             return await _context.WarehouseLocations.ToListAsync();

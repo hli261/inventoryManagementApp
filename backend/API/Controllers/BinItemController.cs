@@ -1,3 +1,4 @@
+using Microsoft.CSharp.RuntimeBinder;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -19,10 +20,15 @@ namespace API.Controllers
 
         private readonly IBinItemRepository _binItemRepository;
         private readonly CSVService _csvHandler;
+        private readonly IItemRepository _itemRepository;
+        private readonly IBinRepository _binRepository;
 
-        public BinItemController(IMapper mapper, IBinItemRepository binItemRepository, CSVService csvHandler)
+        public BinItemController(IMapper mapper, IBinItemRepository binItemRepository, CSVService csvHandler,
+            IBinRepository binRepository, IItemRepository itemRepository)
         {
             _csvHandler = csvHandler;
+            _itemRepository = itemRepository;
+            _binRepository = binRepository;
             _mapper = mapper;
             _binItemRepository = binItemRepository;
         }
@@ -41,11 +47,14 @@ namespace API.Controllers
         [HttpPost("CreateBinItem")]
         public async Task<ActionResult<BinItemDto>> CreateBinItem(CreateBinItemDto createBinItemDto)
         {
+            var bin = await _binRepository.GetBinByCode(createBinItemDto.BinCode);
+            var item = await _itemRepository.GetItemByNumber(createBinItemDto.ItemNumber);
+
             var binItem = new BinItem
             {
                 Quantity = createBinItemDto.Quantity,
-                Bin = createBinItemDto.Bin,
-                Item = createBinItemDto.Item
+                Bin = bin,
+                Item = item
             };
 
             _binItemRepository.AddBinItem(binItem);
