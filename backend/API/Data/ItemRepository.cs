@@ -34,6 +34,11 @@ namespace API.Data
             return await _context.Items.SingleOrDefaultAsync(x => x.Id == id);
         }
 
+         public async Task<Item> GetItemByNumber(string number)
+        {
+            return await _context.Items.SingleOrDefaultAsync(x => x.ItemNumber == number);
+        }
+
         public async Task<IEnumerable<Item>> GetItems()
         {
             return await _context.Items.ToListAsync();

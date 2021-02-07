@@ -88,6 +88,14 @@ namespace API.Controllers
             return Ok(_mapper.Map<ItemDto>(item));
         }
 
+        [HttpGet("byItemNumber")]
+        public async Task<ActionResult<ItemDto>> GetItemByNumber(string number)
+        {
+            var item = await _itemRepository.GetItemByNumber(number);
+
+            return Ok(_mapper.Map<ItemDto>(item));
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(int id)
         {

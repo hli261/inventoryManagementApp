@@ -32,6 +32,12 @@ namespace API.Data
             return await _context.BinTypes.SingleOrDefaultAsync(x => x.Id == id);
         }
 
+         public async Task<BinType> GetBinTypeByName(string name)
+        {
+            return await _context.BinTypes.SingleOrDefaultAsync(x => x.TypeName == name);
+        }
+
+
         public async Task<IEnumerable<BinType>> GetBinTypes()
         {
             return await _context.BinTypes.ToListAsync();
