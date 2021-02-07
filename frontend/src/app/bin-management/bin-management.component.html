@@ -1,45 +1,84 @@
 <div>
   <header title="pageTitle"></header>
 </div>
-<div class="container-fluid mt-3 mb-3 me-3 ms-2">
-  <div class="row">
-    <div class="col-sm-4">
+<div class="container-fluid mt-5 mb-3 me-3 ms-2">
+  <div class="row mb-5">
+    <div class="col-sm-3">
       <a routerLink="/bin" class="btn btn-primary">Create New</a>
     </div>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
-      <div class="d-flex justify-content-end">
-        <form>
-          <div class="input-group w-75">
-            <input class="form-control" type="search" placeholder="bin code" aria-label="Search">
-            <button class="btn btn-outline-primary btn-sm" type="submit">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                viewBox="0 0 16 16">
-                <path
-                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-              </svg>
-            </button>
+    <div class="col-sm-9">
+      <div class="input-group ">
+        <div class="accordion " id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Type
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    Primary
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                  <label class="form-check-label" for="flexCheckChecked">
+                    Overstock
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                  <label class="form-check-label" for="flexCheckChecked">
+                    Operation
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="input-group w-75">
-            <select class="form-select  fs-6" (change)="selectType($event)" aria-label="Default select example">
-              <option selected>Type</option>
-              <option value="primary">Primary</option>
-              <option value="Overstock">Overstock</option>
-              <option value="WorkStation">WorkStation</option>
-            </select>
-            &nbsp;&nbsp;
-            <select class="form-select  fs-6" (change)="selectLocation($event)"   aria-label="Default select example">
-              <option selected>Location</option>
-              <option value="Toronto">Toronto</option>
-              <option value="America">America</option>
-            </select>
+        </div>
+
+        <div class="accordion " id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                aria-expanded="false" aria-controls="collapseTwo">
+                Code Range:
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <input class="form-control" type="text" placeholder="from" aria-label="codeRange">
+                <input class="form-control" type="text" placeholder="to" aria-label="codeRange">
+              </div>
+            </div>
           </div>
-        </form>
+        </div>
+        <div class="input-group">
+        <select class="form-select w-25 fs-6" [(ngModel)]="location" (change)="selectLocation($event)" 
+          aria-label="Default select example" placeholder="Location">
+          <!-- <option selected>Location</option> -->
+          <option value="Toronto">Toronto</option>
+          <option value="America">America</option>
+        </select>
       </div>
+        <button type="submit" (click)="filter()" class="btn btn-primary">Filter</button>
+      
+
+      </div>
+
+
+
     </div>
-  </div>
-  <div class="row">
-    <app-bins [bins]="bins"></app-bins>
+
   </div>
 
-</div>
+    <div class="row mb-3">
+      <app-bins [bins]="bins"></app-bins>
+    </div>
+  </div>

@@ -27,4 +27,14 @@ export class BinService {
   public update(id: number, bin: Bin): Observable<Bin> {
     return this.http.put<Bin> (`${environment.apiUrl}/api/bin/${id}`, bin);
   }
+
+  public getQuery(page: number, perPage: number, type: string, location: string, minCode: string, maxCode: string ): Observable<Bin> {
+    // if(maxCode===null || minCode===null || maxCode===minCode){
+    //   return this.http.
+    // }
+    
+    
+    return this.http.get<Bin> (`${environment.apiUrl}/api/bin/byParams?page=${page}&perPage=${perPage}`);
+  }
+
 }

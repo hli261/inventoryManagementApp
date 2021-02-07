@@ -12,8 +12,9 @@ export class BinManagementComponent implements OnInit {
 
   bins: Array<Bin>;
   private liveBinsSub :any;
-  type: string;
-  location: string;
+  type: any;
+  location: string ="Location";
+  multiple: boolean=true;
 
 
   constructor(private binService : BinService, 
@@ -37,7 +38,6 @@ export class BinManagementComponent implements OnInit {
     //   console.log(this.page);
     //  }
     }
-
    
 
   ngOnInit(): void {
@@ -51,24 +51,25 @@ export class BinManagementComponent implements OnInit {
 
  selectType(event: any): void{
 console.log(event);
-
-   if(event.target.value!=="Type") {
-     this.type = event.target.value;
-    //  this.liveBinsSub = this.binService.get().subscribe(data=>this.bins=data);
-    
-      this.router.navigate(['/bins'], { queryParams: { type: event.target.value }, queryParamsHandling :"merge"} );
-    
-     console.log(this.type);
-   }
-   this.type = "";
+console.log(this.type);
+  //  if(event.target.value!=="Type") {
+  //    this.type.push(event.target.value);         
+  //    
+  //  }
+  //  this.type = "";
  }
 
  selectLocation(event: any): void{
   if(event.target.value!=="Location") {
     this.location = event.target.value;
-    this.router.navigate(['/bins'], { queryParams: { location: event.target.value }, queryParamsHandling :"merge"});
   }
   this.location = "";
+ }
+
+ filter(): void{
+  this.router.navigate(['/bins'], { queryParams: { type: this.type , warehouseLocation: this.location}, queryParamsHandling :"merge"} );
+     this.type=null;
+     this.location=null;
  }
 
 }
