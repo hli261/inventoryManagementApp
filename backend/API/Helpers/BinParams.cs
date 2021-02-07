@@ -1,6 +1,6 @@
 namespace API.Helpers
 {
-    public class BinParams
+    public class BinParams : PagingParams
     {
 
         //public string BinCode { get; set; }
@@ -9,8 +9,11 @@ namespace API.Helpers
 
         public string MaxCode { get; set;}
         
-        public int? BinTypeId { get; set; }
+        // public int? BinTypeId { get; set; }
 
-        public int? WarehouseLocationId { get; set;}
+        // public int? WarehouseLocationId { get; set;}
+
+        public string TypeName { get; set; }
+        public string LocationName { get; set; }
     }
 }

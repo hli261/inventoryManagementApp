@@ -11,13 +11,13 @@ namespace API.Interfaces
         void AddBin(Bin bin);
         void DeleteBin(Bin bin);
 
-        void UpdateBin(Bin bin);
+        Task UpdateBinAsync(Bin bin);
 
         Task<IEnumerable<Bin>> GetBins();
         
-        //Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams); //paging
+       //Task<PagedList<Bin>> GetBinsAsync(PagingParams binParams); //paging
 
-        Task<IEnumerable<BinDto>> GetBinsByParams(BinParams binParams);
+        Task<PagedList<BinDto>> GetBinsByParams(BinParams binParams);
         Task<IEnumerable<Bin>> GetBinsByTypeId(int id);
         Task<IEnumerable<Bin>> GetBinsByType(string type);
         Task<IEnumerable<Bin>> GetBinsByWarehouse(string warehouse);

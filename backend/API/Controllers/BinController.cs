@@ -13,7 +13,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Services;
-using API.Helpers;
+using API.Exensions;
 
 namespace API.Controllers
 {
@@ -78,10 +78,12 @@ namespace API.Controllers
             return BadRequest("Failed to add bin.");
         }
 
-        [HttpGet("byParams")]
+        [HttpGet("byBinParams")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByParams([FromQuery]BinParams binParams)
         {
             var bins = await _binRepository.GetBinsByParams(binParams);
+
+            Response.AddPaginationHeader(bins.CurrentPage, bins.PageSize, bins.TotalCount, bins.TotalPages);
 
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
 
@@ -96,9 +98,9 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        //paging
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<BinDto>>> GetUsersWithPaging([FromQuery] PagingParams binParams)
+        //////////////////////PAGING////////////////////////
+        // [HttpGet("byBinParams")]
+        // public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsWithPaging([FromQuery] PagingParams binParams)
         // {
         //     var bins = await _binRepository.GetBinsAsync(binParams);
 
@@ -106,7 +108,8 @@ namespace API.Controllers
 
         //     return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         // }
-        [HttpGet]
+
+        [HttpGet("byTypeId")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByTypeId(int id)
         {
            
@@ -115,15 +118,23 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        [HttpGet("byType")]
-        public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByType(int id)
+        [HttpGet("byTypeName")]
+        public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByType(string name)
         {
-            var bins = await _binRepository.GetBinsByTypeId(id);
+            var bins = await _binRepository.GetBinsByType(name);
 
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        [HttpGet("byWarehouse")]
+        [HttpGet("byWarehouseName")]
+        public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByWarehouseName(string name)
+        {
+            var bins = await _binRepository.GetBinsByWarehouse(name);
+
+            return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
+        }
+
+        [HttpGet("byWarehouseId")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByWarehouseId(int id)
         {
             var bins = await _binRepository.GetBinsByWarehouseLocationId(id);
@@ -149,7 +160,7 @@ namespace API.Controllers
 
             _mapper.Map(updateBinDto, bin);
 
-            _binRepository.UpdateBin(bin);
+            _binRepository.UpdateBinAsync(bin);
 
             if (await _binRepository.SaveAllAsync()) return NoContent();
 

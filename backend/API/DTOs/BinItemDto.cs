@@ -10,5 +10,13 @@ namespace API.DTOs
         public Item Item { get; set; }
 
         public int Quantity { get; set; }
+
+        public int BinId { get; set;}
+
+        public int ItemId { get; set; }
+
+        // public string BinCode { get; set; }
+
+        // public string ItemNumber { get; set; }     
     }
 }

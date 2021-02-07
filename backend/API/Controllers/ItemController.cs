@@ -69,8 +69,8 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<ItemDto>>(items));
         }
 
-        //paging
-        // [HttpGet]
+        //////////////////////PAGING////////////////////////
+        // [HttpGet("byParams")]
         // public async Task<ActionResult<IEnumerable<ItemDto>>> GetUsersWithPaging([FromQuery] PagingParams itemParams)
         // {
         //     var items = await _itemRepository.GetItemsAsync(itemParams);
@@ -84,6 +84,14 @@ namespace API.Controllers
         public async Task<ActionResult<ItemDto>> GetItemById(int id)
         {
             var item = await _itemRepository.GetItemById(id);
+
+            return Ok(_mapper.Map<ItemDto>(item));
+        }
+
+        [HttpGet("byItemNumber")]
+        public async Task<ActionResult<ItemDto>> GetItemByNumber(string number)
+        {
+            var item = await _itemRepository.GetItemByNumber(number);
 
             return Ok(_mapper.Map<ItemDto>(item));
         }
