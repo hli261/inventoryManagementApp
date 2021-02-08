@@ -1,14 +1,15 @@
 <div>
   <header title="pageTitle"></header>
 </div>
-<div class="container-fluid mt-5 mb-3 me-3 ms-2">
+<div class="container-fluid mt-4 mb-3 me-3 ms-2">
   <div class="row mb-5">
     <div class="col-sm-3">
+      <h3>List of bins</h3>
       <a routerLink="/bin" class="btn btn-primary">Create New</a>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <div class="input-group ">
-        <div class="accordion " id="accordionExample">
+        <div class="accordion w-50" id="accordionExample">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
@@ -19,30 +20,17 @@
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
               data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <div class="form-check" *ngFor="let bType of binType" >
+                  <input class="form-check-input" type="checkbox" (change)="selectType($event, bType)" value="" id="flexCheckDefault">
                   <label class="form-check-label" for="flexCheckDefault">
-                    Primary
+                    {{bType.typeName}}
                   </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                  <label class="form-check-label" for="flexCheckChecked">
-                    Overstock
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                  <label class="form-check-label" for="flexCheckChecked">
-                    Operation
-                  </label>
-                </div>
+                </div>            
               </div>
             </div>
           </div>
         </div>
-
-        <div class="accordion " id="accordionExample">
+        <div class="accordion w-50" id="accordionExample">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
@@ -53,32 +41,31 @@
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
               data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <input class="form-control" type="text" placeholder="from" aria-label="codeRange">
-                <input class="form-control" type="text" placeholder="to" aria-label="codeRange">
+                <input class="form-control" type="text" placeholder="from" [(ngModel)]="minCode" aria-label="codeRange">
+                <input class="form-control" type="text" placeholder="to" [(ngModel)]="maxCode" aria-label="codeRange">
               </div>
             </div>
           </div>
         </div>
-        <div class="input-group">
-        <select class="form-select w-25 fs-6" [(ngModel)]="location" (change)="selectLocation($event)" 
+        <div class="input-group w-50">
+        <select class="form-select fs-6 me-1"  (change)="selectLocation($event)" 
           aria-label="Default select example" placeholder="Location">
-          <!-- <option selected>Location</option> -->
-          <option value="Toronto">Toronto</option>
-          <option value="America">America</option>
-        </select>
+          <option selected>Location</option>
+          <option *ngFor="let loc of warehouseLocation"    [value]="loc.locationName">{{loc.locationName}}</option>
+         </select>
       </div>
-        <button type="submit" (click)="filter()" class="btn btn-primary">Filter</button>
+        <button  type="submit" (click)="filter()" class="btn btn-primary">Filter
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+            <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+          </svg></button>
+       </div>
+    </div>
+  </div>
+ <div class="row mb-3">
+      <app-bins [bins_]="bins_"></app-bins>
+    </div>
+    <div  *ngIf="bins_ | async as bins" class="d-flex justify-content-end">
+      <app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging>
+    </div> 
       
-
-      </div>
-
-
-
-    </div>
-
-  </div>
-
-    <div class="row mb-3">
-      <app-bins [bins]="bins"></app-bins>
-    </div>
-  </div>
+ </div>

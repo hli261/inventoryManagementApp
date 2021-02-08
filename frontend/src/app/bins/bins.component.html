@@ -1,7 +1,5 @@
-  <div class ="container-fluid">
-    <div class="col-8">
-        <h3>List of bins</h3>
-      </div>
+  <div *ngIf="bins_ | async as bins">
+  <div class ="container-fluid mt-3">
   <table class="table table-hover border-top mt-3">
     <thead class="table-light">
       <tr>
@@ -15,22 +13,18 @@
     <tbody>
       <tr *ngFor = 'let bin of bins'>
         <td>{{bin.id}}</td>
-        <td>{{bin.binType}}</td>
+        <td>{{bin.binType.typeName}}</td>
         <td>{{bin.binCode}}</td>
-        <td>{{bin.warehouseLocation}}</td>
+        <td>{{bin.warehouseLocation.locationName}}</td>
         <td>
-          <a [routerLink]="['/bin', bin.id]">Edit</a>
+          <a [routerLink]="['/bin', bin.id]">Edit</a> | 
+          <a [routerLink]="['/bin-items', bin.id]">Detail</a>
         </td>
       </tr>    
      </tbody>
   </table>
-
-  <div class="d-flex justify-content-end">
-    <app-paging></app-paging>
-  </div> 
-  <!-- <div class="w-100"><app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging></div> --> 
+ 
 </div>
-
-
+</div>
 
 

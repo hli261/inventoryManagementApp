@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Bin } from '../_models';
+import { Bin, BinType } from '../_models';
 import { environment } from '../../environments/environment';
 
 
@@ -28,13 +28,26 @@ export class BinService {
     return this.http.put<Bin> (`${environment.apiUrl}/api/bin/${id}`, bin);
   }
 
-  public getQuery(page: number, perPage: number, type: string, location: string, minCode: string, maxCode: string ): Observable<Bin> {
-    // if(maxCode===null || minCode===null || maxCode===minCode){
-    //   return this.http.
+  public getQuery(page: number, perPage: number, type: string, location: string, minCode: string, maxCode: string ): Observable<Bin[]> {
+    // if( maxCode===null ||minCode===null || maxCode===minCode){
+    //   let code = maxCode ? minCode:maxCode;
+    //   return this.http.get<Bin[]>(`${environment.apiUrl}/api/bin/byBinCode?code=${code}`)
     // }
+
+    return this.http.get<Bin[]> (`${environment.apiUrl}/api/Bin/byBinParams?pageNumber=${page}&pageSize=${perPage}&
+    TypeName=${type}&LocationName=${location}&MinCode=${minCode}&MaxCode=${maxCode}`);
     
-    
-    return this.http.get<Bin> (`${environment.apiUrl}/api/bin/byParams?page=${page}&perPage=${perPage}`);
   }
+
+  public getBinType(): Observable<BinType[]>{
+    return this.http.get<BinType[]>(`${environment.apiUrl}/api/BinType`);
+  }
+
+  public getWarehouseLocation(): Observable<any>{
+    return this.http.get<any>(`${environment.apiUrl}/api/warehouseLocation`);
+  }
+
+
+
 
 }

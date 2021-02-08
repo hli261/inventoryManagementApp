@@ -1,6 +1,9 @@
+import {BinType} from './binType';
+import { WarehouseLocation } from './warehouseLocation';
+
 export class Bin{
    id: number;
-   binType: string;
+   binType: BinType;
    binCode: string;
-   warehouseLocation: string;
+   warehouseLocation: WarehouseLocation;
 }

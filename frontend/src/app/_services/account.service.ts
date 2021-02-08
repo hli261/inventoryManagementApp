@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../_models';
@@ -15,6 +15,7 @@ import { EmailValidator } from "@angular/forms";
 export class AccountService {
     public user: Observable<User>;
     private userSubject: BehaviorSubject<User>;
+    private exampleUser: Subject<User>;
     
 
     private title = new BehaviorSubject<String>('Home');

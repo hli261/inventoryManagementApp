@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable,} from 'rxjs';
 import { Bin } from '../_models';
 
 @Component({
@@ -8,16 +9,14 @@ import { Bin } from '../_models';
 })
 export class BinsComponent implements OnInit {
 
-  @Input() bins: Array<Bin>;
+  @Input() bins_: Observable<Bin[]>;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {     
   }
 
-  // goToPage(pageNum:any) {
-  //   // assume that "pageNum" holds a page number value
-  //   this.router.navigate(['/product-list'], { queryParams: { page: pageNum } });
-  // }
+  ngOnInit(): void {
+ }
+  
+   
 
 }

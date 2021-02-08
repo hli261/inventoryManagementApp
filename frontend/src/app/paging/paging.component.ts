@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class PagingComponent implements OnInit {
 
-  @Input() page: number =2;
+  @Input() page: number;
   @Output() newPage = new EventEmitter;  
 
   constructor() { }

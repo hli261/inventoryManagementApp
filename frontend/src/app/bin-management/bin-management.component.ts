@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Bin } from '../_models';
+import { Bin, BinType } from '../_models';
 import { AccountService, BinService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bin-management',
@@ -10,66 +11,64 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class BinManagementComponent implements OnInit {
 
-  bins: Array<Bin>;
+  // bins: Array<Bin>;
   private liveBinsSub :any;
-  type: any;
-  location: string ="Location";
-  multiple: boolean=true;
+  binType: Array<BinType>;
+  type: Array<string> =[];
+  warehouseLocation: any;
+  location: string ="";
 
+  minCode: string ="";
+  maxCode: string ="";
+
+  bins_: Observable<Bin[]>;
+  pageSize: number = 15;
+  page: number =1;
 
   constructor(private binService : BinService, 
               private headService: AccountService,
-              private router: Router,
-              private route: ActivatedRoute) { 
-                this.type = this.route.snapshot.queryParams.type;
-                // this.querySub = this.route.queryParams.subscribe(params => {
-                //   this.resetToken = params.token;
-                //   this.email = params.email;
-                //   console.log(this.resetToken);
-                //   this.authService.setTitle("Reset Password");
-                // });
-               }
-
-  getPage(num: any): void {
-    // this.liveBinsSub = this.binService.get().subscribe(data => this.bins = data);
-    //     if(this.liveBinSub.length > 0) {
-    //    this.blogPosts = this.livePostsSub;
-    //    this.page = num;
-    //   console.log(this.page);
-    //  }
-    }
-   
-
+              private router: Router) {  }
+ 
   ngOnInit(): void {
-     this.headService.setTitle("Bin Management");
-     this.liveBinsSub = this.binService.get().subscribe(data=>this.bins=data);
+     this.headService.setTitle("Bin Management");   
+     this.binService.getBinType().subscribe(data=>this.binType=data);  
+     this.binService.getWarehouseLocation().subscribe(data=>this.warehouseLocation=data);  
   }
 
-  ngOnDestroy() {
-    if(this.liveBinsSub){this.liveBinsSub.unsubscribe();}
+  ngOnDestroy() {    
  }
 
- selectType(event: any): void{
-console.log(event);
-console.log(this.type);
-  //  if(event.target.value!=="Type") {
-  //    this.type.push(event.target.value);         
-  //    
-  //  }
-  //  this.type = "";
+ selectType(event: any, bType: any): void{
+   if(event.target.checked=== true) { 
+     this.type.push(bType.typeName);
+   }
+   if(event.target.checked=== false) { 
+    this.type.splice(this.type.indexOf(bType.typeName), 1);     
+   } 
  }
 
  selectLocation(event: any): void{
   if(event.target.value!=="Location") {
     this.location = event.target.value;
   }
-  this.location = "";
  }
 
  filter(): void{
-  this.router.navigate(['/bins'], { queryParams: { type: this.type , warehouseLocation: this.location}, queryParamsHandling :"merge"} );
-     this.type=null;
-     this.location=null;
+   console.log(this.type.toString());
+   console.log(this.minCode);  
+   this.router.navigate(['/bins'], { queryParams: { type: this.type , location: this.location, minCode: this.minCode, maxCode: this.maxCode}});
+   this.getPage(1);
  }
+
+ // goToPage(pageNum:any) {
+  //   // assume that "pageNum" holds a page number value
+  //   this.router.navigate(['/product-list'], { queryParams: { page: pageNum } });
+  // }
+
+  getPage(num: any): void {
+    this.page=num;
+    this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode);
+    console.log(this.bins_);      
+    }
 
 }
