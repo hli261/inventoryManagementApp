@@ -1,0 +1,30 @@
+  <div *ngIf="bins_ | async as bins">
+  <div class ="container-fluid mt-3">
+  <table class="table table-hover border-top mt-3">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Bin Id</th>
+        <th scope="col">Type</th>
+        <th scope="col">Code</th>
+        <th scope="col">Location</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = 'let bin of bins'>
+        <td>{{bin.id}}</td>
+        <td>{{bin.binType.typeName}}</td>
+        <td>{{bin.binCode}}</td>
+        <td>{{bin.warehouseLocation.locationName}}</td>
+        <td>
+          <a [routerLink]="['/bin', bin.id]">Edit</a> | 
+          <a [routerLink]="['/bin-items', bin.id]">Detail</a>
+        </td>
+      </tr>    
+     </tbody>
+  </table>
+ 
+</div>
+</div>
+
+

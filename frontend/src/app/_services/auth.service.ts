@@ -6,12 +6,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 import { User } from '../_models/user';
 import { AccountService } from './account.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 const helper = new JwtHelperService();
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  public user: BehaviorSubject<User> =null;
   
   cachedRequests: Array<HttpRequest<any>> = [];
 
@@ -74,6 +75,12 @@ export class AuthService {
         return this.accountService.getById(this.readToken().id);
     return null;
   }
+
+  // getLoginUser(): void{
+  //   if(this.readToken())
+  //   this.accountService.getById(this.readToken().id).subscribe(user => this.user.next(user));
+    
+  // }
 
   public collectFailedRequest(request: any): void {
     this.cachedRequests.push(request);
