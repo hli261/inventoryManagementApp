@@ -9,7 +9,7 @@ namespace API.Interfaces
     {
         void AddBinItem(BinItem binItem);
         void DeleteBinItem(BinItem binItem);
-        void UpdateBinItem(BinItem binItem);
+        void UpdateBinItemAsync(BinItem binItem);
 
         Task<IEnumerable<BinItem>> GetBinItems();
         Task<PagedList<BinItem>> GetBinItemsAsync(PagingParams binItemParams); //paging

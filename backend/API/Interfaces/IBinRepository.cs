@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -11,7 +12,7 @@ namespace API.Interfaces
         void AddBin(Bin bin);
         void DeleteBin(Bin bin);
 
-        Task UpdateBinAsync(Bin bin);
+        void UpdateBinAsync(Bin bin);
 
         Task<IEnumerable<Bin>> GetBins();
         

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
 using API.Helpers;
@@ -32,17 +33,20 @@ namespace API.Data
         public async Task<BinItem> GetBinItemById(int id)
         {
             return await _context.BinItems
-                // .Include(b => b.Bin)
-                // .Include(i => i.Item)
+                .Include(b => b.Bin)
+                .Include(i => i.Item)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<BinItem>> GetBinItems()
         {
-            return await _context.BinItems
-                // .Include(b => b.Bin)
-                // .Include(i => i.Item)
+            var binItems = await _context.BinItems
+                .Include(b => b.Bin)
+                .Include(i => i.Item)
                 .ToListAsync();
+
+
+            return binItems;
         }
 //in testing
         public async Task<PagedList<BinItem>> GetBinItemsAsync(PagingParams binItemParams)
@@ -59,9 +63,10 @@ namespace API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void UpdateBinItem(BinItem binItem)
+        public void UpdateBinItemAsync(BinItem binItem)
         {
-            _context.Entry(binItem).State = EntityState.Modified;
+            _context.Entry(binItem).State = EntityState.Modified;  
         }
+
     }
 }

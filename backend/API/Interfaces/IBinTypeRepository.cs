@@ -15,6 +15,8 @@ namespace API.Interfaces
 
         Task<BinType> GetBinTypeById(int id);
 
+        Task<BinType> GetBinTypeByName(string name);
+
         Task<bool> SaveAllAsync();
 
     }
