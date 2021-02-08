@@ -8,6 +8,6 @@ namespace API.Entities
 
         public string LocationName { get; set; }
 
-        public ICollection<Bin> Bins { get; set; }
+        //public ICollection<Bin> Bins { get; set; }
     }
 }
