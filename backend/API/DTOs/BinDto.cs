@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using API.Entities;
 
 namespace API.DTOs
@@ -20,5 +21,8 @@ namespace API.DTOs
         public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; } = DateTime.UtcNow;
+
+        public ICollection<BinItem> BinItems { get; set; }
+
     }
 }
