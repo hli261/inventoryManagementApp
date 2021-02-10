@@ -11,8 +11,6 @@ import { Observable } from 'rxjs';
 })
 export class BinManagementComponent implements OnInit {
 
-  // bins: Array<Bin>;
-  private liveBinsSub :any;
   binType: Array<BinType>;
   type: Array<string> =[];
   warehouseLocation: any;

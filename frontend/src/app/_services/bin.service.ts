@@ -29,10 +29,14 @@ export class BinService {
   }
 
   public getQuery(page: number, perPage: number, type: string, location: string, minCode: string, maxCode: string ): Observable<Bin[]> {
-    // if( maxCode===null ||minCode===null || maxCode===minCode){
-    //   let code = maxCode ? minCode:maxCode;
-    //   return this.http.get<Bin[]>(`${environment.apiUrl}/api/bin/byBinCode?code=${code}`)
-    // }
+    if( !(maxCode && minCode) ){
+      let code = !(maxCode) ? minCode:maxCode;
+      console.log("code is", code);
+      return this.http.get<Bin[]>(`${environment.apiUrl}/api/bin/byBinCode?code=${code}`);
+    }
+    else if( maxCode===minCode) {
+      return this.http.get<Bin[]>(`${environment.apiUrl}/api/Bin/byBinCode?code=${minCode}`);
+    }
 
     return this.http.get<Bin[]> (`${environment.apiUrl}/api/Bin/byBinParams?pageNumber=${page}&pageSize=${perPage}&
     TypeName=${type}&LocationName=${location}&MinCode=${minCode}&MaxCode=${maxCode}`);
@@ -46,6 +50,11 @@ export class BinService {
   public getWarehouseLocation(): Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/warehouseLocation`);
   }
+
+  public getBinCode(): Observable<Bin>{
+    return this.http.get<Bin>(`${environment.apiUrl}/api/BinType`);
+  }
+
 
 
 
