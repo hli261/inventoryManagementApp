@@ -45,49 +45,65 @@ namespace API.Data
 
         public async Task<PagedList<BinDto>> GetBinsByParams(BinParams binParams)
         {
-            var query = _context.Bins.AsQueryable();
-            
-            char[] delimiter = {',', ';'};
-            string [] typeNames = binParams.TypeName.Split(delimiter);
+            try
+            {
+                var query = _context.Bins.AsQueryable();
 
-          
-            if (binParams.LocationName != null)
-            {
-                query = query.Where(b => b.WarehouseLocation.LocationName == binParams.LocationName);
-            }
-            if (binParams.TypeName != null){   
-                if(typeNames.Count() == 1){
-                    query = query.Where(b => b.BinType.TypeName == typeNames[0]);
-                }
-                if(typeNames.Count() == 2){
-                    query = query.Where(b => b.BinType.TypeName == typeNames[0] || b.BinType.TypeName == typeNames[1]);
-                }
-                if(typeNames.Count() == 3){
-                    query = query.Where(b => b.BinType.TypeName == typeNames[0] || b.BinType.TypeName == typeNames[1] || b.BinType.TypeName == typeNames[2]);
-                }
-                    
-            }
-            
-            
-            if (binParams.MinCode != null)
-            {
-                if(binParams.MaxCode == null)
+                if (binParams.MinCode != null)
                 {
-                    query = query.Where(b => b.BinCode == binParams.MinCode);
+                    if (binParams.MaxCode == null)
+                    {
+                        query = query.Where(b => b.BinCode == binParams.MinCode);
+                    }
+                    else
+                    {
+                        query = query.Where(b => String.Compare(b.BinCode, binParams.MinCode) == 1 && String.Compare(b.BinCode, binParams.MaxCode) == -1);
+                    }
                 }
-                else{
-                    query = query.Where(b => String.Compare(b.BinCode, binParams.MinCode) == 1 && String.Compare(b.BinCode, binParams.MaxCode) == -1);
-                }      
+
+
+                if (binParams.TypeName != null)
+                {
+                    char[] delimiter = { ',', ';' };
+                    string[] typeNames = binParams.TypeName.Split(delimiter);
+                    // string[] typeNames = binParams.TypeName.Split(',');
+
+                    if (typeNames.Count() == 1)
+                    {
+                        query = query.Where(b => b.BinType.TypeName == typeNames[0]);
+                    }
+                    if (typeNames.Count() == 2)
+                    {
+                        query = query.Where(b => b.BinType.TypeName == typeNames[0] || b.BinType.TypeName == typeNames[1]);
+                    }
+                    if (typeNames.Count() == 3)
+                    {
+                        query = query.Where(b => b.BinType.TypeName == typeNames[0] || b.BinType.TypeName == typeNames[1] || b.BinType.TypeName == typeNames[2]);
+                    }
+
+                }
+
+
+                if (binParams.LocationName != null)
+                {
+                    query = query.Where(b => b.WarehouseLocation.LocationName == binParams.LocationName);
+                }
+
+                // return await query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
+                var bins = await PagedList<BinDto>.CreateAsync(
+                    query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).OrderBy(m => m.BinCode).AsNoTracking(),
+                    binParams.pageNumber,
+                    binParams.PageSize
+                );
+
+
+                return bins;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
 
-            // return await query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
-            var bins = await PagedList<BinDto>.CreateAsync(
-                query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).OrderBy(m => m.BinCode).AsNoTracking(),
-                binParams.pageNumber,
-                binParams.PageSize
-            );
-
-            return bins;
         }
 
         public async Task<IEnumerable<Bin>> GetBinsByTypeId(int id)
@@ -105,7 +121,7 @@ namespace API.Data
         {
             var bins = await _context.Bins
                 .Include(b => b.BinType)
-                .Include(w => w.WarehouseLocation)      
+                .Include(w => w.WarehouseLocation)
                 .Where(x => x.BinType.TypeName == type)
                 .OrderBy(m => m.BinCode)
                 .ToListAsync();
@@ -136,13 +152,15 @@ namespace API.Data
                 .ToListAsync();
 
             return bins;
-            
+
         }
 
         public async Task<Bin> GetBinByCode(string code)
         {
 
             var bin = await _context.Bins
+                .Include(i => i.BinItems)
+                .ThenInclude(ii => ii.Item)
                 .Include(b => b.BinType)
                 .Include(w => w.WarehouseLocation)
                 .Where(b => b.BinCode == code).FirstOrDefaultAsync();
@@ -163,7 +181,7 @@ namespace API.Data
         public void UpdateBinAsync(Bin bin)
         {
             _context.Entry(bin).State = EntityState.Modified;
-            
+
         }
 
     }

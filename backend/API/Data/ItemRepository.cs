@@ -31,12 +31,12 @@ namespace API.Data
 
         public async Task<Item> GetItemById(int id)
         {
-            return await _context.Items.SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Items.Include(bi => bi.BinItems).SingleOrDefaultAsync(x => x.Id == id);
         }
 
          public async Task<Item> GetItemByNumber(string number)
         {
-            return await _context.Items.SingleOrDefaultAsync(x => x.ItemNumber == number);
+            return await _context.Items.Include(bi => bi.BinItems).SingleOrDefaultAsync(x => x.ItemNumber == number);
         }
 
         public async Task<IEnumerable<Item>> GetItems()

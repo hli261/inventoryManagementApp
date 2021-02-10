@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using API.Entities;
+
 namespace API.DTOs
 {
     public class ItemDto
@@ -18,6 +21,8 @@ namespace API.DTOs
         
         public int UomUnit { get; set; }
         public string FDA { get; set; }
+
+        public ICollection<BinItem> BinItems { get; set; }
 
     }
 }
