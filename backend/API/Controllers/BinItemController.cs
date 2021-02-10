@@ -74,16 +74,16 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
 
-        //////////////////////PAGING////////////////////////
-        // [HttpGet("byParams")]
-        // public async Task<ActionResult<IEnumerable<BinItemDto>>> GetUsersWithPaging([FromQuery] PagingParams binItemParams)
-        // {
-        //     var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);
+        ////////////////////PAGING////////////////////////
+        [HttpGet("byParams")]
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> GetBinItemsWithPaging([FromQuery] PagingParams binItemParams)
+        {
+            var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);
 
-        //     Response.AddPaginationHeader(binItems.CurrentPage, binItems.PageSize, binItems.TotalCount, binItems.TotalPages);
+            Response.AddPaginationHeader(binItems.CurrentPage, binItems.PageSize, binItems.TotalCount, binItems.TotalPages);
 
-        //     return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
-        // }
+            return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<BinItemDto>> GetBinItemById(int id)
@@ -116,7 +116,7 @@ namespace API.Controllers
 
             _mapper.Map(binItemDto, binItem);
 
-            _binItemRepository.UpdateBinItem(binItem);
+            _binItemRepository.UpdateBinItemAsync(binItem);
 
             if (await _binItemRepository.SaveAllAsync()) return NoContent();
 

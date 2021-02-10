@@ -15,6 +15,8 @@ namespace API.Interfaces
 
         Task<WarehouseLocation> GetWarehouseLocationById(int id);
 
+        Task<WarehouseLocation> GetWarehouseLocationByName(string name);
+
         Task<bool> SaveAllAsync();
     }
 }

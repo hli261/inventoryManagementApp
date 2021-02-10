@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Services;
 using API.Exensions;
+using API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -29,12 +31,14 @@ namespace API.Controllers
 
         private readonly IWarehouseLocationRepository _warehouseLocationRepository;
         private readonly CSVService _csvHandler;
+        private readonly DataContext _context;
 
         public BinController(IMapper mapper, IBinRepository binRepository, IUserRepository userRepository,
             IBinTypeRepository binTypeRepository, IWarehouseLocationRepository warehouseLocationRepository,
-             CSVService csvHandler)
+             CSVService csvHandler, DataContext context)
         {
             _csvHandler = csvHandler;
+            _context = context;
             _mapper = mapper;
             _binRepository = binRepository;
             _userRepository = userRepository;
@@ -57,8 +61,8 @@ namespace API.Controllers
         public async Task<ActionResult<BinDto>> CreateBin(CreateBinDto createBinDto)
         {
             var creator = User.GetUserName();
-            var binType = await _binTypeRepository.GetBinTypeById(createBinDto.BinTypeId);
-            var warehouserLocation = await _warehouseLocationRepository.GetWarehouseLocationById(createBinDto.WarehouseLocationId);
+            var binType = await _binTypeRepository.GetBinTypeByName(createBinDto.TypeName);
+            var warehouserLocation = await _warehouseLocationRepository.GetWarehouseLocationByName(createBinDto.LocationName);
 
             var bin = new Bin
             {
@@ -89,11 +93,11 @@ namespace API.Controllers
 
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBins()
         {
            
-            var bins = await _binRepository.GetBins();
+            var bins = await _binRepository.GetBinsByTypeId(2);
 
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
@@ -113,7 +117,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByTypeId(int id)
         {
            
-            var bins = await _binRepository.GetBinsByTypeId(2);
+            var bins = await _binRepository.GetBinsByTypeId(id);
 
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
@@ -184,5 +188,7 @@ namespace API.Controllers
 
             return BadRequest("Failed to delete bin.");
         }
+
     }
+    
 }

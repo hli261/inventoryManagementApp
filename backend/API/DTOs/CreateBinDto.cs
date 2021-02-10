@@ -14,17 +14,17 @@ namespace API.DTOs
         [BinCodeUnique]
         public string BinCode { get; set; }
 
-        // public string TypeName { get; set; }
+        public string TypeName { get; set; }
 
-        // public string LocationName { get; set; }
+        public string LocationName { get; set; }
 
        
         // public BinType BinType { get; set; }
 
-        public int BinTypeId { get; set; }
+        //public int BinTypeId { get; set; }
 
         // public WarehouseLocation WarehouseLocation { get; set; }
 
-        public int WarehouseLocationId { get; set; }
+        //public int WarehouseLocationId { get; set; }
     }
 }
