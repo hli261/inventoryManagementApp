@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Bin, BinType } from '../_models';
+import { Bin, BinType, BinItem } from '../_models';
 import { environment } from '../../environments/environment';
 
 
@@ -29,17 +29,11 @@ export class BinService {
   }
 
   public getQuery(page: number, perPage: number, type: string, location: string, minCode: string, maxCode: string ): Observable<Bin[]> {
-    if( !(maxCode && minCode) ){
-      let code = !(maxCode) ? minCode:maxCode;
-      console.log("code is", code);
-      return this.http.get<Bin[]>(`${environment.apiUrl}/api/bin/byBinCode?code=${code}`);
-    }
-    else if( maxCode===minCode) {
-      return this.http.get<Bin[]>(`${environment.apiUrl}/api/Bin/byBinCode?code=${minCode}`);
-    }
+ 
 
-    return this.http.get<Bin[]> (`${environment.apiUrl}/api/Bin/byBinParams?pageNumber=${page}&pageSize=${perPage}&
-    TypeName=${type}&LocationName=${location}&MinCode=${minCode}&MaxCode=${maxCode}`);
+    // console.log(`${environment.apiUrl}/api/Bin/byBinParams?pageNumber=${page}&pageSize=${perPage}
+    // &TypeName=${type}&LocationName=${location}&MinCode=${minCode}&MaxCode=${maxCode}`);
+    return this.http.get<Bin[]> (`${environment.apiUrl}/api/Bin/byBinParams?pageNumber=${page}&pageSize=${perPage}&TypeName=${type}&LocationName=${location}&MinCode=${minCode}&MaxCode=${maxCode}`);
     
   }
 
@@ -51,8 +45,16 @@ export class BinService {
     return this.http.get<any>(`${environment.apiUrl}/api/warehouseLocation`);
   }
 
-  public getBinCode(): Observable<Bin>{
-    return this.http.get<Bin>(`${environment.apiUrl}/api/BinType`);
+  public getbyBinCode(code: string): Observable<BinItem>{
+    return this.http.get<BinItem>(`${environment.apiUrl}/api/byBinCode/${code}`);
+  }
+
+  public getbyItemNumber(num: string): Observable<BinItem>{
+    return this.http.get<BinItem>(`${environment.apiUrl}/api/byBinCode/${num}`);
+  }
+
+  public getbyBinId(id: number): Observable<BinItem>{
+    return this.http.get<BinItem>(`${environment.apiUrl}/api/BinItem/${id}`);
   }
 
 

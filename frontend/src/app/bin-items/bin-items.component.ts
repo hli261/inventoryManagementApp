@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { BinService } from '../_services';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BinItem } from '../_models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bin-items',
@@ -7,9 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BinItemsComponent implements OnInit {
 
-  constructor() { }
+  binItem_: Observable<BinItem>;
+
+  constructor(private binService: BinService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.binItem_ = this.binService.getbyBinId(this.route.snapshot.params['id'])
   }
 
 }

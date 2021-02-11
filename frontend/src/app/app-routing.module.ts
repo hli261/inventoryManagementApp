@@ -12,6 +12,8 @@ import { ShipsComponent } from './ships/ships.component';
 import { ShipComponent } from './ship/ship.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BinManagementComponent } from './bin-management/bin-management.component';
+import { BinItemsComponent } from './bin-items/bin-items.component';
+import { BinItemManagementComponent } from './bin-item-management/bin-item-management.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 
@@ -48,6 +50,8 @@ const routes: Routes = [
   },
   children: [
     { path: 'bins', component: BinManagementComponent },
+    { path: 'bin-item', component: BinItemManagementComponent },
+    { path: 'bin-items/:id', component: BinItemsComponent },
   ]  
 },
 {
