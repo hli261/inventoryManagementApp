@@ -49,6 +49,8 @@ namespace API.Data
             {
                 var query = _context.Bins.AsQueryable();
 
+                var result = new List<Bin>();
+
                 if (binParams.MinCode != null)
                 {
                     if (binParams.MaxCode == null)
@@ -67,6 +69,8 @@ namespace API.Data
                     char[] delimiter = { ',', ';' };
                     string[] typeNames = binParams.TypeName.Split(delimiter);
                     // string[] typeNames = binParams.TypeName.Split(',');
+
+                    
 
                     if (typeNames.Count() == 1)
                     {
@@ -99,7 +103,7 @@ namespace API.Data
 
                 return bins;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

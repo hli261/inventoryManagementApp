@@ -80,9 +80,30 @@ namespace API.Controllers
         {
             var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);
 
+            // foreach(var binItem in binItems){
+            //     binItem.BinCode = binItem.Bin.BinCode;
+            //     binItem.ItemNumber = binItem.Item.ItemNumber;
+            // }
+
             Response.AddPaginationHeader(binItems.CurrentPage, binItems.PageSize, binItems.TotalCount, binItems.TotalPages);
 
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
+        }
+
+        [HttpGet("byBinCode")]
+         public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code)
+        {
+            var binItems = await _binItemRepository.GetBinItemsByBinCode(code);            
+
+            return Ok(binItems);
+        }
+
+        [HttpGet("byItemNumber")]
+         public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
+        {
+            var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);            
+
+            return Ok(binItems);
         }
 
         [HttpGet("{id}")]

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 using API.Helpers;
 
@@ -12,6 +13,9 @@ namespace API.Interfaces
         void UpdateBinItemAsync(BinItem binItem);
 
         Task<IEnumerable<BinItem>> GetBinItems();
+
+        Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCode(string code);
+        Task<IEnumerable<BinItemQueryDto>> GetBinItemsByItemNumber(string number);
         Task<PagedList<BinItem>> GetBinItemsAsync(PagingParams binItemParams); //paging
         Task<BinItem> GetBinItemById(int id);
 

@@ -1,13 +1,11 @@
-using API.Entities;
-
 namespace API.DTOs
 {
-    public class BinItemDto
+    public class BinItemQueryDto
     {
         public int Id { get; set; }
         
-        public Bin Bin { get; set; }
-        public Item Item { get; set; }
+        // public Bin Bin { get; set; }
+        // public Item Item { get; set; }
 
         public int Quantity { get; set; }
 
@@ -17,6 +15,6 @@ namespace API.DTOs
 
         public string BinCode { get; set; }
 
-        public string ItemNumber { get; set; }     
+        public string ItemNumber { get; set; }    
     }
 }

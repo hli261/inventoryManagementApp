@@ -14,8 +14,8 @@ namespace API.Entities
         public int Quantity { get; set; }
 
         
-        // public string BinCode { get; set; }
+        //public string BinCode { get; set; }
 
-        // public string ItemNumber { get; set; }     
+        //public string ItemNumber { get; set; }     
     }
 }

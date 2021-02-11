@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 using API.Helpers;
 using API.Interfaces;
@@ -44,11 +46,63 @@ namespace API.Data
                 .Include(b => b.Bin)
                 .Include(i => i.Item)
                 .ToListAsync();
-
-
             return binItems;
         }
-//in testing
+
+        public async Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCode(string code)
+        {
+            try
+            {
+                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode == code).Include(i => i.Item).ToListAsync()
+                            select new BinItemQueryDto
+                             {
+                                 Id = binItem.Id,
+                                 Quantity = binItem.Quantity,
+                                 BinId = binItem.BinId,
+                                 ItemId = binItem.ItemId,
+                                 BinCode = binItem.Bin.BinCode,
+                                 ItemNumber = binItem.Item.ItemNumber
+                            }; 
+                
+
+                return result.ToList();
+
+            }
+            catch (Exception ex)
+            {
+
+                string msg = ex.Message;
+                return null;
+            }
+        }
+        
+        public async Task<IEnumerable<BinItemQueryDto>> GetBinItemsByItemNumber(string number)
+        {
+            try
+            {
+                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber == number).ToListAsync()
+                            select new BinItemQueryDto
+                             {
+                                 Id = binItem.Id,
+                                 Quantity = binItem.Quantity,
+                                 BinId = binItem.BinId,
+                                 ItemId = binItem.ItemId,
+                                 BinCode = binItem.Bin.BinCode,
+                                 ItemNumber = binItem.Item.ItemNumber
+                            }; 
+                
+
+                return result.ToList();
+
+            }
+            catch (Exception ex)
+            {
+
+                string msg = ex.Message;
+                return null;
+            }
+        }
+
         public async Task<PagedList<BinItem>> GetBinItemsAsync(PagingParams binItemParams)
         {
             var query = _context.BinItems
@@ -65,7 +119,7 @@ namespace API.Data
 
         public void UpdateBinItemAsync(BinItem binItem)
         {
-            _context.Entry(binItem).State = EntityState.Modified;  
+            _context.Entry(binItem).State = EntityState.Modified;
         }
 
     }
