@@ -1,0 +1,38 @@
+<div>
+    <header title="pageTitle"></header>
+  </div>
+  <div class="container-fluid mt-4 mb-3 me-3 ms-2">
+    <div class="row mb-5">
+      <div class="col-sm-3">
+      </div>
+      <div class="col-6">
+        <form class="d-flex justify-content-center">
+            <div class="input-group w-70">
+                <select class="form-select fs-6 btn-secondary" (change)="selectKey($event)" aria-label="Default select example">	
+                    <option value="bin" selected>bin code</option>
+                    <option value="item">item number</option>
+                </select>
+                <input class="form-control w-50" type="search" placeholder="Search" aria-label="Search">                
+                <button class="btn btn-outline-primary btn-sm" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+      </div>
+    </div> 
+    <!-- <div *ngIf="bins_ | async as bins" class="row mb-3">
+        <app-bins [bins_]="bins_"></app-bins>     
+     <div  class="d-flex justify-content-end">
+        <app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging>
+      </div> 
+    </div>   
+    <div *ngIf="items_ | async as items" class="row mb-3">
+        <app-bin-items [bins_]="bins_"></app-bin-items>     
+     <div  class="d-flex justify-content-end">
+        <app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging>
+      </div> 
+    </div>  -->
+
+   </div>

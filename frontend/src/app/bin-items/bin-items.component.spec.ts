@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemManagementComponent } from './item-management.component';
+import { BinItemsComponent } from './bin-items.component';
 
-describe('ItemManagementComponent', () => {
-  let component: ItemManagementComponent;
-  let fixture: ComponentFixture<ItemManagementComponent>;
+describe('BinItemsComponent', () => {
+  let component: BinItemsComponent;
+  let fixture: ComponentFixture<BinItemsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ItemManagementComponent ]
+      declarations: [ BinItemsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemManagementComponent);
+    fixture = TestBed.createComponent(BinItemsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
