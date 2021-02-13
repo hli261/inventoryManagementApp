@@ -14,58 +14,60 @@ import { ProfileComponent } from './profile/profile.component';
 import { BinManagementComponent } from './bin-management/bin-management.component';
 import { BinItemsComponent } from './bin-items/bin-items.component';
 import { BinItemManagementComponent } from './bin-item-management/bin-item-management.component';
+import { BinCreateComponent } from './bin-create/bin-create.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },  
-  { path: 'forget-password', component: ForgetPasswordComponent},
-  { path: 'reset-password', component: ResetPasswordComponent},  
+  { path: 'register', component: RegisterComponent },
+  { path: 'forget-password', component: ForgetPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     canActivate: [AuthGuard],
-    children: [     
-      { path: 'profile/:id', component: ProfileComponent}
-        ],
-    }, 
-  {
-  path: '',
-  canActivate:[RoleGuard],
-  data:{
-   role:  "Admin"         
-  },
-  children: [
-    { path: 'users', component: UsersComponent },
-    { path: 'access/:email', component: AccessComponent },
-  ]  
+    children: [
+      { path: 'profile/:id', component: ProfileComponent }
+    ],
   },
   {
-  path: '',
-  canActivate:[RoleGuard],
-  data:{
-   role:  "BinManagement"         
+    path: '',
+    canActivate: [RoleGuard],
+    data: {
+      role: "Admin"
+    },
+    children: [
+      { path: 'users', component: UsersComponent },
+      { path: 'access/:email', component: AccessComponent },
+    ]
   },
-  children: [
-    { path: 'bins', component: BinManagementComponent },
-    { path: 'bin-item', component: BinItemManagementComponent },
-    { path: 'bin-items/:id', component: BinItemsComponent },
-  ]  
-},
-{
-  path: '',
-  canActivate:[RoleGuard],
-  data:{
-   role:  "Receiving"         
+  {
+    path: '',
+    canActivate: [RoleGuard],
+    data: {
+      role: "BinManagement"
+    },
+    children: [
+      { path: 'bins', component: BinManagementComponent },
+      { path: 'bin-item', component: BinItemManagementComponent },
+      { path: 'bin-items/:id', component: BinItemsComponent },
+      { path: 'bincreate', component: BinCreateComponent },
+    ]
   },
-  children: [
-    { path: 'ships', component: ShipsComponent },
-    { path: 'ship', component: ShipComponent },
-    { path: 'ship/:id', component: ShipComponent },
-  ]  
-},  
+  {
+    path: '',
+    canActivate: [RoleGuard],
+    data: {
+      role: "Receiving"
+    },
+    children: [
+      { path: 'ships', component: ShipsComponent },
+      { path: 'ship', component: ShipComponent },
+      { path: 'ship/:id', component: ShipComponent },
+    ]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
