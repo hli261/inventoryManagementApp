@@ -1,0 +1,42 @@
+<div class="container-fluid mt-3 mb-5">
+    <div class="card  mx-auto mb-5 " style="width: 25rem;">
+        <h3 class="card-header">Create a new bin</h3><br>
+        <form [formGroup]="binForm" (ngSubmit)='onSubmit()' class="container">
+            <div class="mb-3">
+                <label class="form-label">Bin Type</label>
+                <select class="form-select" aria-label="example" formControlName="typeName">
+                    <option value="primary" selected>primary</option>
+                    <option value="overstock">overstock</option> 
+                    <option value="operation">operation</option>                 
+                </select>           
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Bin Code</label>
+                <input #binCode type="text" class="form-control" id="binCode" formControlName="binCode" (input)="binCode.value = binCode.value.toUpperCase()" >
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Warehouse Location</label>
+                <select class="form-select" aria-label="example" formControlName="locationName">
+                    <option value="Toronto" selected>Toronto</option>
+                    <option value="USA">USA</option> 
+                    <option value="Vancouver">Vancouver</option>
+                    <option value="Quebec">Quebec</option> 
+                    <option value="Halifax">Halifax</option>  
+                    <option value="Calgary">Calgary</option>                                     
+                </select> 
+            </div>
+
+            <div class="text-danger pb-3" *ngIf="errorMessage">          
+                    <div>{{errorMessage}}</div>               
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-evenly mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="reset" class="btn btn-primary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+<h3 class="mb-3 bg-success text-white bg-gradient rounded-3" id="successMsg" *ngIf="successMessage">
+    <span class="d-md-flex justify-content-md-evenly" >{{successMessage}}</span>
+</h3>
