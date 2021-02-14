@@ -10,8 +10,8 @@ namespace API.DTOs
         [Required]
         public string BinCode { get; set; }
 
-        public int BinTypeId { get; set; }
+        public string TypeName { get; set; }
 
-        public int WarehouseLocationId { get; set; }
+        public string LocationName { get; set; }
     }
 }
