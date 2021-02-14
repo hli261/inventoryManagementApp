@@ -166,7 +166,8 @@ namespace API.Controllers
 
             _binRepository.UpdateBinAsync(bin);
 
-            if (await _binRepository.SaveAllAsync()) return NoContent();
+
+            if (await _binRepository.SaveAllAsync())  return Ok(_mapper.Map<BinDto>(bin));
 
             return BadRequest("Failed to update bin.");
         }
