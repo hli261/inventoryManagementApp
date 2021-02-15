@@ -162,6 +162,9 @@ namespace API.Controllers
         {
             var bin = await _binRepository.GetBinByCode(updateBinDto.BinCode);
 
+            bin.BinType.TypeName = updateBinDto.TypeName;
+            bin.WarehouseLocation.LocationName = updateBinDto.LocationName;
+
             _mapper.Map(updateBinDto, bin);
 
             _binRepository.UpdateBinAsync(bin);
