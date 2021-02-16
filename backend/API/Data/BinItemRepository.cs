@@ -53,7 +53,7 @@ namespace API.Data
         {
             try
             {
-                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode == code).Include(i => i.Item).ToListAsync()
+                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode.ToUpper() == code.ToUpper()).Include(i => i.Item).ToListAsync()
                             select new BinItemQueryDto
                              {
                                  Id = binItem.Id,
@@ -80,7 +80,7 @@ namespace API.Data
         {
             try
             {
-                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber == number).ToListAsync()
+                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber.ToUpper() == number.ToUpper()).ToListAsync()
                             select new BinItemQueryDto
                              {
                                  Id = binItem.Id,
