@@ -69,7 +69,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<BinTypeDto>(binType));
         }
         
-        [HttpGet("byTypeName")]
+        [HttpGet("{TypeName}")]
         public async Task<ActionResult<BinTypeDto>> GetBinTypeByName(string name)
         {
             var binType = await _binTypeRepository.GetBinTypeByName(name);
