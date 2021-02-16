@@ -93,18 +93,18 @@ namespace API.Controllers
             return BadRequest("Failed to delete bin type.");
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateBinType(BinTypeDto binTypeDto)
-        {
-            var binType = await _binTypeRepository.GetBinTypeById(binTypeDto.Id);
+        // [HttpPut]
+        // public async Task<ActionResult> UpdateBinType(BinTypeDto binTypeDto)
+        // {
+        //     var binType = await _binTypeRepository.GetBinTypeById(binTypeDto.Id);
 
-            _mapper.Map(binTypeDto, binType);
+        //     _mapper.Map(binTypeDto, binType);
 
-            _binTypeRepository.UpdateBinType(binType);
+        //     _binTypeRepository.UpdateBinType(binType);
 
-            if (await _binTypeRepository.SaveAllAsync()) return NoContent();
+        //     if (await _binTypeRepository.SaveAllAsync()) return NoContent();
 
-            return BadRequest("Failed to update bin type.");
-        }
+        //     return BadRequest("Failed to update bin type.");
+        // }
     }
 }
