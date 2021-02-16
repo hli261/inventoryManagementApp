@@ -69,6 +69,14 @@ namespace API.Controllers
             return Ok(_mapper.Map<WarehouseLocationDto>(wl));
         }
 
+        [HttpGet("byName")]
+        public async Task<ActionResult<WarehouseLocationDto>> GetWarehouseLocationByName(string name)
+        {
+            var wl = await _warehouseLocationRepository.GetWarehouseLocationByName(name);
+
+            return Ok(_mapper.Map<WarehouseLocationDto>(wl));
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteWarehouseLocation(int id)
         {

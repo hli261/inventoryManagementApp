@@ -157,24 +157,37 @@ namespace API.Controllers
             return Ok(_mapper.Map<BinDto>(bin));
         }
 
-        [HttpPut]
+        [HttpPut("byBinCode")]
         public async Task<ActionResult> UpdateBin(UpdateBinDto updateBinDto)
         {
             var bin = await _binRepository.GetBinByCode(updateBinDto.BinCode);
 
-            bin.BinType.TypeName = updateBinDto.TypeName;
-            bin.WarehouseLocation.LocationName = updateBinDto.LocationName;
+            if(bin == null){
+                return BadRequest("Bin Code cannot found");
+            }
+
+            // bin.BinType.TypeName = updateBinDto.BinTypeName;
+            // bin.WarehouseLocation.LocationName = updateBinDto.WarehouseLocationName;
+
+            bin.BinType = await _binTypeRepository.GetBinTypeByName(updateBinDto.BinTypeName);
+            bin.BinType.TypeName = updateBinDto.BinTypeName;
+            bin.WarehouseLocation = await _warehouseLocationRepository.GetWarehouseLocationByName(updateBinDto.WarehouseLocationName);
+            bin.WarehouseLocation.LocationName = updateBinDto.WarehouseLocationName;
 
             _mapper.Map(updateBinDto, bin);
 
             _binRepository.UpdateBinAsync(bin);
 
-
-            if (await _binRepository.SaveAllAsync())  return Ok(_mapper.Map<BinDto>(bin));
+            
+            if (await _binRepository.SaveAllAsync()){
+                return Ok(_mapper.Map<BinDto>(bin));
+            }
+            
 
             return BadRequest("Failed to update bin.");
         }
 
+  
 
         [HttpDelete("{binCode}")]
         public async Task<ActionResult> DeleteBin(string code)
