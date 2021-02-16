@@ -51,7 +51,7 @@ const routes: Routes = [
   children: [
     { path: 'bins', component: BinManagementComponent },
     { path: 'bin-item', component: BinItemManagementComponent },
-    { path: 'bin-items/:id', component: BinItemsComponent },
+    { path: 'bin-items', component: BinItemsComponent },
   ]  
 },
 {

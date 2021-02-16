@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Bin, BinType } from '../_models';
-import { AccountService, BinService } from '../_services';
+import { AccountService, BinService, UrlService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -12,61 +12,78 @@ import { Observable } from 'rxjs';
 export class BinManagementComponent implements OnInit {
 
   binType: Array<BinType>;
-  type: Array<string> =[];
+  type: Array<string> = [];
   warehouseLocation: any;
-  location: string ="";
-
-  minCode: string ="";
-  maxCode: string ="";
+  location: string = "";
+  minCode: string = "";
+  maxCode: string = "";
 
   bins_: Observable<Bin[]>;
-  pageSize: number = 15;
-  page: number =1;
+  pageSize: number = 10;
+  page: number = 1;
+  previousUrl: string = '';
 
-  constructor(private binService : BinService, 
-              private headService: AccountService,
-              private router: Router) {  }
- 
+  constructor(private binService: BinService,
+    private headService: AccountService,
+    private router: Router,
+    private route: ActivatedRoute) { }
+
   ngOnInit(): void {
-     this.headService.setTitle("Bin Management");   
-     this.binService.getBinType().subscribe(data=>this.binType=data);  
-     this.binService.getWarehouseLocation().subscribe(data=>this.warehouseLocation=data);  
+    this.headService.setTitle("Bin Management");
+    this.binService.getBinType().subscribe(data => this.binType = data);
+    this.binService.getWarehouseLocation().subscribe(data => this.warehouseLocation = data);
+    console.log(window.location.pathname);
+    if(window.location.search){
+      console.log(window.location.search);
+      this.getPageFromQuery();
+    }
   }
 
-  ngOnDestroy() {    
- }
-
- selectType(event: any, bType: any): void{
-   if(event.target.checked=== true) { 
-     this.type.push(bType.typeName);
-   }
-   if(event.target.checked=== false) { 
-    this.type.splice(this.type.indexOf(bType.typeName), 1);     
-   } 
- }
-
- selectLocation(event: any): void{
-  if(event.target.value!=="Location") {
-    this.location = event.target.value;
+  ngOnDestroy() {
   }
- }
 
- filter(): void{
-   console.log(this.type.toString());
-   console.log(this.minCode);  
-   this.router.navigate(['/bins'], { queryParams: { type: this.type , location: this.location, minCode: this.minCode, maxCode: this.maxCode}});
-   this.getPage(1);
- }
+  selectType(event: any, bType: any): void {
+    if (event.target.checked === true) {
+      this.type.push(bType.typeName);
+    }
+    if (event.target.checked === false) {
+      this.type.splice(this.type.indexOf(bType.typeName), 1);
+    }
+  }
 
- // goToPage(pageNum:any) {
-  //   // assume that "pageNum" holds a page number value
-  //   this.router.navigate(['/product-list'], { queryParams: { page: pageNum } });
-  // }
+  selectLocation(event: any): void {
+    if (event.target.value !== "Location") {
+      this.location = event.target.value;
+    }
+  }
+
+  filter(): void {
+    if (!(this.minCode) && this.maxCode || this.minCode == this.maxCode) {
+      this.minCode = this.maxCode;
+      this.maxCode = "";
+    }
+    this.getPage(this.page);
+  }
 
   getPage(num: any): void {
-    this.page=num;
+    this.page = num;
+    this.router.navigate(['/bins'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize } });
     this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode);
-    console.log(this.bins_);      
-    }
+  }
+
+  getPageFromQuery() {
+      this.route.queryParams.subscribe((params: any) => {
+        this.type = this.route.snapshot.queryParamMap.getAll('type');
+        this.location = this.route.snapshot.queryParamMap.get('location');
+        this.minCode = this.route.snapshot.queryParamMap.get('minCode');
+        this.maxCode = this.route.snapshot.queryParamMap.get('maxCode');
+        this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber'));
+        this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize'));
+        //  this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber'))? Number(this.route.snapshot.queryParamMap.get('pageNumber')) : 1;
+        //  this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize'))? Number(this.route.snapshot.queryParamMap.get('pageSize')) : 15;
+        this.getPage(this.page);
+      })
+  }
+
 
 }
