@@ -34,7 +34,7 @@ namespace API.Data
 
          public async Task<BinType> GetBinTypeByName(string name)
         {
-            return await _context.BinTypes.SingleOrDefaultAsync(x => x.TypeName == name);
+            return await _context.BinTypes.SingleOrDefaultAsync(x => x.TypeName.ToLower() == name.ToLower());
         }
 
 
