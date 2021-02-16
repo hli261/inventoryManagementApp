@@ -66,7 +66,7 @@ namespace API.Controllers
             return BadRequest("Failed to add item.");
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<BinItemDto>>> GetBinItems()
         {
             var binItems = await _binItemRepository.GetBinItems();
@@ -75,7 +75,7 @@ namespace API.Controllers
         }
 
         ////////////////////PAGING////////////////////////
-        [HttpGet("byParams")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<BinItemDto>>> GetBinItemsWithPaging([FromQuery] PagingParams binItemParams)
         {
             var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);
@@ -90,7 +90,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
 
-        [HttpGet("byBinCode")]
+        [HttpGet("{BinCode}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code)
         {
             var binItems = await _binItemRepository.GetBinItemsByBinCode(code);            
@@ -98,7 +98,7 @@ namespace API.Controllers
             return Ok(binItems);
         }
 
-        [HttpGet("byItemNumber")]
+        [HttpGet("{ItemNumber}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
         {
             var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);            
@@ -106,7 +106,7 @@ namespace API.Controllers
             return Ok(binItems);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{itemId}")]
         public async Task<ActionResult<BinItemDto>> GetBinItemById(int id)
         {
             var binItem = await _binItemRepository.GetBinItemById(id);

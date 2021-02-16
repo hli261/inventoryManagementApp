@@ -88,7 +88,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<ItemDto>(item));
         }
 
-        [HttpGet("byItemNumber")]
+        [HttpGet("{ItemNumber}")]
         public async Task<ActionResult<ItemDto>> GetItemByNumber(string number)
         {
             var item = await _itemRepository.GetItemByNumber(number);
