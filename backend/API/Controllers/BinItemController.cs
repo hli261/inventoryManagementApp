@@ -90,7 +90,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
 
-        [HttpGet("{BinCode}")]
+        [HttpGet("byBinCode/{code}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code)
         {
             var binItems = await _binItemRepository.GetBinItemsByBinCode(code);            
@@ -98,7 +98,7 @@ namespace API.Controllers
             return Ok(binItems);
         }
 
-        [HttpGet("{ItemNumber}")]
+        [HttpGet("byNumber/{number}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
         {
             var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);            
@@ -106,7 +106,7 @@ namespace API.Controllers
             return Ok(binItems);
         }
 
-        [HttpGet("{itemId}")]
+        [HttpGet("byId/{Id}")]
         public async Task<ActionResult<BinItemDto>> GetBinItemById(int id)
         {
             var binItem = await _binItemRepository.GetBinItemById(id);
