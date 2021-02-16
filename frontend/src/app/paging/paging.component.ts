@@ -9,6 +9,7 @@ export class PagingComponent implements OnInit {
 
   @Input() page: number;
   @Output() newPage = new EventEmitter;  
+  // @Input() nextPage: boolean =true;
 
   constructor() { }
 
@@ -23,7 +24,9 @@ export class PagingComponent implements OnInit {
 }
 
   btnRightClicked(){
-    this.page += 1;
+    // if(this.nextPage){
+      this.page += 1;
+    // }    
     this.newPage.emit(this.page);
 }
 }

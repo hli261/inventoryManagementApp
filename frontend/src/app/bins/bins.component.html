@@ -17,8 +17,8 @@
         <td>{{bin.binCode}}</td>
         <td>{{bin.warehouseLocation.locationName}}</td>
         <td>
-          <a [routerLink]="['/bin', bin.id]">Edit</a> | 
-          <a [routerLink]="['/bin-items', bin.id]">Detail</a>
+          <a [routerLink]="['/bin', bin.binCode]">Edit</a> | 
+          <a [routerLink]="['/bin-items']" [queryParams]= "{code: bin.binCode}">Detail</a>
         </td>
       </tr>    
      </tbody>

@@ -1,0 +1,19 @@
+<div class="container-fluid mt-3">
+    <table  *ngIf="binItem_ | async as binItem" class="table table-hover border-top mt-3">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">Bin Id</th>
+                <th scope="col">Bin Code</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let bin of binItem'>
+                <td>{{bin.binId}}</td>
+                <td>{{bin.binCode}}</td>
+                <td>{{bin.quantity}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

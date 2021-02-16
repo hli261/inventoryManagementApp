@@ -61,11 +61,10 @@
        </div>
     </div>
   </div>
- <div class="row mb-3">
-      <app-bins [bins_]="bins_"></app-bins>
-    </div>
-    <div  *ngIf="bins_ | async as bins" class="d-flex justify-content-end">
+ <div class="row mb-5">
+      <app-bins [bins_]="bins_"></app-bins>    
+    <div  *ngIf="(bins_ | async)?.length > 9" class="d-flex justify-content-end">
       <app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging>
     </div> 
-      
+  </div>  
  </div>

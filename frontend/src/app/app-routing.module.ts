@@ -55,7 +55,7 @@ const routes: Routes = [
       { path: 'bin-items/:id', component: BinItemsComponent },
       { path: 'bincreate', component: BinCreateComponent },
     ]
-  },
+  }, 
   {
     path: '',
     canActivate: [RoleGuard],
