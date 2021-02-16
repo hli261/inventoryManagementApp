@@ -16,6 +16,7 @@ using API.Services;
 using API.Exensions;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace API.Controllers
 {
@@ -161,33 +162,82 @@ namespace API.Controllers
         public async Task<ActionResult> UpdateBin(UpdateBinDto updateBinDto)
         {
             var bin = await _binRepository.GetBinByCode(updateBinDto.BinCode);
+            var binType = await _binTypeRepository.GetBinTypeByName(updateBinDto.BinTypeName);
+            var warehouseLocation = await _warehouseLocationRepository.GetWarehouseLocationByName(updateBinDto.WarehouseLocationName);
 
-            if(bin == null){
+            if (bin == null)
+            {
                 return BadRequest("Bin Code cannot found");
             }
 
-            // bin.BinType.TypeName = updateBinDto.BinTypeName;
-            // bin.WarehouseLocation.LocationName = updateBinDto.WarehouseLocationName;
+            bin.BinType = binType;
+            bin.WarehouseLocation = warehouseLocation;
+            bin.BinTypeId = binType.Id;
+            bin.WarehouseLocationId = warehouseLocation.Id;
+            
+            // switch (bin.BinType.TypeName.ToLower())
+            // {
+            //     case "primary":
+            //         bin.BinTypeId = 1;
+            //         bin.BinType.Id = 1;
+            //         break;
+            //     case "overstock":
+            //         bin.BinTypeId = 2;
+            //         bin.BinType.Id = 2;
+            //         break;
+            //     case "operation":
+            //         bin.BinTypeId = 3;
+            //         bin.BinType.Id = 3;
+            //         break;
+            //     default:
+            //         Console.WriteLine("cannot find the type");
+            //         break;
+            // }
 
-            bin.BinType = await _binTypeRepository.GetBinTypeByName(updateBinDto.BinTypeName);
-            bin.BinType.TypeName = updateBinDto.BinTypeName;
-            bin.WarehouseLocation = await _warehouseLocationRepository.GetWarehouseLocationByName(updateBinDto.WarehouseLocationName);
-            bin.WarehouseLocation.LocationName = updateBinDto.WarehouseLocationName;
+            // switch (bin.WarehouseLocation.LocationName.ToLower())
+            // {
+            //     case "toronto":
+            //         bin.WarehouseLocationId = 1;
+            //         bin.WarehouseLocation.Id = 1;
+            //         break;
+            //     case "usa":
+            //         bin.WarehouseLocationId = 2;
+            //         bin.WarehouseLocation.Id = 2;
+            //         break;
+            //     case "vancouver":
+            //         bin.WarehouseLocationId = 3;
+            //         bin.WarehouseLocation.Id = 3;
+            //         break;
+            //     case "qubec":
+            //         bin.WarehouseLocationId = 4;
+            //         bin.WarehouseLocation.Id = 4;
+            //         break;
+            //     case "halifax":
+            //         bin.WarehouseLocationId = 5;
+            //         bin.WarehouseLocation.Id = 5;
+            //         break;
+            //     case "calgary":
+            //         bin.WarehouseLocationId = 6;
+            //         bin.WarehouseLocation.Id = 6;
+            //         break;
+            //     default:
+            //         Console.WriteLine("cannot find the location");
+            //         break;
+            // }
 
             _mapper.Map(updateBinDto, bin);
 
             _binRepository.UpdateBinAsync(bin);
 
-            
-            if (await _binRepository.SaveAllAsync()){
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
                 return Ok(_mapper.Map<BinDto>(bin));
             }
-            
-
             return BadRequest("Failed to update bin.");
         }
 
-  
+
 
         [HttpDelete("{binCode}")]
         public async Task<ActionResult> DeleteBin(string code)
