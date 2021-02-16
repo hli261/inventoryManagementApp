@@ -55,11 +55,11 @@ namespace API.Data
                 {
                     if (binParams.MaxCode == null)
                     {
-                        query = query.Where(b => b.BinCode == binParams.MinCode);
+                        query = query.Where(b => b.BinCode.ToUpper() == binParams.MinCode.ToUpper());
                     }
                     else
                     {
-                        query = query.Where(b => String.Compare(b.BinCode, binParams.MinCode) == 1 && String.Compare(b.BinCode, binParams.MaxCode) == -1);
+                        query = query.Where(b => String.Compare(b.BinCode.ToUpper(), binParams.MinCode.ToUpper()) == 1 && String.Compare(b.BinCode.ToUpper(), binParams.MaxCode.ToUpper()) == -1);
                     }
                 }
 
@@ -74,15 +74,15 @@ namespace API.Data
 
                     if (typeNames.Count() == 1)
                     {
-                        query = query.Where(b => b.BinType.TypeName == typeNames[0]);
+                        query = query.Where(b => b.BinType.TypeName.ToLower() == typeNames[0]);
                     }
                     if (typeNames.Count() == 2)
                     {
-                        query = query.Where(b => b.BinType.TypeName == typeNames[0] || b.BinType.TypeName == typeNames[1]);
+                        query = query.Where(b => b.BinType.TypeName.ToLower() == typeNames[0] || b.BinType.TypeName.ToLower() == typeNames[1]);
                     }
                     if (typeNames.Count() == 3)
                     {
-                        query = query.Where(b => b.BinType.TypeName == typeNames[0] || b.BinType.TypeName == typeNames[1] || b.BinType.TypeName == typeNames[2]);
+                        query = query.Where(b => b.BinType.TypeName.ToLower() == typeNames[0] || b.BinType.TypeName.ToLower() == typeNames[1] || b.BinType.TypeName.ToLower() == typeNames[2]);
                     }
 
                 }
@@ -90,7 +90,7 @@ namespace API.Data
 
                 if (binParams.LocationName != null)
                 {
-                    query = query.Where(b => b.WarehouseLocation.LocationName == binParams.LocationName);
+                    query = query.Where(b => b.WarehouseLocation.LocationName.ToLower() == binParams.LocationName.ToLower());
                 }
 
                 // return await query.ProjectTo<BinDto>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
