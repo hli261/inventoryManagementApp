@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Bin, BinType, BinItem } from '../_models';
+import { Bin, BinType, BinItem, CreateBin } from '../_models';
 import { environment } from '../../environments/environment';
 
 
@@ -16,8 +16,8 @@ export class BinService {
     return this.http.get<Bin[]> (`${environment.apiUrl}/api/bin`);
   }
 
-  public add(bin: Bin){
-     return this.http.post(`${environment.apiUrl}/api/bin`, bin).subscribe();
+  public add(bin: CreateBin){
+     return this.http.post(`${environment.apiUrl}/api/Bin/createBin`, bin);
    }
 
    public getById(id: number): Observable<Bin> {

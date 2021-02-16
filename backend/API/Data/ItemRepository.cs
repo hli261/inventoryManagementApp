@@ -36,7 +36,7 @@ namespace API.Data
 
          public async Task<Item> GetItemByNumber(string number)
         {
-            return await _context.Items.Include(bi => bi.BinItems).SingleOrDefaultAsync(x => x.ItemNumber == number);
+            return await _context.Items.Include(bi => bi.BinItems).SingleOrDefaultAsync(x => x.ItemNumber.ToUpper() == number.ToUpper());
         }
 
         public async Task<IEnumerable<Item>> GetItems()

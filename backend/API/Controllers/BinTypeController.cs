@@ -68,6 +68,14 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<BinTypeDto>(binType));
         }
+        
+        [HttpGet("byTypeName")]
+        public async Task<ActionResult<BinTypeDto>> GetBinTypeByName(string name)
+        {
+            var binType = await _binTypeRepository.GetBinTypeByName(name);
+
+            return Ok(_mapper.Map<BinTypeDto>(binType));
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteBinType(int id)
