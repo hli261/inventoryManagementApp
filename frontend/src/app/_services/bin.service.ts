@@ -61,8 +61,12 @@ export class BinService {
     return this.http.get<BinItem>(`${environment.apiUrl}/api/BinItem/${id}`);
   }
 
+  public getItembyBin(code: string): Observable<BinItem[]>{
+    return this.http.get<BinItem[]>(`${environment.apiUrl}/api/binitem/byBinCode?code=${code}`);
+  }
 
-
-
+  public getBinbyItem(num: string): Observable<BinItem[]>{
+    return this.http.get<BinItem[]>(`${environment.apiUrl}/api/binitem/byItemNumber?number=${num}`);
+  }
 
 }
