@@ -1,7 +1,9 @@
 <div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem" >
     <div class="container" *ngIf="displayTitle">
         <p class="fw-bolder mb-3">Bin Code: &nbsp;&nbsp;<span>{{code}}</span></p>
-        <button (click)="back()" class="btn btn-primary">Back</button>         
+        <div *ngIf="previousUrl_ | async as url">
+        <button (click)="back(url)" class="btn btn-primary">Back</button>    
+       </div>     
     </div>
     <table  class="table table-hover border-top mt-3">
         <thead  class="table-light">

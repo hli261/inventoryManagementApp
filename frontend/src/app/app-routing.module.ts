@@ -51,7 +51,9 @@ const routes: Routes = [
     },
     children: [
       { path: 'bins', component: BinManagementComponent },
+      { path: 'bins-list', component: BinManagementComponent },
       { path: 'bin-item', component: BinItemManagementComponent },
+      { path: 'bin-items', component: BinItemsComponent },
       { path: 'bin-items/:id', component: BinItemsComponent },
       { path: 'bincreate', component: BinCreateComponent },
     ]

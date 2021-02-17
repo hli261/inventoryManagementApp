@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Bin, BinType } from '../_models';
 import { AccountService, BinService, UrlService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bin-management',
@@ -18,6 +18,8 @@ export class BinManagementComponent implements OnInit {
   minCode: string = "";
   maxCode: string = "";
 
+  bins: Array<Bin>;
+  querySub: Subscription;
   bins_: Observable<Bin[]>;
   pageSize: number = 10;
   page: number = 1;
@@ -26,20 +28,21 @@ export class BinManagementComponent implements OnInit {
   constructor(private binService: BinService,
     private headService: AccountService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private urlService: UrlService) { }
 
   ngOnInit(): void {
     this.headService.setTitle("Bin Management");
-    this.binService.getBinType().subscribe(data => this.binType = data);
-    this.binService.getWarehouseLocation().subscribe(data => this.warehouseLocation = data);
-    console.log(window.location.pathname);
-    if(window.location.search){
+    this.querySub=this.binService.getBinType().subscribe(data => this.binType = data);
+    this.querySub=this.binService.getWarehouseLocation().subscribe(data => this.warehouseLocation = data);
+    if(window.location.pathname === "/bins-list"){
       console.log(window.location.search);
       this.getPageFromQuery();
     }
   }
 
   ngOnDestroy() {
+    this.querySub.unsubscribe();
   }
 
   selectType(event: any, bType: any): void {
@@ -57,18 +60,31 @@ export class BinManagementComponent implements OnInit {
     }
   }
 
+  setMinCode(event: any): void{
+    this.minCode = event.target.value;    
+  }
+
+  setMaxCode(event: any): void{
+    this.maxCode = event.target.value;
+  }
+
   filter(): void {
+    this.page = 1;
     if (!(this.minCode) && this.maxCode || this.minCode == this.maxCode) {
       this.minCode = this.maxCode;
       this.maxCode = "";
     }
+    console.log(this.maxCode);
     this.getPage(this.page);
   }
 
   getPage(num: any): void {
     this.page = num;
-    this.router.navigate(['/bins'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize } });
+    // this.router.navigate(['/bins'], { queryParams: { pageNumber: this.page, pageSize: this.pageSize }, queryParamsHandling :"merge" });
+    this.router.navigate(['/bins-list'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize }});
+    this.urlService.setPreviousUrl(`bins-list?pageNumber=${this.page}&pageSize=${this.pageSize}&type=${this.type}&location=${this.location}&minCode=${this.minCode}&maxCode=${this.maxCode}`);
     this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode);
+   
   }
 
   getPageFromQuery() {
@@ -77,10 +93,8 @@ export class BinManagementComponent implements OnInit {
         this.location = this.route.snapshot.queryParamMap.get('location');
         this.minCode = this.route.snapshot.queryParamMap.get('minCode');
         this.maxCode = this.route.snapshot.queryParamMap.get('maxCode');
-        this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber'));
-        this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize'));
-        //  this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber'))? Number(this.route.snapshot.queryParamMap.get('pageNumber')) : 1;
-        //  this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize'))? Number(this.route.snapshot.queryParamMap.get('pageSize')) : 15;
+        this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber')) || 1;
+        this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize')) || 10;
         this.getPage(this.page);
       })
   }

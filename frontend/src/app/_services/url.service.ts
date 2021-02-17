@@ -16,38 +16,30 @@ export class UrlService {
         private router: Router,
         private http: HttpClient,
         private location: Location
-    ) {
-        // this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-        // this.user = this.userSubject.asObservable();
-        this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                console.log("url",event.url);
-              this.history.push(event.urlAfterRedirects);
-              console.log("url after redirects",event.urlAfterRedirects);
-            }
-          })
+    ) {        
+        // this.router.events.subscribe((event) => {
+        //     if (event instanceof NavigationEnd) {
+        //         console.log("url",event.url);
+        //       this.history.push(event.urlAfterRedirects);
+        //       console.log("url after redirects",event.urlAfterRedirects);
+        //     }
+        //   })
     }
 
+    setPreviousUrl(previousUrl: string) {
+      this.previousUrl.next(previousUrl);
+  }
 
-    back(): void {
-        this.history.pop()
-        if (this.history.length > 0) {
-          this.location.back()
-        } else {
-          this.router.navigateByUrl('/')
-        }
-      }
+    // back(): void {
+    //     this.history.pop()
+    //     if (this.history.length > 0) {
+    //       this.location.back()
+    //     } else {
+    //       this.router.navigateByUrl('/')
+    //     }
+    //   }
 
-    getUrl(){
-        return this.history;
-    }
-
-    // setPreviousUrl(previousUrl: string) {
-    //     this.previousUrl.next(previousUrl);
-    // }
-
-    // getPreviousUrl(): Observable<String> {
-    //     return this.previousUrl$;
-    // }
+  
+   
     
 }

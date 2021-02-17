@@ -28,18 +28,22 @@
   </div>
   <div class="row mb-5">
   <div *ngIf="item_ " class="row mb-3">
-        <app-bin-items [binItem_]="item_"></app-bin-items>    
-        <!-- Length: {{(item_ | async)?.length}} -->
-        <div *ngIf="(item_ | async)?.length > 14" class="d-flex justify-content-end">
-        <app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging> 
-      </div> 
+        <app-bin-items [binItem_]="item_"></app-bin-items>
+        <div *ngIf="(item_ | async)?.length > 14; else elseBlock" class="d-flex justify-content-end">
+          <app-paging  [page] = "page" [nextPage]="true"  (newPage) = "getPage($event)"></app-paging>
+        </div> 
+        <ng-template #elseBlock>
+          <app-paging  [page] = "page" [nextPage]="false"  (newPage) = "getPage($event)"></app-paging>
+        </ng-template>
       </div>   
       <div *ngIf="bin_" class="row mb-3">
-        <app-item-bins [binItem_]="bin_"></app-item-bins>
-        <!-- Length: {{(bin_ | async)?.length}} -->
-        <div  *ngIf="(bin_ | async)?.length > 14" class="d-flex justify-content-end">
-          <app-paging  [page] = "page"  (newPage) = "getPage($event)"></app-paging> 
-        </div>
+        <app-item-bins [binItem_]="bin_"></app-item-bins>        
+        <div *ngIf="(bin_ | async)?.length > 14; else elseBlock" class="d-flex justify-content-end">
+          <app-paging  [page] = "page" [nextPage]="true"  (newPage) = "getPage($event)"></app-paging>
+        </div> 
+        <ng-template #elseBlock>
+          <app-paging  [page] = "page" [nextPage]="false"  (newPage) = "getPage($event)"></app-paging>
+        </ng-template>
   </div> 
     
   </div>

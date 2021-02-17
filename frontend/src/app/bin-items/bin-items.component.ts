@@ -16,6 +16,7 @@ export class BinItemsComponent implements OnInit {
   code: string;
   page: number=1;
   displayTitle: boolean =false;
+  previousUrl_: Observable<string>;
 
   constructor(private binService: BinService, private route: ActivatedRoute, private router: Router, 
     private urlService: UrlService) { 
@@ -27,7 +28,7 @@ export class BinItemsComponent implements OnInit {
       this.getPage(this.page);
       this.displayTitle = true;
     }
-    
+    this.previousUrl_= this.urlService.previousUrl$;
   }
 
   getPage(num: any): void {
@@ -35,13 +36,11 @@ export class BinItemsComponent implements OnInit {
     console.log(this.code);
     this.binItem_ = this.binService.getItembyBin(this.code);
     console.log(this.binItem_);
-  //   if(this.binItem_.length < 15)
-  //       this.nextPage = false;
     }
 
-    back(): void {
-      console.log(this.urlService.getUrl());
-      this.urlService.back();
+    back(url: any): void {
+      console.log(url);
+      this.router.navigateByUrl(`${url}`);
     }
 
 }
