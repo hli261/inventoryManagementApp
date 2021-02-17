@@ -61,7 +61,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinTypeDto>>(binTypes));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("byId/{id}")]
         public async Task<ActionResult<BinTypeDto>> GetBinTypeById(int id)
         {
             var binType = await _binTypeRepository.GetBinTypeById(id);
@@ -69,7 +69,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<BinTypeDto>(binType));
         }
         
-        [HttpGet("byTypeName")]
+        [HttpGet("byName/{name}")]
         public async Task<ActionResult<BinTypeDto>> GetBinTypeByName(string name)
         {
             var binType = await _binTypeRepository.GetBinTypeByName(name);

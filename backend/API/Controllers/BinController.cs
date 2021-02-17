@@ -83,7 +83,7 @@ namespace API.Controllers
             return BadRequest("Failed to add bin.");
         }
 
-        [HttpGet("byBinParams")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByParams([FromQuery]BinParams binParams)
         {
             var bins = await _binRepository.GetBinsByParams(binParams);
@@ -94,7 +94,7 @@ namespace API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBins()
         {
            
@@ -114,7 +114,7 @@ namespace API.Controllers
         //     return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         // }
 
-        [HttpGet("byTypeId")]
+        [HttpGet("ByTypeId/{id}")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByTypeId(int id)
         {
            
@@ -123,7 +123,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        [HttpGet("byTypeName")]
+        [HttpGet("ByTypeName/{name}")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByType(string name)
         {
             var bins = await _binRepository.GetBinsByType(name);
@@ -131,7 +131,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        [HttpGet("byWarehouseName")]
+        [HttpGet("ByLocationName/{name}")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByWarehouseName(string name)
         {
             var bins = await _binRepository.GetBinsByWarehouse(name);
@@ -139,7 +139,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        [HttpGet("byWarehouseId")]
+        [HttpGet("ByLocationId/{id}")]
         public async Task<ActionResult<IEnumerable<BinDto>>> GetBinsByWarehouseId(int id)
         {
             var bins = await _binRepository.GetBinsByWarehouseLocationId(id);
@@ -147,7 +147,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinDto>>(bins));
         }
 
-        [HttpGet("byBinCode")]
+        [HttpGet("byBinCode/{code}")]
         public async Task<ActionResult<BinDto>> GetBinByCode(string code)
         {
             var bin = await _binRepository.GetBinByCode(code);
@@ -158,7 +158,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<BinDto>(bin));
         }
 
-        [HttpPut("byBinCode")]
+        [HttpPut]
         public async Task<ActionResult> UpdateBin(UpdateBinDto updateBinDto)
         {
             var bin = await _binRepository.GetBinByCode(updateBinDto.BinCode);
@@ -189,7 +189,7 @@ namespace API.Controllers
 
 
 
-        [HttpDelete("{binCode}")]
+        [HttpDelete("{code}")]
         public async Task<ActionResult> DeleteBin(string code)
         {
 
