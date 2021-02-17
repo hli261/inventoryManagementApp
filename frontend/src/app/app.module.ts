@@ -2,8 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ɵɵsanitizeUrlOrResourceUrl } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtInterceptor, ErrorInterceptor, ShipService, 
-         AccountService, UrlService, 
+import { JwtInterceptor,
+         ErrorInterceptor, 
+         ShipService, 
+         AccountService,
          AuthGuard } from './_services';
 import { CommonModule } from "@angular/common";
 
@@ -28,7 +30,6 @@ import { PagingComponent } from './paging/paging.component';
 import { BinsComponent } from './bins/bins.component';
 import { BinItemsComponent } from './bin-items/bin-items.component';
 import { BinItemManagementComponent } from './bin-item-management/bin-item-management.component';
-import { ItemBinsComponent } from './item-bins/item-bins.component';
 import { BinCreateComponent } from './bin-create/bin-create.component';
 
 @NgModule({
@@ -52,7 +53,6 @@ import { BinCreateComponent } from './bin-create/bin-create.component';
     BinsComponent,
     BinItemsComponent,
     BinItemManagementComponent,
-    ItemBinsComponent,
     BinCreateComponent
   ],
   imports: [
@@ -67,7 +67,6 @@ import { BinCreateComponent } from './bin-create/bin-create.component';
   providers: [
     ShipService,
     AccountService,
-    UrlService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
