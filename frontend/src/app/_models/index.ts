@@ -7,3 +7,4 @@ export * from './warehouseLocation';
 export * from './item';
 export * from './binItem';
 export * from './createBin';
+export * from './binEdit';

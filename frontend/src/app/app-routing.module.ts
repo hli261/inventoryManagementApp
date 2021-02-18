@@ -15,6 +15,7 @@ import { BinManagementComponent } from './bin-management/bin-management.componen
 import { BinItemsComponent } from './bin-items/bin-items.component';
 import { BinItemManagementComponent } from './bin-item-management/bin-item-management.component';
 import { BinCreateComponent } from './bin-create/bin-create.component';
+import { BinEditComponent } from './bin-edit/bin-edit.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 
@@ -54,8 +55,9 @@ const routes: Routes = [
       { path: 'bin-item', component: BinItemManagementComponent },
       { path: 'bin-items/:id', component: BinItemsComponent },
       { path: 'bincreate', component: BinCreateComponent },
+      { path: 'binedit/:binCode', component: BinEditComponent },
     ]
-  }, 
+  },
   {
     path: '',
     canActivate: [RoleGuard],
