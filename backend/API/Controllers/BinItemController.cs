@@ -93,6 +93,12 @@ namespace API.Controllers
         [HttpGet("byBinCode/{code}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code)
         {
+            var bin = await _binRepository.GetBinByCode(code);
+            
+            if (bin == null){
+                return BadRequest("Bin Code cannot be found");
+            }
+
             var binItems = await _binItemRepository.GetBinItemsByBinCode(code);            
 
             return Ok(binItems);
@@ -101,6 +107,12 @@ namespace API.Controllers
         [HttpGet("byNumber/{number}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
         {
+            var item = await _itemRepository.GetItemByNumber(number);
+
+            if(item == null){
+                return BadRequest("Item cannot be found");
+            }
+
             var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);            
 
             return Ok(binItems);
