@@ -59,7 +59,7 @@ namespace API.Data
                     }
                     else
                     {
-                        query = query.Where(b => String.Compare(b.BinCode.ToUpper(), binParams.MinCode.ToUpper()) == 1 && String.Compare(b.BinCode.ToUpper(), binParams.MaxCode.ToUpper()) == -1);
+                        query = query.Where(b => ((String.Compare(b.BinCode.ToUpper(), binParams.MinCode.ToUpper()) == 1 || b.BinCode.ToUpper() == binParams.MinCode.ToUpper()) && (String.Compare(b.BinCode.ToUpper(), binParams.MaxCode.ToUpper()) == -1)||b.BinCode.ToUpper() == binParams.MaxCode.ToUpper() ));
                     }
                 }
 
