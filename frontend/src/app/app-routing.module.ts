@@ -55,7 +55,7 @@ const routes: Routes = [
       { path: 'bins-list', component: BinManagementComponent },
       { path: 'bin-item', component: BinItemManagementComponent },
       { path: 'bin-items', component: BinItemsComponent },
-      { path: 'bin-items/:id', component: BinItemsComponent },
+      { path: 'bin-items/:binCode', component: BinItemsComponent },
       { path: 'bincreate', component: BinCreateComponent },
       { path: 'binedit/:binCode', component: BinEditComponent },
     ]

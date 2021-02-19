@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { BinItem } from '../_models';
+import { Observable, Subscription } from 'rxjs';
+import { Bin, BinItem } from '../_models';
+import { BinService } from '../_services';
 
 @Component({
   selector: 'app-item-bins',
@@ -10,10 +11,20 @@ import { BinItem } from '../_models';
 export class ItemBinsComponent implements OnInit {
 
   @Input() binItem_: Observable<BinItem[]>;
+  data: Bin;
+  sub: Subscription;
 
-  constructor() { }
+  constructor(private binService: BinService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
   }
 
+  showDetail(binCode: string):void{
+    console.log("mouse enter");
+    this.sub= this.binService.getByBinCode(binCode).subscribe(data=>this.data=data);
+  }
+
+  closeDetail(){
+    this.data = null;
+  }
 }

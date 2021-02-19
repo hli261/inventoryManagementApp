@@ -4,7 +4,7 @@
   <table class="table table-hover border-top mt-3">
     <thead class="table-light">
       <tr>
-        <th scope="col">Bin Id</th>
+        <th scope="col">No</th>
         <th scope="col">Type</th>
         <th scope="col">Code</th>
         <th scope="col">Location</th>
@@ -12,14 +12,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor = 'let bin of bins'>
-        <td>{{bin.id}}</td>
+      <tr *ngFor = 'let bin of bins; let i = index'>
+        <td>{{i + 1}}</td>
         <td>{{bin.binType.typeName}}</td>
         <td>{{bin.binCode}}</td>
         <td>{{bin.warehouseLocation.locationName}}</td>
         <td>
           <a [routerLink]="['/binedit', bin.binCode]">Edit</a> | 
-          <a [routerLink]="['/bin-items', bin.id]">Detail</a>
+          <a [routerLink]="['/bin-items', bin.binCode]">Detail</a>
         </td>
       </tr>    
      </tbody>

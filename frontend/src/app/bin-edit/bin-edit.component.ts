@@ -44,7 +44,7 @@ export class BinEditComponent implements OnInit {
     this.binService.update(this.bin.binCode, this.bin).subscribe(
       bin => {
         this.bin = bin;
-        this.successMessage = "Bin has been created successfully!";
+        this.successMessage = "Bin has been updated successfully!";
         setTimeout(() => {
           this.successMessage = "";
           this.router.navigate(['bins']);
@@ -52,7 +52,7 @@ export class BinEditComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.errorMessage = error.error;
+        this.errorMessage = "Sever error" ;
       });
     setTimeout(() => {
       this.errorMessage = "";

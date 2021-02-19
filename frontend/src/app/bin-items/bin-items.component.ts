@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BinService, UrlService } from '../_services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { BinItem } from '../_models';
-import { Observable } from 'rxjs';
+import { Bin, BinItem, Item } from '../_models';
+import { Observable, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
 @Component({
@@ -17,10 +17,13 @@ export class BinItemsComponent implements OnInit {
   page: number=1;
   displayTitle: boolean =false;
   previousUrl_: Observable<string>;
+  bin: Bin;
+  subQuery: Subscription;
+  item: Item;
 
   constructor(private binService: BinService, private route: ActivatedRoute, private router: Router, 
     private urlService: UrlService) { 
-    this.code = this.route.snapshot.queryParamMap.get("code");
+    this.code = this.route.snapshot.params['binCode'];
   }
 
   ngOnInit(): void {
@@ -31,16 +34,27 @@ export class BinItemsComponent implements OnInit {
     this.previousUrl_= this.urlService.previousUrl$;
   }
 
+  ngOnDestory():void{
+    if(this.subQuery)
+       this.subQuery.unsubscribe();
+  }
+
   getPage(num: any): void {
     this.page=num;
-    console.log(this.code);
     this.binItem_ = this.binService.getItembyBin(this.code);
     console.log(this.binItem_);
     }
 
     back(url: any): void {
-      console.log(url);
       this.router.navigateByUrl(`${url}`);
+    }
+
+    showDetail(num: string): any{
+      this.subQuery = this.binService.getItemByNum(num).subscribe(data=>this.item=data);
+    }
+  
+    closeDetail(){
+      this.item = null;
     }
 
 }

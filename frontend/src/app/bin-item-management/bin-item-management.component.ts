@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { BinItem } from '../_models';
 import { AccountService, BinService } from '../_services';
 
@@ -16,6 +17,7 @@ export class BinItemManagementComponent implements OnInit {
   selector: string = "bin";
   searchInput: string;
   page: number =1;
+  err: any;
 
   constructor(private headService : AccountService, private router: Router, private binService: BinService) { }
 
@@ -32,12 +34,16 @@ export class BinItemManagementComponent implements OnInit {
     this.item_ = null;
     this.bin_=null;
     if(this.selector=="bin") {
-      this.item_ = this.binService.getItembyBin(this.searchInput);
-      this.router.navigate(['bin-item'],{queryParams: {code: this.searchInput }});
+      try{
+        this.item_ = this.binService.getItembyBin(this.searchInput.trim());
+        this.router.navigate(['bin-item'],{queryParams: {code: this.searchInput.trim()}});
+      }catch(error){
+        console.log(error);
+      }
     }
     else if(this.selector=="item") {
-      this.bin_ = this.binService.getBinbyItem(this.searchInput);
-      this.router.navigate(['bin-item'],{queryParams: {number: this.searchInput }});
+      this.bin_ = this.binService.getBinbyItem(this.searchInput.trim());
+      this.router.navigate(['bin-item'],{queryParams: {number: this.searchInput.trim() }});
     }
 
 
@@ -45,11 +51,10 @@ export class BinItemManagementComponent implements OnInit {
 
 
   getPage(num: any): void {
-    // this.page=num;
+    this.page=num;
     // this.binItem_ = this.binService.getItembyBin(this.route.snapshot.queryParamMap.get("code"));
-    // console.log(this.binItem_.subscribe.length);
-  //   if(this.binItem_.length < 15)
-  //       this.nextPage = false;
+  
+
     }
 
 

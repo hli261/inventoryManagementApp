@@ -2,18 +2,23 @@
     <table  *ngIf="binItem_ | async as binItem" class="table table-hover border-top mt-3">
         <thead class="table-light">
             <tr>
-                <th scope="col">Bin Id</th>
-                <th scope="col">Bin Code</th>
+                <th scope="col">No</th>
+                <th scope="col">Bin Code</th>                
                 <th scope="col">Quantity</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor='let bin of binItem'>
-                <td>{{bin.binId}}</td>
-                <td>{{bin.binCode}}</td>
-                <td>{{bin.quantity}}</td>
-            </tr>
+            <tr *ngFor='let bin of binItem; let i = index' (mouseenter)="showDetail(bin.binCode)"  (mouseleave)="closeDetail()">
+                <td>{{i + 1}}</td>
+                <td>{{bin.binCode}}</td>               
+                <td>{{bin.quantity}}</td>              
+            </tr>           
         </tbody>
     </table>
+      <div *ngIf="data" >
+         <p><span class="fs-6">Bin Code: &nbsp; </span> {{data.binCode}}</p>
+         <p><span class="fs-6">Bin Type: &nbsp; </span> {{data.binType.typeName}}</p>
+         <p><span class="fs-6">Warehouse Location: &nbsp; </span> {{data.warehouseLocation.locationName}}</p>
+      </div>
 </div>
 

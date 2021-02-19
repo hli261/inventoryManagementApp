@@ -1,6 +1,16 @@
 <div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem" >
     <div class="container" *ngIf="displayTitle">
-        <p class="fw-bolder mb-3">Bin Code: &nbsp;&nbsp;<span>{{code}}</span></p>
+        <div class="row mb-3">
+            <div class="col-sm-4">
+               <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
+            </div>
+            <div class="col-sm-4">
+                Location: &nbsp;&nbsp;<span>{{bin.warehouseLocation.locationName}}</span>
+            </div>
+            <div class="col-sm-4">
+                Type: &nbsp;&nbsp;<span>{{bin.binType.typeName}}</span>
+            </div>
+        </div>    
         <div *ngIf="previousUrl_ | async as url">
         <button (click)="back(url)" class="btn btn-primary">Back</button>    
        </div>     
@@ -8,7 +18,7 @@
     <table  class="table table-hover border-top mt-3">
         <thead  class="table-light">
             <tr>
-                <th scope="col">Item Id</th>
+                <th scope="col">No</th>
                 <th scope="col">Item Number</th>
                 <!-- <th scope="col">description</th> -->
                 <th scope="col">Quantity</th>
@@ -16,15 +26,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor='let item of binItem'>
-                <td>{{item.itemId}}</td>
+                <tr *ngFor='let item of binItem; let i = index'  (mouseenter)="showDetail(item.itemNumber)"  (mouseleave)="closeDetail()">
+                <td>{{i + 1}}</td>
                 <td>{{item.itemNumber}}</td>
-                <td>{{item.quantity}}</td>
-                <!-- <td>{{bin.warehouseLocation.locationName}}</td> -->
-                <!-- <td>
-                    <a [routerLink]="['/bin', item.itemCode]">Edit</a>
-                </td> -->
+                <td>{{item.quantity}}</td>               
             </tr>
         </tbody>
     </table>
+    <div *ngIf="item" >
+        <p><span class="fs-6">Item Number: &nbsp; </span> {{item.itemNumber}}</p>
+        <p><span class="fs-6">Item Description: &nbsp; </span> {{item.itemDescription}}</p>
+        <p><span class="fs-6">Price: &nbsp; </span> $ {{item.itemPrice}} </p>
+        <p><span class="fs-6">Upc Code: &nbsp; </span> $ {{item.upcCode}} </p>
+    </div>
 </div>
