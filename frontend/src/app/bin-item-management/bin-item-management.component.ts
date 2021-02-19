@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BinItem } from '../_models';
 import { AccountService, BinService } from '../_services';
@@ -16,8 +16,8 @@ export class BinItemManagementComponent implements OnInit {
   item_: Observable<BinItem[]>;
   selector: string = "bin";
   searchInput: string;
-  page: number =1;
-  err: any;
+  page: number = 1;
+  errorMessage: any;
 
   constructor(private headService : AccountService, private router: Router, private binService: BinService) { }
 
@@ -33,16 +33,22 @@ export class BinItemManagementComponent implements OnInit {
  onSubmit(): void{
     this.item_ = null;
     this.bin_=null;
-    if(this.selector=="bin") {
-      try{
-        this.item_ = this.binService.getItembyBin(this.searchInput.trim());
+    this.errorMessage= "";
+    if(this.selector=="bin") {     
+        this.item_ = this.binService.getItembyBin(this.searchInput.trim()).pipe(
+           catchError(err => {
+             this.errorMessage = err.error; return throwError(err);
+            })
+          )
         this.router.navigate(['bin-item'],{queryParams: {code: this.searchInput.trim()}});
-      }catch(error){
-        console.log(error);
-      }
+    
     }
     else if(this.selector=="item") {
-      this.bin_ = this.binService.getBinbyItem(this.searchInput.trim());
+      this.bin_ = this.binService.getBinbyItem(this.searchInput.trim()).pipe(
+        catchError(err => {
+          this.errorMessage = err.error; return throwError(err);
+        })
+       )
       this.router.navigate(['bin-item'],{queryParams: {number: this.searchInput.trim() }});
     }
 
