@@ -32,6 +32,7 @@ export class BinItemsComponent implements OnInit {
       this.displayTitle = true;
     }
     this.previousUrl_= this.urlService.previousUrl$;
+    this.subQuery = this.binService.getByBinCode(this.code).subscribe(data=>this.bin=data);
   }
 
   ngOnDestory():void{
