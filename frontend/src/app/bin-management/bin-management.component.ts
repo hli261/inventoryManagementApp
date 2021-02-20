@@ -64,11 +64,11 @@ export class BinManagementComponent implements OnInit {
   }
 
   setMinCode(event: any): void{
-    this.minCode = event.target.value;    
+    this.minCode = event.target.value.trim();    
   }
 
   setMaxCode(event: any): void{
-    this.maxCode = event.target.value;
+    this.maxCode = event.target.value.trim();
   }
 
   filter(): void {
