@@ -98,12 +98,7 @@ export class BinManagementComponent implements OnInit {
     this.router.navigate(['/bins-list'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize }});
     this.urlService.setPreviousUrl(`bins-list?pageNumber=${this.page}&pageSize=${this.pageSize}&type=${this.type}&location=${this.location}&minCode=${this.minCode}&maxCode=${this.maxCode}`);
     this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode)
-    // .pipe(
-    //   catchError(err => {
-    //     this.errorMessage = err.error; return throwError(err);
-    //   })
-    //  )
-   
+      
   }
 
   getPageFromQuery() {

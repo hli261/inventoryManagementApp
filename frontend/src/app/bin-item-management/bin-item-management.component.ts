@@ -37,7 +37,7 @@ export class BinItemManagementComponent implements OnInit {
     if(this.selector=="bin") {     
         this.item_ = this.binService.getItembyBin(this.searchInput.trim()).pipe(
            catchError(err => {
-             this.errorMessage = err.error; return throwError(err);
+             this.errorMessage = err; return throwError(err);
             })
           )
         this.router.navigate(['bin-item'],{queryParams: {code: this.searchInput.trim()}});
@@ -46,21 +46,18 @@ export class BinItemManagementComponent implements OnInit {
     else if(this.selector=="item") {
       this.bin_ = this.binService.getBinbyItem(this.searchInput.trim()).pipe(
         catchError(err => {
-          this.errorMessage = err.error; return throwError(err);
+          this.errorMessage = err; return throwError(err);
         })
        )
       this.router.navigate(['bin-item'],{queryParams: {number: this.searchInput.trim() }});
     }
-
 
   }
 
 
   getPage(num: any): void {
     this.page=num;
-    // this.binItem_ = this.binService.getItembyBin(this.route.snapshot.queryParamMap.get("code"));
-  
-
+    // this.binItem_ = this.binService.getItembyBin(this.route.snapshot.queryParamMap.get("code")); 
     }
 
 

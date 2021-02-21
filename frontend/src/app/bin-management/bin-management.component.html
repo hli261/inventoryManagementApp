@@ -72,7 +72,10 @@
   <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
     <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
   </div>
-  <div *ngIf="bins_ | async" class="row mb-5">
+  <div *ngIf="(bins_ | async)?.length == 0" class="d-flex justify-content-center mt-5">
+    <p class="text-center">No Bin</p>
+  </div>
+  <div *ngIf="(bins_ | async)?.length > 0" class="row mb-5">
     <app-bins [bins_]="bins_"></app-bins>
     <div *ngIf="(bins_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end">
       <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
