@@ -1,64 +1,54 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from './auth.service'
-import { AccountService } from './account.service';
+
+import { Router } from '@angular/router';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private accountService: AccountService,  private authService: AuthService) {}
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request)
-        .pipe(
-          // catchError(err => {
-          //   let errorMessage ='';
-            // if ([401, 403].includes(err.status) && this.accountService.userValue) {
-            //     // auto logout if 401 or 403 response returned from api
-            //     this.authService.logout();
-            // }
+  constructor(
+    private _router: Router,
+  ) { }
 
-            // const error = err.error?.message || err.statusText;
-            // console.error("error interceptor:",err);
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = this.handleError(error);
+          return throwError(errorMessage);
+        })
+      )
+  }
 
-            // if (error.error instanceof ErrorEvent) {
-
-            //   // client-side error
-   
-            //   errorMessage = `Error: ${error.error.description}`;
-   
-            // } else {
-   
-            //   // server-side error
-   
-            //   errorMessage = `Error Code: ${error.status}\nMessage: ${error.error.discription}`;
-   
-            // }
-   
-            // window.alert(errorMessage);
-   
-
-            // return throwError(errorMessage);
-
-            
-
-
-        // })
-        )
+  private handleError = (error: HttpErrorResponse): any => {
+    // if(error.status === 404){
+    //   return this.handleNotFound(error);
+    // }
+    // else 
+    if (error.status === 400) {
+      return this.handleBadRequest(error);
     }
+  }
 
-    // intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    //     // Clone the existing request, and add the authorization header
-    //     request = request.clone({
-    //       setHeaders: {
-    //         Authorization: `JWT ${this.authService.getToken()}`
-    //       }
-    //     });
-    //     // Pass the request on to the next handler
-    //     return next.handle(request);
-    //   }
-    
+  private handleBadRequest(error: HttpErrorResponse): string {
+    // throw new Error('Method not implemented.');
+    if (this._router.url === '/binCreate') {
+      let message = '';
+      const values = Object.values(error.error.errors);
+      values.map((m: any) => {
+        message += m + '<br>';
+      })
+      return message.slice(0, -4);
+    }
+    else {
+      return error.error ? error.error : error.message;
+    }
+  }
 
 }
