@@ -20,12 +20,16 @@ export class BinService {
      return this.http.post(`${environment.apiUrl}/api/Bin/createBin`, bin);
    }
 
-   public getById(id: number): Observable<Bin> {
+  public getById(id: number): Observable<Bin> {
     return this.http.get<Bin> (`${environment.apiUrl}/api/bin/${id}`);
   }
 
   public update(binCode: string, bin: BinEdit): Observable<BinEdit> {
     return this.http.put<BinEdit> (`${environment.apiUrl}/api/bin`, bin);
+  }
+
+  public deleteBin(binCode: string, bin: any): Observable<any> {
+    return this.http.delete<any> (`${environment.apiUrl}/api/bin/${binCode}`, bin);
   }
 
   public getByBinCode(binCode: string): Observable<Bin>{

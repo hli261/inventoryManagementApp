@@ -1,7 +1,7 @@
 <div class="container-fluid mt-3 mb-5">
     <div *ngIf="bin" class="card  mx-auto mb-5 " style="width: 25rem;">
         <h3 class="card-header">Edit bin</h3><br>
-        <form #f='ngForm' (ngSubmit)='onSubmit(f)' class="container">
+        <form #f='ngForm'  class="container">
             <div class="mb-3">
                 <label for="binCode" class="form-label">Bin Code</label>
                 <input type="text" class="form-control" id="binCode" name="binCode" readonly [(ngModel)]="bin.binCode">
@@ -39,8 +39,8 @@
             </h5>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-evenly mb-3">
-                <button type="submit" class="btn btn-primary">Edit</button>
-                <!-- <button type="reset" class="btn btn-primary">Reset</button> -->
+                <button type="submit" class="btn btn-primary" (click)='onSubmit(f)'>Edit</button>
+                <button type="delete" class="btn btn-primary" (click)="removeBin(f)">delete</button>
             </div>
         </form>
     </div>

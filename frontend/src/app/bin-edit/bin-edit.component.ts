@@ -32,6 +32,7 @@ export class BinEditComponent implements OnInit {
       this.bin.binCode = this.binCode;
       this.bin.binTypeName = bin2.binType.typeName;
       this.bin.warehouseLocationName = bin2.warehouseLocation.locationName;
+      this.bin2 = bin2;
     })
   }
 
@@ -40,7 +41,7 @@ export class BinEditComponent implements OnInit {
   }
 
   onSubmit(f: NgForm): void {
- 
+
     this.binService.update(this.bin.binCode, this.bin).subscribe(
       bin => {
         this.bin = bin;
@@ -52,11 +53,27 @@ export class BinEditComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.errorMessage = "Sever error" ;
+        this.errorMessage = "Sever error";
       });
     setTimeout(() => {
       this.errorMessage = "";
     }, 3000
     );
+  }
+
+  removeBin(f: NgForm): void {
+    this.binService.deleteBin(this.bin.binCode, this.bin2).subscribe(
+      (data: any) => {this.bin2 = data,
+      this.successMessage = "Bin has been deleted successfully!";
+      setTimeout(() => {
+        this.successMessage = "";
+        this.router.navigate(['bins']);
+      }, 2500);
+      },
+      error => {
+        console.log(error);
+        this.errorMessage = "Sever error";
+      }
+    )
   }
 }
