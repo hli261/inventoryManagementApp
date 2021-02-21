@@ -3,6 +3,7 @@ import { Bin, BinType } from '../_models';
 import { AccountService, BinService, UrlService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bin-management',
@@ -24,6 +25,8 @@ export class BinManagementComponent implements OnInit {
   pageSize: number = 10;
   page: number = 1;
   previousUrl: string = '';
+
+  errorMessage: string;
 
   constructor(private binService: BinService,
     private headService: AccountService,
@@ -64,11 +67,11 @@ export class BinManagementComponent implements OnInit {
   }
 
   setMinCode(event: any): void{
-    this.minCode = event.target.value;    
+    this.minCode = event.target.value.trim();    
   }
 
   setMaxCode(event: any): void{
-    this.maxCode = event.target.value;
+    this.maxCode = event.target.value.trim();
   }
 
   filter(): void {
@@ -85,12 +88,21 @@ export class BinManagementComponent implements OnInit {
     }
   }
 
+  clear(){
+      this.router.navigate(['/bins']);
+  }
+
   getPage(num: any): void {
     this.page = num;
     // this.router.navigate(['/bins'], { queryParams: { pageNumber: this.page, pageSize: this.pageSize }, queryParamsHandling :"merge" });
     this.router.navigate(['/bins-list'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize }});
     this.urlService.setPreviousUrl(`bins-list?pageNumber=${this.page}&pageSize=${this.pageSize}&type=${this.type}&location=${this.location}&minCode=${this.minCode}&maxCode=${this.maxCode}`);
-    this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode);
+    this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode)
+    // .pipe(
+    //   catchError(err => {
+    //     this.errorMessage = err.error; return throwError(err);
+    //   })
+    //  )
    
   }
 

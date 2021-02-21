@@ -27,7 +27,10 @@
     </div>
   </div>
   <div class="row mb-5">
-    <div *ngIf="item_ | async as items" class="row mb-3">
+    <div *ngIf="(item_ | async)?.length == 0" class="d-flex justify-content-center">
+      <p class="text-center">No item</p>
+    </div>
+    <div *ngIf="(item_ | async )?.length > 0" class="row mb-3">
       <app-bin-items [binItem_]="item_"></app-bin-items>
       <div *ngIf="(item_ | async)?.length > 14; else elseBlock" class="d-flex justify-content-end">
         <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
@@ -39,7 +42,10 @@
     <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
       <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
     </div>
-    <div *ngIf="bin_ | async as bins" class="row mb-3">
+    <div *ngIf="(bin_ | async)?.length == 0" class="d-flex justify-content-center">
+      <p class="text-center">No Bin</p>
+    </div>
+     <div *ngIf="(bin_ | async)?.length > 0" class="row mb-3">
       <app-item-bins [binItem_]="bin_"></app-item-bins>
       <div *ngIf="(bin_ | async)?.length > 14; else elseBlock" class="d-flex justify-content-end">
         <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
