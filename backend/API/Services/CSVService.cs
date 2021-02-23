@@ -67,7 +67,7 @@ namespace API.Services
                 return ex.Message;
             }
         }
-  
+
         public string ReadBinCsvFile()
         {
             try
@@ -84,22 +84,24 @@ namespace API.Services
                     value = strLine.Split(',');
                     if (x > 1 && value.Length == 7)
                     {
-                        try{
-                        var bin = new Bin();
-                        bin.Id = Int32.Parse(value[0]);
-                        bin.BinCode = value[1];
-                        bin.BinTypeId = Int32.Parse(value[2]);
-                        bin.BinReference = value[3];
-                        bin.Creator = value[4];
-                        bin.CreateTime = DateTime.Parse(value[5]);
-                        bin.WarehouseLocationId = Int32.Parse(value[6]);
-                        result.Add(bin);
+                        try
+                        {
+                            var bin = new Bin();
+                            bin.Id = Int32.Parse(value[0]);
+                            bin.BinCode = value[1];
+                            bin.BinTypeId = Int32.Parse(value[2]);
+                            bin.BinReference = value[3];
+                            bin.Creator = value[4];
+                            bin.CreateTime = DateTime.Parse(value[5]);
+                            bin.WarehouseLocationId = Int32.Parse(value[6]);
+                            result.Add(bin);
 
                         }
-                        catch(Exception ex){
+                        catch (Exception ex)
+                        {
                             string ms = ex.Message;
                         }
-                
+
                     }
                 }
 
@@ -116,7 +118,8 @@ namespace API.Services
 
                 return "Completed";
             }
-            catch(DbUpdateException efex){
+            catch (DbUpdateException efex)
+            {
                 efex.Message.FirstOrDefault();
 
                 return "Not pass because db";
@@ -146,7 +149,8 @@ namespace API.Services
                     value = strLine.Split(',');
                     if (x > 1 && value.Length == 4)
                     {
-                        try{
+                        try
+                        {
                             var binItem = new BinItem();
                             binItem.Id = Int32.Parse(value[0]);
                             binItem.BinId = Int32.Parse(value[1]);
@@ -155,8 +159,9 @@ namespace API.Services
 
                             result.Add(binItem);
                         }
-                        catch(Exception ex){
-                                string msg = ex.Message;
+                        catch (Exception ex)
+                        {
+                            string msg = ex.Message;
                         }
                     }
                 }
@@ -175,7 +180,8 @@ namespace API.Services
 
                 return "Completed";
             }
-            catch(DbUpdateException efex){
+            catch (DbUpdateException efex)
+            {
                 efex.Message.FirstOrDefault();
                 return "Not pass because db";
 
@@ -206,7 +212,7 @@ namespace API.Services
                         var binType = new BinType();
                         binType.Id = Int32.Parse(value[0]);
                         binType.TypeName = value[1];
-                      
+
                         result.Add(binType);
                     }
                 }
@@ -231,7 +237,7 @@ namespace API.Services
                 return ex.Message;
             }
         }
-  
+
         public string ReadWarehouseLocationCsvFile()
         {
             try
@@ -251,7 +257,7 @@ namespace API.Services
                         var warehouseLocation = new WarehouseLocation();
                         warehouseLocation.Id = Int32.Parse(value[0]);
                         warehouseLocation.LocationName = value[1];
-                      
+
                         result.Add(warehouseLocation);
                     }
                 }
@@ -281,9 +287,245 @@ namespace API.Services
             return await _db.BinTypes.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-         public async Task<WarehouseLocation> GetWarehouseLocationById(int id)
+        public async Task<WarehouseLocation> GetWarehouseLocationById(int id)
         {
             return await _db.WarehouseLocations.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+
+        public string ReadPOitemCsvFile()
+        {
+            try
+            {
+                List<ERP_POitem> result = new List<ERP_POitem>();
+                StreamReader sr = new StreamReader(@"Assets/POitem.csv");
+                string strLine = string.Empty;
+                string[] value = null;
+                int x = -1;
+                while (!sr.EndOfStream)
+                {
+                    x++;
+                    strLine = sr.ReadLine();
+                    value = strLine.Split(',');
+                    if (x > 1 && value.Length == 4)
+                    {
+                        try
+                        {
+                            var poItem = new ERP_POitem();
+                            poItem.Id = Int32.Parse(value[0]);
+                            poItem.PONumber = value[1];
+                            poItem.ItemNumber = value[2];
+                            poItem.OrderQty = Int32.Parse(value[3]);
+                            result.Add(poItem);
+                        }
+                        catch (Exception ex)
+                        {
+                            string ms = ex.Message;
+                        }
+                    }
+                }
+
+                _db.ERP_POitems.AddRange(result);
+                _db.SaveChanges();
+
+                GC.Collect();
+
+                int counter = _db.ERP_POitems.Count();
+                if (counter < 10)
+                {
+                    return "Process error less than 10 records";
+                }
+
+                return "Completed";
+            }
+            catch (DbUpdateException efex)
+            {
+                efex.Message.FirstOrDefault();
+
+                return "Not pass because db";
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
+
+        public string ReadPOheaderCsvFile()
+        {
+            try
+            {
+                List<ERP_POheader> result = new List<ERP_POheader>();
+                StreamReader sr = new StreamReader(@"Assets/POheader.csv");
+                string strLine = string.Empty;
+                string[] value = null;
+                int x = -1;
+                while (!sr.EndOfStream)
+                {
+                    x++;
+                    strLine = sr.ReadLine();
+                    value = strLine.Split(',');
+                    if (x > 1 && value.Length == 6)
+                    {
+                        try
+                        {
+                            var poHeader = new ERP_POheader();
+                            poHeader.Id = Int32.Parse(value[0]);
+                            poHeader.PONumber = value[1];
+                            poHeader.VendorNo = value[2];
+                            poHeader.OrderDate = DateTime.Parse(value[3]);
+                            poHeader.DateRequired = DateTime.Parse(value[4]);
+                            poHeader.WhseLocation = Int32.Parse(value[5]);
+                            result.Add(poHeader);
+                        }
+                        catch (Exception ex)
+                        {
+                            string ms = ex.Message;
+                        }
+                    }
+                }
+
+                _db.ERP_POheaders.AddRange(result);
+                _db.SaveChanges();
+
+                GC.Collect();
+
+                int counter = _db.ERP_POheaders.Count();
+                if (counter < 10)
+                {
+                    return "Process error less than 10 records";
+                }
+
+                return "Completed";
+            }
+            catch (DbUpdateException efex)
+            {
+                efex.Message.FirstOrDefault();
+
+                return "Not pass because db";
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
+
+        public string ReadVenderCsvFile()
+        {
+            try
+            {
+                List<Vender> result = new List<Vender>();
+                StreamReader sr = new StreamReader(@"Assets/Vender.csv");
+                string strLine = string.Empty;
+                string[] value = null;
+                int x = 0;
+                while (!sr.EndOfStream)
+                {
+                    x++;
+                    strLine = sr.ReadLine();
+                    value = strLine.Split(',');
+                    if (x > 1 && value.Length == 3)
+                    {
+                        try
+                        {
+                            var vender = new Vender();
+                            vender.Id = Int32.Parse(value[0]);
+                            vender.VenderNo = value[1];
+                            vender.VenderName = value[2];
+                            result.Add(vender);
+                        }
+                        catch (Exception ex)
+                        {
+                            string ms = ex.Message;
+                        }
+                    }
+                }
+
+                _db.Venders.AddRange(result);
+                _db.SaveChanges();
+
+                GC.Collect();
+
+                int counter = _db.Venders.Count();
+                if (counter < 10)
+                {
+                    return "Process error less than 10 records";
+                }
+
+                return "Completed";
+            }
+            catch (DbUpdateException efex)
+            {
+                efex.Message.FirstOrDefault();
+
+                return "Not pass because db";
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
+
+        public string ReadShippingMethodsCsvFile()
+        {
+            try
+            {
+                List<ShippingMethod> result = new List<ShippingMethod>();
+                StreamReader sr = new StreamReader(@"Assets/ShippingMethod.csv");
+                string strLine = string.Empty;
+                string[] value = null;
+                int x = 0;
+                while (!sr.EndOfStream)
+                {
+                    x++;
+                    strLine = sr.ReadLine();
+                    value = strLine.Split(',');
+                    if (x > 1 && value.Length == 2)
+                    {
+                        try
+                        {
+                            var s_method = new ShippingMethod();
+                            s_method.Id = Int32.Parse(value[0]);
+                            s_method.LogisticName = value[1];
+                            result.Add(s_method);
+                        }
+                        catch (Exception ex)
+                        {
+                            string ms = ex.Message;
+                        }
+                    }
+                }
+
+                _db.ShippingMethods.AddRange(result);
+                _db.SaveChanges();
+
+                GC.Collect();
+
+                int counter = _db.ShippingMethods.Count();
+                if (counter < 1)
+                {
+                    return "Process error less than 10 records";
+                }
+
+                return "Completed";
+            }
+            catch (DbUpdateException efex)
+            {
+                efex.Message.FirstOrDefault();
+
+                return "Not pass because db";
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
         }
     }
 

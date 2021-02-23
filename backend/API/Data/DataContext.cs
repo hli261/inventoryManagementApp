@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
-    public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, 
+    public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
     AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions options) : base(options)
@@ -29,6 +29,13 @@ namespace API.Data
         public DbSet<BinType> BinTypes { get; set; }
         public DbSet<WarehouseLocation> WarehouseLocations { get; set; }
 
+        public DbSet<Shipping> Shippings { get; set; }
+        public DbSet<ShippingMethod> ShippingMethods { get; set; }
+        public DbSet<Vender> Venders { get; set; }
+
+        public DbSet<ERP_POheader> ERP_POheaders { get; set; }
+        public DbSet<ERP_POitem> ERP_POitems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -45,7 +52,7 @@ namespace API.Data
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
 
-           
+
         }
     }
 }

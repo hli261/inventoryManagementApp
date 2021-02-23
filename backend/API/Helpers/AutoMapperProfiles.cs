@@ -4,13 +4,14 @@ using AutoMapper;
 
 namespace API.Helpers
 {
-    public class AutoMapperProfiles: Profile
+    public class AutoMapperProfiles : Profile
     {
-        public AutoMapperProfiles(){
+        public AutoMapperProfiles()
+        {
             CreateMap<AppUser, MemberDto>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<MemberUpdateDto, AppUser>();
-            
+
             CreateMap<BinDto, Bin>();
             CreateMap<Bin, BinDto>();
             CreateMap<Bin, Bin>(); ///?????
@@ -34,6 +35,9 @@ namespace API.Helpers
             CreateMap<BinItem, BinItemDto>();
             CreateMap<BinItem, BinItem>(); ////???
             CreateMap<CreateBinItemDto, BinItem>();
+
+            CreateMap<ShippingDto, Shipping>();
+            CreateMap<Shipping, ShippingDto>();
         }
     }
 }
