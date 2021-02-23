@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountService, AuthService, AlertService } from '../_services';
-import { Router, ActivatedRoute } from '@angular/router';
+import { AccountService, AuthService } from '../_services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +16,10 @@ export class LoginComponent implements OnInit {
   errorMessage: string | any;
   active: any;
 
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private alertService: AlertService,
-    private route: ActivatedRoute,
     private headerService: AccountService
   ) { this.buildSigninForm(); }
 
@@ -35,9 +32,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  navByActive(): void{
-    
-  }
+  navByActive(): void{ }
 
   signinUser() {
     this.authService.login(this.SigninForm.value.email, this.SigninForm.value.password).subscribe(

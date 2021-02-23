@@ -80,7 +80,7 @@ namespace API.Controllers
         //     return Ok(_mapper.Map<IEnumerable<ItemDto>>(items));
         // }
 
-        [HttpGet("{id}")]
+        [HttpGet("byId/{id}")]
         public async Task<ActionResult<ItemDto>> GetItemById(int id)
         {
             var item = await _itemRepository.GetItemById(id);
@@ -88,7 +88,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<ItemDto>(item));
         }
 
-        [HttpGet("byItemNumber")]
+        [HttpGet("byNumber/{number}")]
         public async Task<ActionResult<ItemDto>> GetItemByNumber(string number)
         {
             var item = await _itemRepository.GetItemByNumber(number);

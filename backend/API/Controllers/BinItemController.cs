@@ -66,7 +66,7 @@ namespace API.Controllers
             return BadRequest("Failed to add item.");
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<BinItemDto>>> GetBinItems()
         {
             var binItems = await _binItemRepository.GetBinItems();
@@ -75,7 +75,7 @@ namespace API.Controllers
         }
 
         ////////////////////PAGING////////////////////////
-        [HttpGet("byParams")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<BinItemDto>>> GetBinItemsWithPaging([FromQuery] PagingParams binItemParams)
         {
             var binItems = await _binItemRepository.GetBinItemsAsync(binItemParams);
@@ -90,23 +90,35 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
 
-        [HttpGet("byBinCode")]
+        [HttpGet("byBinCode/{code}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code)
         {
+            var bin = await _binRepository.GetBinByCode(code);
+            
+            if (bin == null){
+                return BadRequest("Bin Code cannot be found");
+            }
+
             var binItems = await _binItemRepository.GetBinItemsByBinCode(code);            
 
             return Ok(binItems);
         }
 
-        [HttpGet("byItemNumber")]
+        [HttpGet("byNumber/{number}")]
          public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
         {
+            var item = await _itemRepository.GetItemByNumber(number);
+
+            if(item == null){
+                return BadRequest("Item cannot be found");
+            }
+
             var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);            
 
             return Ok(binItems);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("byId/{Id}")]
         public async Task<ActionResult<BinItemDto>> GetBinItemById(int id)
         {
             var binItem = await _binItemRepository.GetBinItemById(id);

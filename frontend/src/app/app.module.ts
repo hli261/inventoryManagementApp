@@ -31,6 +31,8 @@ import { BinsComponent } from './bins/bins.component';
 import { BinItemsComponent } from './bin-items/bin-items.component';
 import { BinItemManagementComponent } from './bin-item-management/bin-item-management.component';
 import { BinCreateComponent } from './bin-create/bin-create.component';
+import { BinEditComponent } from './bin-edit/bin-edit.component';
+import { ItemBinsComponent } from './item-bins/item-bins.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { BinCreateComponent } from './bin-create/bin-create.component';
     BinsComponent,
     BinItemsComponent,
     BinItemManagementComponent,
-    BinCreateComponent
+    BinCreateComponent,
+    BinEditComponent,
+    ItemBinsComponent
   ],
   imports: [
     BrowserModule,

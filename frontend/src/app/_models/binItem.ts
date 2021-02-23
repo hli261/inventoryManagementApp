@@ -1,9 +1,8 @@
-import { Bin } from "./bin";
-import { Item } from "./item";
-
 export class BinItem{
     id: number;   
-    bin: Bin;
-    item: Array<Item>;
+    binCode: string;
+    itemNumber: string;
     quantity: number;
+    binId: number;
+    itemId: number;
 }

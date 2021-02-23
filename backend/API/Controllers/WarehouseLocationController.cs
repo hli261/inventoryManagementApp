@@ -69,6 +69,14 @@ namespace API.Controllers
             return Ok(_mapper.Map<WarehouseLocationDto>(wl));
         }
 
+        [HttpGet("byName")]
+        public async Task<ActionResult<WarehouseLocationDto>> GetWarehouseLocationByName(string name)
+        {
+            var wl = await _warehouseLocationRepository.GetWarehouseLocationByName(name);
+
+            return Ok(_mapper.Map<WarehouseLocationDto>(wl));
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteWarehouseLocation(int id)
         {
@@ -85,18 +93,18 @@ namespace API.Controllers
             return BadRequest("Failed to delete warehouse location.");
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateWarehouseLocation(WarehouseLocationDto warehouseLocationDto)
-        {
-            var wl = await _warehouseLocationRepository.GetWarehouseLocationById(warehouseLocationDto.Id);
+        // [HttpPut]
+        // public async Task<ActionResult> UpdateWarehouseLocation(WarehouseLocationDto warehouseLocationDto)
+        // {
+        //     var wl = await _warehouseLocationRepository.GetWarehouseLocationById(warehouseLocationDto.Id);
 
-            _mapper.Map(warehouseLocationDto, wl);
+        //     _mapper.Map(warehouseLocationDto, wl);
 
-            _warehouseLocationRepository.UpdateWarehouseLocation(wl);
+        //     _warehouseLocationRepository.UpdateWarehouseLocation(wl);
 
-            if (await _warehouseLocationRepository.SaveAllAsync()) return NoContent();
+        //     if (await _warehouseLocationRepository.SaveAllAsync()) return NoContent();
 
-            return BadRequest("Failed to update bin type.");
-        }
+        //     return BadRequest("Failed to update bin type.");
+        // }
     }
 }

@@ -10,6 +10,8 @@ import { Bin } from '../_models';
 export class BinsComponent implements OnInit {
 
   @Input() bins_: Observable<Bin[]>;
+  // @Input() bins_: Bin[];
+  detail: boolean = true;
 
   constructor() {     
   }
@@ -17,6 +19,9 @@ export class BinsComponent implements OnInit {
   ngOnInit(): void {
  }
   
+ setUrl(){
+   console.log(window.location.href);
+ }
    
 
 }
