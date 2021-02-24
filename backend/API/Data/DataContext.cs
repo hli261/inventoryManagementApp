@@ -31,6 +31,7 @@ namespace API.Data
 
         public DbSet<Shipping> Shippings { get; set; }
         public DbSet<ShippingMethod> ShippingMethods { get; set; }
+        public DbSet<ShippingLot> ShippingLots { get; set; }
         public DbSet<Vender> Venders { get; set; }
 
         public DbSet<ERP_POheader> ERP_POheaders { get; set; }

@@ -42,8 +42,6 @@ namespace API.Controllers
         {
             var shippingMethods = await _venderRepository.GetShippingMethods();
 
-            // var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
-
             return Ok(shippingMethods);
         }
 

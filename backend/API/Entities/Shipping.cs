@@ -11,6 +11,6 @@ namespace API.Entities
         public string ShippingMethod { get; set; }
         public Vender Vender { get; set; }
         public AppUser User { get; set; }
-        // public ShippingLot ShippingLot { get; set; }
+        public ShippingLot ShippingLot { get; set; }
     }
 }

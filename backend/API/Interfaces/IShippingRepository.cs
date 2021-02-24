@@ -14,12 +14,16 @@ namespace API.Interfaces
 
         // Task<IEnumerable<Item>> GetItems();
         // Task<PagedList<Item>> GetItemsAsync(PagingParams itemParams); //paging
-        // Task<Item> GetItemById(int id);
 
         // Task<Item> GetItemByNumber(string number);
         Task<IEnumerable<Shipping>> GetShippingsAsync();
+        Task<Shipping> GetShippingById(int id);
         Task<bool> SaveAllAsync();
 
         Task<bool> ExistAsync(string shippingNum);
+        void DeleteShipping(Shipping shipping);
+        void CreateShippingLot(ShippingLot lot);
+        void UpdateShipping(Shipping shipping);
+        Task<ShippingLot> GetShippingLotById(int id);
     }
 }
