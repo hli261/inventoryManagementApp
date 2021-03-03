@@ -527,6 +527,134 @@ namespace API.Services
                 return ex.Message;
             }
         }
+
+
+
+        // public string ReadShippingCsvFile()
+        // {
+        //     try
+        //     {
+        //         List<Shipping> result = new List<Shipping>();
+        //         StreamReader sr = new StreamReader(@"Assets/Shipping.csv");
+        //         string strLine = string.Empty;
+        //         string[] value = null;
+        //         int x = 0;
+        //         while (!sr.EndOfStream)
+        //         {
+        //             x++;
+        //             strLine = sr.ReadLine();
+        //             value = strLine.Split(',');
+        //             if (x > 1 && value.Length == 8)
+        //             {
+        //                 try
+        //                 {
+        //                     var shipping = new Shipping();
+        //                     shipping.Id = Int32.Parse(value[0]);
+        //                     shipping.ArrivalDate = DateTime.Parse(value[1]);
+        //                     shipping.InvoiceNumber = value[2];
+        //                     shipping.ShippingLotId = Int32.Parse(value[3]);
+        //                     shipping.ShippingMethodId = Int32.Parse(value[4]);
+        //                     shipping.ShippingNumber = value[5];
+        //                     shipping.UserId = Int32.Parse(value[6]);
+        //                     shipping.VenderId = Int32.Parse(value[7]);
+
+        //                     result.Add(shipping);
+        //                 }
+        //                 catch (Exception ex)
+        //                 {
+        //                     string msg = ex.Message;
+        //                 }
+        //             }
+        //         }
+
+        //         _db.Shippings.AddRange(result);
+        //         _db.SaveChanges();
+
+        //         GC.Collect();
+
+
+        //         int counter = _db.Shippings.Count();
+        //         if (counter < 10)
+        //         {
+        //             return "Process error less than 10 records";
+        //         }
+
+        //         return "Completed";
+        //     }
+        //     catch (DbUpdateException efex)
+        //     {
+        //         efex.Message.FirstOrDefault();
+        //         return "Not pass because db";
+
+        //     }
+        //     catch (Exception ex)
+        //     {
+
+        //         return ex.Message;
+        //     }
+        // }
+
+
+
+
+        public string ReadShippingLotCsvFile()
+        {
+            try
+            {
+                List<ShippingLot> result = new List<ShippingLot>();
+                StreamReader sr = new StreamReader(@"Assets/ShippingLots.csv");
+                string strLine = string.Empty;
+                string[] value = null;
+                int x = 0;
+                while (!sr.EndOfStream)
+                {
+                    x++;
+                    strLine = sr.ReadLine();
+                    value = strLine.Split(',');
+                    if (x > 1 && value.Length == 3)
+                    {
+                        try
+                        {
+                            var shippinglot = new ShippingLot();
+                            shippinglot.Id = Int32.Parse(value[0]);
+                            shippinglot.LotNumber = value[1];
+                            shippinglot.CreateTime = DateTime.Parse(value[2]);
+
+                            result.Add(shippinglot);
+                        }
+                        catch (Exception ex)
+                        {
+                            string msg = ex.Message;
+                        }
+                    }
+                }
+
+                _db.ShippingLots.AddRange(result);
+                _db.SaveChanges();
+
+                GC.Collect();
+
+
+                int counter = _db.ShippingLots.Count();
+                if (counter < 10)
+                {
+                    return "Process error less than 10 records";
+                }
+
+                return "Completed";
+            }
+            catch (DbUpdateException efex)
+            {
+                efex.Message.FirstOrDefault();
+                return "Not pass because db";
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
     }
 
 }

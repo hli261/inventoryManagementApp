@@ -5,6 +5,7 @@ using API.Controllers;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,14 @@ namespace API.Controllers
         private readonly IVenderRepository _venderRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public ShippingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository, IVenderRepository venderRepository, IMapper mapper)
+        private readonly CSVService _csvHandler;
+        public ShippingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository, IVenderRepository venderRepository, CSVService csvHandler, IMapper mapper)
         {
             _mapper = mapper;
             _shippingRepository = shippingRepository;
             _userManager = userManager;
             _venderRepository = venderRepository;
+            _csvHandler = csvHandler;
         }
 
         [HttpGet]
@@ -33,6 +36,26 @@ namespace API.Controllers
             return Ok(shippings);
         }
 
+        // [HttpGet("shippingCSVfile")]
+        // public ActionResult ImportShippingCsvFile()
+        // {
+        //     if (_csvHandler.ReadShippingCsvFile() == "Completed")
+        //     {
+        //         return Ok("Proces completed");
+        //     }
+        //     return BadRequest("Cannot reading file");
+        // }
+
+        [HttpGet("shippingLotCSVfile")]
+        public ActionResult ImportShippingLotCsvFile()
+        {
+            if (_csvHandler.ReadShippingLotCsvFile() == "Completed")
+            {
+                return Ok("Proces completed");
+            }
+            return BadRequest("Cannot reading file");
+        }
+
         [HttpPost("createShipping")]
         public async Task<ActionResult<ShippingDto>> CreateShipping(ShippingDto shippingDto)
         {
@@ -40,15 +63,12 @@ namespace API.Controllers
 
             shipping.Vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo.ToUpper());
             shipping.User = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
+            shipping.ShippingNumber = "SN" + _shippingRepository.LotCountAsync().ToString().PadLeft(7, '0');
+            shipping.ShippingMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.LogisticName.ToUpper());
 
             var lot = new ShippingLot
             {
-                LotDetail = "Item from "
-                + shipping.Vender.VenderName
-                + " received by "
-                + shipping.User.FirstName
-                + " "
-                + shipping.User.LastName,
+                LotNumber = "LOT" + shippingDto.ArrivalDate.ToString("MMddyyyy") + shipping.ShippingNumber,
 
                 CreateTime = shippingDto.ArrivalDate
             };
@@ -76,13 +96,13 @@ namespace API.Controllers
             }
             var user = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
             var vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo);
+            var shipMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.ShippingMethod);
 
             shipping.ArrivalDate = shippingDto.ArrivalDate;
             shipping.InvoiceNumber = shippingDto.InvoiceNumber;
-            shipping.ShippingMethod = shippingDto.ShippingMethod;
+            shipping.ShippingMethod = shipMethod;
             shipping.User = user;
             shipping.Vender = vender;
-            shipping.ShippingLot.LotDetail += "\nModified by " + user.FirstName + " " + user.LastName + " on " + DateTime.UtcNow;
 
             _shippingRepository.UpdateShipping(shipping);
 
@@ -103,12 +123,6 @@ namespace API.Controllers
             {
                 _shippingRepository.DeleteShipping(shipping);
             }
-
-            var lot = await _shippingRepository.GetShippingLotById(shipping.ShippingLot.Id);
-
-            lot.LotDetail += "\nDeleted by " + shipping.User.FirstName + " " + shipping.User.LastName + " on " + DateTime.UtcNow;
-
-            shipping.ShippingLot = lot;
 
             if (await _shippingRepository.SaveAllAsync())
             {

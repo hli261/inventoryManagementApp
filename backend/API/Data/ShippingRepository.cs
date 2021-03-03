@@ -47,6 +47,11 @@ namespace API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public int LotCountAsync()
+        {
+            return  _context.ShippingLots.Count();
+        }
+
         public async Task<bool> ExistAsync(string shippingNum)
         {
             return await _context.Shippings.AnyAsync(x => x.Id.ToString() == shippingNum);
