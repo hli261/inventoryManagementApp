@@ -35,16 +35,18 @@ namespace API.Controllers
 
             return Ok(shippings);
         }
+        
 
-        // [HttpGet("shippingCSVfile")]
-        // public ActionResult ImportShippingCsvFile()
-        // {
-        //     if (_csvHandler.ReadShippingCsvFile() == "Completed")
-        //     {
-        //         return Ok("Proces completed");
-        //     }
-        //     return BadRequest("Cannot reading file");
-        // }
+        [HttpGet("shippingCSVfile")]
+        public ActionResult ImportShippingCsvFile()
+        {
+            if (_csvHandler.ReadShippingCsvFile() == "Completed")
+            {
+                return Ok("Proces completed");
+            }
+            return BadRequest("Cannot reading file");
+        }
+
 
         [HttpGet("shippingLotCSVfile")]
         public ActionResult ImportShippingLotCsvFile()
