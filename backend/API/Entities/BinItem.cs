@@ -13,6 +13,9 @@ namespace API.Entities
 
         public int Quantity { get; set; }
 
+        public ShippingLot ShippingLot { get; set; }
+        public int ShippingLotId { get; set; }
+
         
         //public string BinCode { get; set; }
 

@@ -180,11 +180,16 @@ namespace API.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ShippingLotId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BinId");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("ShippingLotId");
 
                     b.ToTable("BinItems");
                 });
@@ -296,19 +301,19 @@ namespace API.Data.Migrations
                     b.Property<string>("InvoiceNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ShippingLotId")
+                    b.Property<int>("ShippingLotId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ShippingMethodId")
+                    b.Property<int>("ShippingMethodId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShippingNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("VenderId")
+                    b.Property<int>("VenderId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -522,28 +527,44 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.ShippingLot", "ShippingLot")
+                        .WithMany()
+                        .HasForeignKey("ShippingLotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Bin");
 
                     b.Navigation("Item");
+
+                    b.Navigation("ShippingLot");
                 });
 
             modelBuilder.Entity("API.Entities.Shipping", b =>
                 {
                     b.HasOne("API.Entities.ShippingLot", "ShippingLot")
                         .WithMany()
-                        .HasForeignKey("ShippingLotId");
+                        .HasForeignKey("ShippingLotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.ShippingMethod", "ShippingMethod")
                         .WithMany()
-                        .HasForeignKey("ShippingMethodId");
+                        .HasForeignKey("ShippingMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.Vender", "Vender")
                         .WithMany()
-                        .HasForeignKey("VenderId");
+                        .HasForeignKey("VenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ShippingLot");
 
