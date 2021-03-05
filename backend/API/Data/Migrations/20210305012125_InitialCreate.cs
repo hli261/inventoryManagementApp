@@ -350,6 +350,27 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Receivings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ShippingId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
+                    ROnumber = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receivings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Receivings_Shippings_ShippingId",
+                        column: x => x.ShippingId,
+                        principalTable: "Shippings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BinItems",
                 columns: table => new
                 {
@@ -381,6 +402,36 @@ namespace API.Data.Migrations
                         principalTable: "ShippingLots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReceivingItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderQty = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReceiveQty = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiffQty = table.Column<int>(type: "INTEGER", nullable: false),
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ExpireDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ReceivingId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceivingItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReceivingItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReceivingItems_Receivings_ReceivingId",
+                        column: x => x.ReceivingId,
+                        principalTable: "Receivings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -446,6 +497,21 @@ namespace API.Data.Migrations
                 column: "WarehouseLocationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ReceivingItems_ItemId",
+                table: "ReceivingItems",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceivingItems_ReceivingId",
+                table: "ReceivingItems",
+                column: "ReceivingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receivings_ShippingId",
+                table: "Receivings",
+                column: "ShippingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Shippings_ShippingLotId",
                 table: "Shippings",
                 column: "ShippingLotId");
@@ -493,7 +559,7 @@ namespace API.Data.Migrations
                 name: "ERP_POitems");
 
             migrationBuilder.DropTable(
-                name: "Shippings");
+                name: "ReceivingItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -503,6 +569,18 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Items");
+
+            migrationBuilder.DropTable(
+                name: "Receivings");
+
+            migrationBuilder.DropTable(
+                name: "BinTypes");
+
+            migrationBuilder.DropTable(
+                name: "WarehouseLocations");
+
+            migrationBuilder.DropTable(
+                name: "Shippings");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -515,12 +593,6 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Venders");
-
-            migrationBuilder.DropTable(
-                name: "BinTypes");
-
-            migrationBuilder.DropTable(
-                name: "WarehouseLocations");
         }
     }
 }

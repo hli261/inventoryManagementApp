@@ -49,7 +49,7 @@ namespace API.Controllers
                 PONumber = receiving.PONumber,
                 ERP_POitems = poItem,
                 OrderDate = po.OrderDate,
-                DateRequired = po.DateRequired,
+                // DateRequired = po.DateRequired,
                 Shipping = shippingNo,
             };
 
