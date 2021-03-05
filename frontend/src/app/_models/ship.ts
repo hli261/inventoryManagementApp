@@ -1,7 +1,12 @@
+import { User } from "./user";
+import { Vender } from "./vender";
+
 export class Ship {
   id: number;
-
-  date: Date;
-  parcel: Array<string>;
-  shipTypeId: number;
+  shippingNum: string;
+  arrivalDate: Date;
+  shippingMethod: string;
+  venderNo: string;
+  userEmail: string;
+  invoiceNumber: string;
 }

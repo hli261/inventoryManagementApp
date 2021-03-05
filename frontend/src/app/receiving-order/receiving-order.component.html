@@ -1,0 +1,39 @@
+<!-- <div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem" >
+    <div class="container" *ngIf="displayTitle">
+        <div class="row mb-3">
+            <div class="col-sm-4">
+               <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
+            </div>
+            <div class="col-sm-4">
+                Location: &nbsp;&nbsp;<span>{{bin.warehouseLocation.locationName}}</span>
+            </div>
+            <div class="col-sm-4">
+                Type: &nbsp;&nbsp;<span>{{bin.binType.typeName}}</span>
+            </div>
+        </div>    
+        <div *ngIf="previousUrl_ | async as url">
+        <button (click)="back(url)" class="btn btn-primary">Back</button>    
+       </div>     
+    </div>
+    <table  class="table table-hover border-top mt-3">
+        <thead  class="table-light">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Item Number</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr *ngFor='let item of binItem; let i = index'  (mouseenter)="showDetail(item.itemNumber)"  (mouseleave)="closeDetail()">
+                <td>{{i + 1}}</td>
+                <td>{{item.itemNumber}}</td>
+                <td>{{item.quantity}}</td>               
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
+        <button type=""  (click)="save()"  class="btn btn-primary">Save</button>
+        <button type="clean" class="btn btn-primary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</div> -->

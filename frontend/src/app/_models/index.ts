@@ -8,3 +8,5 @@ export * from './item';
 export * from './binItem';
 export * from './createBin';
 export * from './binEdit';
+export * from './vender';
+export * from './lot';

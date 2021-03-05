@@ -5,19 +5,21 @@
   <table class="table table-hover border-top mt-3">
     <thead class="table-light">
       <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Date</th>
-        <th scope="col">ShipType</th>
-        <th scope="col">Parcels</th>
+        <th scope="col">No</th>
+        <th scope="col">Arrival Date</th>
+        <th scope="col">Ship Method</th>
+        <th scope="col">Vender Name</th>
+        <th scope="col">Creator</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor = 'let ship of ships'>
-        <td>{{ship.id}}</td>
-        <td>{{ship.date}}</td>
-        <td>{{ship.shipTypeId}}</td>
-        <td>{{ship.parcel}}</td>
+      <tr *ngFor = 'let ship of ships; let i=index'>
+        <td>{{i + 1}}</td>
+        <td>{{ship.arrivalDate}}</td>
+        <td>{{ship.shippingMethod}}</td>
+        <td>{{ship.venderNo}}</td>
+        <td>{{ship.userEmail}}</td>
         <td>
           <a [routerLink]="['/ship', ship.id]">Edit</a>&nbsp;&nbsp; |
           <a [routerLink]="['/ship', ship.id]">Detail</a>
