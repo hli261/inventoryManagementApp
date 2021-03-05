@@ -9,8 +9,10 @@ namespace API.Entities
         public int ReceiveQty { get; set; }
         public int DiffQty { get; set; }
 
-        public DateTime ExpireDate {get;set;}
+        public Item Item { get; set; }
 
+        public DateTime ExpireDate { get; set; }
 
+        public Receiving Receiving { get; set; }
     }
 }

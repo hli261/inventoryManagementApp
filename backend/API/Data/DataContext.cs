@@ -37,6 +37,9 @@ namespace API.Data
         public DbSet<ERP_POheader> ERP_POheaders { get; set; }
         public DbSet<ERP_POitem> ERP_POitems { get; set; }
 
+        public DbSet<Receiving> Receivings {get;set;}
+        public DbSet<ReceivingItem> ReceivingItems {get;set;}
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

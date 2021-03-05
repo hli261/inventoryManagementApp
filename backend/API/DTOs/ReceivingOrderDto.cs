@@ -4,6 +4,6 @@ namespace API.DTOs
     {
         public string PONumber { get; set; }
         public string VenderNo { get; set; }
-        public int ShippingId { get; set; }
+        public string ShippingNumber { get; set; }
     }
 }
