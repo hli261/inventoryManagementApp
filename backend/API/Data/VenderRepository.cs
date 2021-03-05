@@ -27,6 +27,31 @@ namespace API.Data
             return await _context.ShippingMethods.ToListAsync();
         }
 
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
+        public async Task<ShippingMethod> GetShippingMethodbyName(string name)
+        {
+            return await _context.ShippingMethods.SingleOrDefaultAsync(x => x.LogisticName.ToUpper() == name);
+        }
+
+        public void CreateShippingMethod(ShippingMethod method)
+        {
+            _context.ShippingMethods.Add(method);
+        }
+        public async Task<bool> ShippingMethodExist(string method)
+        {
+            return await _context.ShippingMethods.AnyAsync(x => x.LogisticName.ToUpper() == method.ToUpper());
+        }
+        public void deleteShippingMethod(ShippingMethod method)
+        {
+            _context.ShippingMethods.Remove(method);
+        }
+
+
         public async Task<bool> VenderExist(string venderNo)
         {
             return await _context.Venders.AnyAsync(x => x.VenderNo == venderNo);
@@ -35,6 +60,11 @@ namespace API.Data
         public async Task<Vender> GetVenderByNumber(string vNumber)
         {
             return await _context.Venders.FirstOrDefaultAsync(x => x.VenderNo == vNumber.ToUpper());
+        }
+
+        public async Task<IEnumerable<Vender>> GetVendersAsync()
+        {
+            return await _context.Venders.ToListAsync();
         }
     }
 }

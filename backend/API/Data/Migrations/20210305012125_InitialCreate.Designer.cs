@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210204055733_InitialCreateItems")]
-    partial class InitialCreateItems
+    [Migration("20210305012125_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,11 +182,16 @@ namespace API.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ShippingLotId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BinId");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("ShippingLotId");
 
                     b.ToTable("BinItems");
                 });
@@ -203,6 +208,52 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BinTypes");
+                });
+
+            modelBuilder.Entity("API.Entities.ERP_POheader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateRequired")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PONumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VendorNo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WhseLocation")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ERP_POheaders");
+                });
+
+            modelBuilder.Entity("API.Entities.ERP_POitem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ItemNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OrderQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PONumber")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ERP_POitems");
                 });
 
             modelBuilder.Entity("API.Entities.Item", b =>
@@ -238,6 +289,149 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("API.Entities.Receiving", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ROnumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ShippingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShippingId");
+
+                    b.ToTable("Receivings");
+                });
+
+            modelBuilder.Entity("API.Entities.ReceivingItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DiffQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OrderQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReceiveQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReceivingId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ReceivingId");
+
+                    b.ToTable("ReceivingItems");
+                });
+
+            modelBuilder.Entity("API.Entities.Shipping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ShippingLotId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ShippingMethodId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ShippingNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShippingLotId");
+
+                    b.HasIndex("ShippingMethodId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VenderId");
+
+                    b.ToTable("Shippings");
+                });
+
+            modelBuilder.Entity("API.Entities.ShippingLot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LotNumber")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingLots");
+                });
+
+            modelBuilder.Entity("API.Entities.ShippingMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogisticName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingMethods");
+                });
+
+            modelBuilder.Entity("API.Entities.Vender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("VenderName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VenderNo")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Venders");
                 });
 
             modelBuilder.Entity("API.Entities.WarehouseLocation", b =>
@@ -360,13 +554,13 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Bin", b =>
                 {
                     b.HasOne("API.Entities.BinType", "BinType")
-                        .WithMany("Bins")
+                        .WithMany()
                         .HasForeignKey("BinTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.WarehouseLocation", "WarehouseLocation")
-                        .WithMany("Bins")
+                        .WithMany()
                         .HasForeignKey("WarehouseLocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -379,7 +573,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.BinItem", b =>
                 {
                     b.HasOne("API.Entities.Bin", "Bin")
-                        .WithMany()
+                        .WithMany("BinItems")
                         .HasForeignKey("BinId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -390,9 +584,76 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.ShippingLot", "ShippingLot")
+                        .WithMany()
+                        .HasForeignKey("ShippingLotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Bin");
 
                     b.Navigation("Item");
+
+                    b.Navigation("ShippingLot");
+                });
+
+            modelBuilder.Entity("API.Entities.Receiving", b =>
+                {
+                    b.HasOne("API.Entities.Shipping", "Shipping")
+                        .WithMany()
+                        .HasForeignKey("ShippingId");
+
+                    b.Navigation("Shipping");
+                });
+
+            modelBuilder.Entity("API.Entities.ReceivingItem", b =>
+                {
+                    b.HasOne("API.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId");
+
+                    b.HasOne("API.Entities.Receiving", "Receiving")
+                        .WithMany("ReceivingItems")
+                        .HasForeignKey("ReceivingId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Receiving");
+                });
+
+            modelBuilder.Entity("API.Entities.Shipping", b =>
+                {
+                    b.HasOne("API.Entities.ShippingLot", "ShippingLot")
+                        .WithMany()
+                        .HasForeignKey("ShippingLotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.ShippingMethod", "ShippingMethod")
+                        .WithMany()
+                        .HasForeignKey("ShippingMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Vender", "Vender")
+                        .WithMany()
+                        .HasForeignKey("VenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShippingLot");
+
+                    b.Navigation("ShippingMethod");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Vender");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -441,9 +702,9 @@ namespace API.Data.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("API.Entities.BinType", b =>
+            modelBuilder.Entity("API.Entities.Bin", b =>
                 {
-                    b.Navigation("Bins");
+                    b.Navigation("BinItems");
                 });
 
             modelBuilder.Entity("API.Entities.Item", b =>
@@ -451,9 +712,9 @@ namespace API.Data.Migrations
                     b.Navigation("BinItems");
                 });
 
-            modelBuilder.Entity("API.Entities.WarehouseLocation", b =>
+            modelBuilder.Entity("API.Entities.Receiving", b =>
                 {
-                    b.Navigation("Bins");
+                    b.Navigation("ReceivingItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -25,5 +25,8 @@ namespace API.Interfaces
         void CreateShippingLot(ShippingLot lot);
         void UpdateShipping(Shipping shipping);
         Task<ShippingLot> GetShippingLotById(int id);
+
+        int LotCountAsync();
+        Task<Shipping> GetShippingByNumber(string spNum);
     }
 }

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -11,10 +13,20 @@ namespace API.Controllers
     {
         private readonly CSVService _csvHandler;
         private readonly IVenderRepository _venderRepository;
-        public VenderController(IVenderRepository venderRepository, CSVService csvHandler)
+        private readonly IMapper _mapper;
+        public VenderController(IVenderRepository venderRepository, CSVService csvHandler, IMapper mapper)
         {
+            _mapper = mapper;
             _venderRepository = venderRepository;
             _csvHandler = csvHandler;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Vender>>> GetVenders()
+        {
+            var venders = await _venderRepository.GetVendersAsync();
+
+            return Ok(venders);
         }
 
         [HttpGet("venderCSVfile")]
@@ -43,6 +55,40 @@ namespace API.Controllers
             var shippingMethods = await _venderRepository.GetShippingMethods();
 
             return Ok(shippingMethods);
+        }
+
+        [HttpPost("createShippingMethod")]
+        public async Task<ActionResult<IEnumerable<ShippingMethod>>> CreateShippingMethod(ShippingMethodDto method)
+        {
+            if (await _venderRepository.ShippingMethodExist(method.LogisticName) == true)
+                return BadRequest("Shipping Method Already Exist");
+
+            var shippingMethod = _mapper.Map<ShippingMethod>(method);
+
+            _venderRepository.CreateShippingMethod(shippingMethod);
+
+            if (await _venderRepository.SaveAllAsync())
+                return Ok(shippingMethod);
+
+            return BadRequest("Failed to add shipping method.");
+        }
+
+        [HttpDelete("deleteShippingMethod/{name}")]
+        public async Task<ActionResult> DeleteShipping(string name)
+        {
+            var shipping = await _venderRepository.GetShippingMethodbyName(name.ToUpper());
+
+            if (shipping != null)
+            {
+                _venderRepository.deleteShippingMethod(shipping);
+            }
+
+            if (await _venderRepository.SaveAllAsync())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Failed to delete shipping.");
         }
 
         [HttpGet("venderExist/{venderNo}")]

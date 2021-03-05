@@ -180,11 +180,16 @@ namespace API.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ShippingLotId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BinId");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("ShippingLotId");
 
                     b.ToTable("BinItems");
                 });
@@ -284,6 +289,61 @@ namespace API.Data.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("API.Entities.Receiving", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ROnumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ShippingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShippingId");
+
+                    b.ToTable("Receivings");
+                });
+
+            modelBuilder.Entity("API.Entities.ReceivingItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DiffQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OrderQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReceiveQty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReceivingId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ReceivingId");
+
+                    b.ToTable("ReceivingItems");
+                });
+
             modelBuilder.Entity("API.Entities.Shipping", b =>
                 {
                     b.Property<int>("Id")
@@ -296,21 +356,26 @@ namespace API.Data.Migrations
                     b.Property<string>("InvoiceNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ShippingLotId")
+                    b.Property<int>("ShippingLotId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ShippingMethod")
+                    b.Property<int>("ShippingMethodId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ShippingNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("VenderId")
+                    b.Property<int>("VenderId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ShippingLotId");
+
+                    b.HasIndex("ShippingMethodId");
 
                     b.HasIndex("UserId");
 
@@ -328,7 +393,7 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LotDetail")
+                    b.Property<string>("LotNumber")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -517,26 +582,72 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.ShippingLot", "ShippingLot")
+                        .WithMany()
+                        .HasForeignKey("ShippingLotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Bin");
 
                     b.Navigation("Item");
+
+                    b.Navigation("ShippingLot");
+                });
+
+            modelBuilder.Entity("API.Entities.Receiving", b =>
+                {
+                    b.HasOne("API.Entities.Shipping", "Shipping")
+                        .WithMany()
+                        .HasForeignKey("ShippingId");
+
+                    b.Navigation("Shipping");
+                });
+
+            modelBuilder.Entity("API.Entities.ReceivingItem", b =>
+                {
+                    b.HasOne("API.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId");
+
+                    b.HasOne("API.Entities.Receiving", "Receiving")
+                        .WithMany("ReceivingItems")
+                        .HasForeignKey("ReceivingId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Receiving");
                 });
 
             modelBuilder.Entity("API.Entities.Shipping", b =>
                 {
                     b.HasOne("API.Entities.ShippingLot", "ShippingLot")
                         .WithMany()
-                        .HasForeignKey("ShippingLotId");
+                        .HasForeignKey("ShippingLotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.ShippingMethod", "ShippingMethod")
+                        .WithMany()
+                        .HasForeignKey("ShippingMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.Vender", "Vender")
                         .WithMany()
-                        .HasForeignKey("VenderId");
+                        .HasForeignKey("VenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ShippingLot");
+
+                    b.Navigation("ShippingMethod");
 
                     b.Navigation("User");
 
@@ -597,6 +708,11 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Item", b =>
                 {
                     b.Navigation("BinItems");
+                });
+
+            modelBuilder.Entity("API.Entities.Receiving", b =>
+                {
+                    b.Navigation("ReceivingItems");
                 });
 #pragma warning restore 612, 618
         }

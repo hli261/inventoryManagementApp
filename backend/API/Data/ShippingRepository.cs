@@ -37,6 +37,18 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Shipping> GetShippingByNumber(string spNum)
+        {
+            // return await _context.Shippings.FindAsync(id);
+            return await _context.Shippings
+                .Include(v => v.Vender)
+                .Include(u => u.User)
+                .Include(l => l.ShippingLot)
+                .Where(i => i.ShippingNumber.ToUpper() == spNum.ToUpper())
+                .FirstOrDefaultAsync();
+        }
+
+
         public void AddShippingAsync(Shipping shipping)
         {
             _context.Shippings.Add(shipping);
@@ -45,6 +57,11 @@ namespace API.Data
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public int LotCountAsync()
+        {
+            return _context.ShippingLots.Count();
         }
 
         public async Task<bool> ExistAsync(string shippingNum)
