@@ -134,6 +134,12 @@ namespace API.Controllers
             return BadRequest("Failed to delete shipping.");
         }
 
+        [HttpGet("lotbynumber/{number}")]
+        public async Task<ActionResult<ShippingLot>> GetLotByNumber(string number)
+        {
+            var lot = await _shippingRepository.GetShippingLotByNumber(number);
 
+            return Ok(_mapper.Map<ShippingLot>(lot));
+        }
     }
 }

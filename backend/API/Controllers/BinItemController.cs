@@ -22,15 +22,17 @@ namespace API.Controllers
         private readonly CSVService _csvHandler;
         private readonly IItemRepository _itemRepository;
         private readonly IBinRepository _binRepository;
+        private readonly IShippingRepository _shippingRepository;
 
         public BinItemController(IMapper mapper, IBinItemRepository binItemRepository, CSVService csvHandler,
-            IBinRepository binRepository, IItemRepository itemRepository)
+            IBinRepository binRepository, IItemRepository itemRepository, IShippingRepository shippingRepository)
         {
             _csvHandler = csvHandler;
             _itemRepository = itemRepository;
             _binRepository = binRepository;
             _mapper = mapper;
             _binItemRepository = binItemRepository;
+            _shippingRepository = shippingRepository;
         }
 
         [HttpGet("binitemcsvfile")]
@@ -49,12 +51,14 @@ namespace API.Controllers
         {
             var bin = await _binRepository.GetBinByCode(createBinItemDto.BinCode);
             var item = await _itemRepository.GetItemByNumber(createBinItemDto.ItemNumber);
+            var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemDto.LotNumber);
 
             var binItem = new BinItem
             {
                 Quantity = createBinItemDto.Quantity,
                 Bin = bin,
-                Item = item
+                Item = item,
+                ShippingLot = lot,
             };
 
             _binItemRepository.AddBinItem(binItem);
