@@ -37,6 +37,7 @@ namespace API.Data
             return await _context.BinItems
                 .Include(b => b.Bin)
                 .Include(i => i.Item)
+                .Include(s => s.ShippingLot)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
@@ -45,6 +46,7 @@ namespace API.Data
             var binItems = await _context.BinItems
                 .Include(b => b.Bin)
                 .Include(i => i.Item)
+                .Include(s => s.ShippingLot)
                 .ToListAsync();
             return binItems;
         }
@@ -53,7 +55,7 @@ namespace API.Data
         {
             try
             {
-                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode.ToUpper() == code.ToUpper()).Include(i => i.Item).ToListAsync()
+                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode.ToUpper() == code.ToUpper()).Include(i => i.Item).Include(s=>s.ShippingLot).ToListAsync()
                             select new BinItemQueryDto
                              {
                                  Id = binItem.Id,
@@ -61,7 +63,9 @@ namespace API.Data
                                  BinId = binItem.BinId,
                                  ItemId = binItem.ItemId,
                                  BinCode = binItem.Bin.BinCode,
-                                 ItemNumber = binItem.Item.ItemNumber
+                                 ItemNumber = binItem.Item.ItemNumber,
+                                 ShippingLotId = binItem.ShippingLot.Id,
+                                 LotNumber = binItem.ShippingLot.LotNumber,
                             }; 
                 
 
@@ -80,7 +84,7 @@ namespace API.Data
         {
             try
             {
-                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber.ToUpper() == number.ToUpper()).ToListAsync()
+                var result= from binItem in await _context.BinItems.Include(s=>s.ShippingLot).Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber.ToUpper() == number.ToUpper()).ToListAsync()
                             select new BinItemQueryDto
                              {
                                  Id = binItem.Id,
@@ -88,7 +92,9 @@ namespace API.Data
                                  BinId = binItem.BinId,
                                  ItemId = binItem.ItemId,
                                  BinCode = binItem.Bin.BinCode,
-                                 ItemNumber = binItem.Item.ItemNumber
+                                 ItemNumber = binItem.Item.ItemNumber,
+                                 ShippingLotId = binItem.ShippingLot.Id,
+                                 LotNumber = binItem.ShippingLot.LotNumber,
                             }; 
                 
 
