@@ -33,6 +33,8 @@ import { BinItemManagementComponent } from './bin-item-management/bin-item-manag
 import { BinCreateComponent } from './bin-create/bin-create.component';
 import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ItemBinsComponent } from './item-bins/item-bins.component';
+import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
+import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { ItemBinsComponent } from './item-bins/item-bins.component';
     BinItemManagementComponent,
     BinCreateComponent,
     BinEditComponent,
-    ItemBinsComponent
+    ItemBinsComponent,
+    ReceivingOrdersComponent,
+    ReceivingOrderComponent
   ],
   imports: [
     BrowserModule,

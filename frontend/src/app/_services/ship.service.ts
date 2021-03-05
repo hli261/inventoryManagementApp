@@ -12,6 +12,10 @@ export class ShipService {
 
   constructor(private http: HttpClient) { }
 
+  public getShippingMethod(): Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiUrl}/api/Vender/shippingMethods`);
+  }
+
   public get(): Observable<Ship[]> {
     return this.http.get<Ship[]> (`${environment.apiUrl}/api/ship`);
   }
