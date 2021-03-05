@@ -19,5 +19,7 @@ namespace API.Interfaces
 
         void deleteShippingMethod(ShippingMethod method);
         Task<bool> ShippingMethodExist(string method);
+
+        Task<IEnumerable<Vender>> GetVendersAsync();
     }
 }

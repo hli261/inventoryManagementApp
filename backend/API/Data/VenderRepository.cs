@@ -61,5 +61,10 @@ namespace API.Data
         {
             return await _context.Venders.FirstOrDefaultAsync(x => x.VenderNo == vNumber.ToUpper());
         }
+
+        public async Task<IEnumerable<Vender>> GetVendersAsync()
+        {
+            return await _context.Venders.ToListAsync();
+        }
     }
 }

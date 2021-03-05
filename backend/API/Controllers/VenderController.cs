@@ -21,6 +21,14 @@ namespace API.Controllers
             _csvHandler = csvHandler;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Vender>>> GetVenders()
+        {
+            var venders = await _venderRepository.GetVendersAsync();
+
+            return Ok(venders);
+        }
+
         [HttpGet("venderCSVfile")]
         public ActionResult ImportVenderCsvFile()
         {
