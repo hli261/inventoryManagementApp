@@ -147,7 +147,7 @@ namespace API.Services
                     x++;
                     strLine = sr.ReadLine();
                     value = strLine.Split(',');
-                    if (x > 1 && value.Length == 4)
+                    if (x > 1 && value.Length == 5)
                     {
                         try
                         {
@@ -156,7 +156,7 @@ namespace API.Services
                             binItem.BinId = Int32.Parse(value[1]);
                             binItem.ItemId = Int32.Parse(value[2]);
                             binItem.Quantity = Int32.Parse(value[3]);
-
+                            binItem.ShippingLotId = Int32.Parse(value[4]);
                             result.Add(binItem);
                         }
                         catch (Exception ex)

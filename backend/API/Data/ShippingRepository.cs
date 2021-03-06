@@ -85,6 +85,11 @@ namespace API.Data
             return await _context.ShippingLots.FindAsync(id);
         }
 
+         public async Task<ShippingLot> GetShippingLotByNumber(string number)
+        {
+            return await _context.ShippingLots.SingleOrDefaultAsync(x => x.LotNumber.ToUpper() == number.ToUpper());
+        }
+
         public void DeleteShipping(Shipping shipping)
         {
             _context.Shippings.Remove(shipping);
