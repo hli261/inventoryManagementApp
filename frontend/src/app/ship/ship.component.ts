@@ -13,13 +13,13 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class ShipComponent implements OnInit {
 
-  ship!: Ship;
+  ship: Ship;
   shipMethod: Array<any>;
   model!: NgbDateStruct;
   sub!: Subscription;
-  pageTitle: string;
   shipForm: any;
   errorMessage: string;
+  visible: boolean =false; 
 
   // shipForm = this.fb.group({
   //   arrivalDate: [''],
@@ -33,7 +33,8 @@ export class ShipComponent implements OnInit {
       arrivalDate: [null, [Validators.required]],
       shipType: [null, [Validators.required]],
       venderNo: [null, [Validators.required, Validators.minLength(6)]],
-      invoiceNo: [null] 
+      invoiceNo: [null], 
+      otherMethod: [null]
     });
   }
 
@@ -43,6 +44,7 @@ export class ShipComponent implements OnInit {
               private fb: FormBuilder,
               private headerService: AccountService) { 
                 this.buildForm();
+                this.ship.arrivalDate = new Date();
               }
 
 
@@ -53,19 +55,25 @@ export class ShipComponent implements OnInit {
     //   })
     // })
 
-    this.sub=this.data.getShippingMethod().subscribe(data=> {this.shipMethod =data; console.log(this.shipMethod);});
-
+    this.sub=this.data.getShippingMethod().subscribe(data=> this.shipMethod =data );
     this.headerService.setTitle('Ship information');
+   
   }
 
- 
+  addShipMethod() {
+    console.log("test other");
+    if(this.shipForm.value.shipType === "other"){
+       this.visible = true;
+    }
+  }
+  
 
 
   onSubmit() {
        console.log('ship submit: ', this.shipForm.value);     //use to test ngForm
-        this.data.add(this.ship);
+        
 
-      this.router.navigate(['/ships']);
+      // this.router.navigate(['/ships']);
    }
 
 }

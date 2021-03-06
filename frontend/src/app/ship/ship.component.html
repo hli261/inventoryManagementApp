@@ -2,14 +2,14 @@
   <header title="pageTitle"></header>
 </div>
 <div class="container mt-3 mb-5">
-  <div class="card  mx-auto mb-3" style="width: 45rem;">
+  <div class="card  mx-auto mb-3" style="width: 38rem;">
     <h3 class="card-header">
       Shipping Record
     </h3>
     <br>
     <div class="container-fluid mb-3">
       <form action="" [formGroup]="shipForm" (ngSubmit)="onSubmit()" class="container">
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-sm-12">
           <label for="dp" class="form-label">Arrival Date</label>
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="arrivalDate"
@@ -31,11 +31,32 @@
               <small class="text-danger">Arrival Date is required</small></span>
           </div>
         </div>
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-12">
           <label for="shipType" class="form-label">Type </label>
+          <!--<p>Type</p>
+           <div class="form-check form-check-inline" *ngFor="let type of shipMethod" >
+            <input class="form-check-input" type="checkbox" [value]="type.logisticName" id="flexCheckDefault" formControlName="shipType">
+            <label class="form-check-label" for="flexCheckDefault">
+              {{type.logisticName}}
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <div class="input-group">
+            <input class="form-check-input" type="checkbox" value="other" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Other
+            </label>
+            <input type="text" formControlName="otherMethod">
+          </div>
+          </div> -->
           <select class="form-select" aria-label="example" formControlName="shipType" required>
-            <option *ngFor="let type of shipMethod" value="type.logisticName">{{type.logisticName}}</option>
+            <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
+            <option value="other" (select)="addShipMethod()">Other</option>
           </select>
+          <div *ngIf="visible">
+            <label for="otherMethod" class="form-label">Other Shipping Method</label>
+            <input class="me-2 border-bottom border-dark"  type="text" formControlName="otherMethod">
+          </div>
           <div>
             <span *ngIf="!shipForm.get('shipType').valid && shipForm.get('shipType').touched" class="help-block">
               <small class="text-danger">Ship Type is required</small></span>
