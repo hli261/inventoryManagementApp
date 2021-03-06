@@ -4,7 +4,6 @@ namespace API.DTOs
 {
     public class UpdateShippngDto
     {
-        public int Id { get; set; }
         public DateTime ArrivalDate { get; set; }
         public string InvoiceNumber { get; set; }
         public string ShippingMethod { get; set; }
