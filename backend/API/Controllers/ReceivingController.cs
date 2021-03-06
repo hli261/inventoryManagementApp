@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -25,11 +26,12 @@ namespace API.Controllers
         }
 
         [HttpGet("receivingOrder")]
-        public async Task<ActionResult<GetReceivingDto>> GetROExist(ReceivingOrderDto receiving)
+        public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery]ReceivingOrderDto receiving)
         {
             var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
             var shippingNo = await _shippingRepository.GetShippingByNumber(receiving.ShippingNumber.ToUpper());
             var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
+
             var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
 
             if (vender == null)

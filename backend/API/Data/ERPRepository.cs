@@ -22,9 +22,9 @@ namespace API.Data
 
         public async Task<ERP_POheader> GetReceivingByPO(string poNum)
         {
-            var bins = await _context.ERP_POheaders.SingleOrDefaultAsync(x => x.PONumber.ToUpper() == poNum.ToUpper());
+            var po = await _context.ERP_POheaders.SingleOrDefaultAsync(x => x.PONumber.ToUpper() == poNum.ToUpper());
 
-            return bins;
+            return po;
         }
 
         public async Task<IEnumerable<ERP_POitem>> GetReceivingItemByPO(string poNum)
