@@ -35,7 +35,7 @@ namespace API.Controllers
 
             return Ok(shippings);
         }
-        
+
 
         [HttpGet("shippingCSVfile")]
         public ActionResult ImportShippingCsvFile()
@@ -87,14 +87,27 @@ namespace API.Controllers
             return BadRequest("Failed to add shipping.");
         }
 
-        [HttpPut("update")]
-        public async Task<ActionResult> UpdateShipping(UpdateShippngDto shippingDto)
+        [HttpGet("getShipping/{shipNum}")]
+        public async Task<ActionResult> ShippingByNumber(string shipNum)
         {
-            var shipping = await _shippingRepository.GetShippingById(shippingDto.Id);
+            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
 
             if (shipping == null)
             {
-                return BadRequest("Shipping ID not found.");
+                return BadRequest("Shipping Number not found.");
+            }
+
+            return Ok(shipping);
+        }
+
+        [HttpPut("update/{shipNum}")]
+        public async Task<ActionResult> UpdateShipping(UpdateShippngDto shippingDto, string shipNum)
+        {
+            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
+
+            if (shipping == null)
+            {
+                return BadRequest("Shipping Number not found.");
             }
             var user = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
             var vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo);
