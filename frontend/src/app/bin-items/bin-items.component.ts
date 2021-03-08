@@ -21,8 +21,10 @@ export class BinItemsComponent implements OnInit {
   subQuery: Subscription;
   item: Item;
 
-  constructor(private binService: BinService, private route: ActivatedRoute, private router: Router, 
-    private urlService: UrlService) { 
+  constructor(private binService: BinService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              private urlService: UrlService) { 
     this.code = this.route.snapshot.params['binCode'];
   }
 

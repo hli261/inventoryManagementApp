@@ -10,6 +10,8 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ShipsComponent } from './ships/ships.component';
 import { ShipComponent } from './ship/ship.component';
+import { ShipRecordComponent } from './ship-record/ship-record.component';
+import { ShipEditComponent } from './ship-edit/ship-edit.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BinManagementComponent } from './bin-management/bin-management.component';
 import { BinItemsComponent } from './bin-items/bin-items.component';
@@ -71,7 +73,8 @@ const routes: Routes = [
     children: [
       { path: 'ships', component: ShipsComponent },
       { path: 'ship', component: ShipComponent },
-      { path: 'ship/:id', component: ShipComponent },
+      { path: 'ship-detail/:shipNum', component: ShipRecordComponent },
+      { path: 'ship-edit/:shipNum', component: ShipEditComponent },
       { path: 'orders', component: ReceivingOrdersComponent },
       { path: 'order', component: ReceivingOrderComponent }
     ]

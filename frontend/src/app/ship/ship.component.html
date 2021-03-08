@@ -2,7 +2,7 @@
   <header title="pageTitle"></header>
 </div>
 <div class="container mt-3 mb-5">
-  <div class="card  mx-auto mb-3" style="width: 38rem;">
+  <div class="card  mx-auto mb-3" style="width: 35rem;">
     <h3 class="card-header">
       Shipping Record
     </h3>
@@ -10,7 +10,12 @@
     <div class="container-fluid mb-3">
       <form action="" [formGroup]="shipForm" (ngSubmit)="onSubmit()" class="container">
         <div class="mb-3 col-sm-12">
-          <label for="dp" class="form-label">Arrival Date</label>
+          <div class="input-group">
+          <label for="dp" class="form-label me-1">Arrival Date</label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+            <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+          </svg>
+        </div>
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="arrivalDate"
               [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" required>
@@ -26,49 +31,55 @@
               </button>
             </div>
           </div>
-          <div>
+          <!-- <div>
             <span *ngIf="!shipForm.get('arrivalDate').valid && shipForm.get('arrivalDate').touched" class="help-block">
               <small class="text-danger">Arrival Date is required</small></span>
-          </div>
+          </div> -->
         </div>
         <div class="mb-3 col-md-12">
-          <label for="shipType" class="form-label">Type </label>
-          <!--<p>Type</p>
+          <div class="input-group">
+          <label for="shipType" class="form-label me-1">Type </label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+            <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+          </svg>
+          <br/>
+          </div>
            <div class="form-check form-check-inline" *ngFor="let type of shipMethod" >
-            <input class="form-check-input" type="checkbox" [value]="type.logisticName" id="flexCheckDefault" formControlName="shipType">
-            <label class="form-check-label" for="flexCheckDefault">
-              {{type.logisticName}}
-            </label>
+            <input class="form-check-input" type="checkbox" [value]="type.logisticName" (change)="check($event, type.logisticName)" id="flexCheckDefault" formControlName="shipType">
+            <label class="form-check-label" for="flexCheckDefault">{{type.logisticName}}</label>
           </div>
           <div class="form-check form-check-inline">
             <div class="input-group">
-            <input class="form-check-input" type="checkbox" value="other" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Other
-            </label>
-            <input type="text" formControlName="otherMethod">
+            <input class="form-check-input" type="checkbox" value="other" (change)="otherChecked($event)" id="flexCheckDefault" formControlName="shipType">
+            <label class="form-check-label" for="flexCheckDefault">Other</label>
+            <input class="ms-3 border-bottom"  type="text" formControlName="logisticName">
           </div>
-          </div> -->
-          <select class="form-select" aria-label="example" formControlName="shipType" required>
+          </div>
+          <!-- <select class="form-select" aria-label="example" formControlName="shipType" required>
             <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
-            <option value="other" (select)="addShipMethod()">Other</option>
+            <option value="other" (selected)="addShipMethod()">Other</option>
           </select>
           <div *ngIf="visible">
             <label for="otherMethod" class="form-label">Other Shipping Method</label>
             <input class="me-2 border-bottom border-dark"  type="text" formControlName="otherMethod">
-          </div>
-          <div>
+          </div> -->
+          <!-- <div>
             <span *ngIf="!shipForm.get('shipType').valid && shipForm.get('shipType').touched" class="help-block">
               <small class="text-danger">Ship Type is required</small></span>
-          </div>
+          </div> -->
         </div>
         <div class="mb-3 col-md-6">
-          <label for="shipType" class="form-label">Vender Number</label>
+          <div class="input-group">
+          <label for="shipType" class="form-label me-1">Vender Number</label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+            <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+          </svg>
+        </div>
           <input class="form-control" placeholder="" name="venderNo" formControlName="venderNo" requried>
-          <div>
+          <!-- <div>
             <span *ngIf="!shipForm.get('venderNo').valid && shipForm.get('venderNo').touched" class="help-block">
               <small class="text-danger">Vender Number is required</small></span>
-          </div>
+          </div> -->
         </div>
         <div class="mb-3 col-md-6">
           <label for="shipType" class="form-label">Invoice Number</label>
@@ -81,9 +92,7 @@
         <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
           <button type="submit" class="btn btn-primary">Create</button>
         </div>
-
         <br>
-
       </form>
 
     </div>

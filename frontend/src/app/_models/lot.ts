@@ -1,5 +1,5 @@
 export class Lot{
     id: number;
-    lotDetail: string;
+    lotNumber: string;
     createTime: Date;
 }
