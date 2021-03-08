@@ -1,0 +1,40 @@
+<div class="container-fluid mt-3 mb-5">
+    <div class="card  mx-auto mb-3" style="width: 25rem;">
+        <h3 class="card-header">
+            Receiving Create
+        </h3>
+        <br>
+        <div class="mb-3">
+            <form action="" [formGroup]="receiveForm" (ngSubmit)="onSubmit()" class="container">
+                
+                <div class="mb-3">
+                    <label for="receiving" class="form-label">PONumber </label>
+                    <input class="form-control" placeholder="" name="PONumber" formControlName="PONumber" requried>
+                </div>
+                <div class="mb-3">
+                    <label for="receiving" class="form-label">Vender Number</label>
+                    <input class="form-control" placeholder="" name="venderNo" formControlName="venderNo" requried>
+                </div>
+                <div class="mb-3">
+                    <label for="receiving" class="form-label">Shipping Number</label>
+                    <input class="form-control" placeholder="" name="shippingNumber" formControlName="shippingNumber" required> 
+                </div>
+                <h5 class="mb-3 bg-success text-white bg-gradient rounded-3" id="successMsg" *ngIf="successMessage">
+                    <span class="d-md-flex justify-content-md-evenly" >{{successMessage}}</span>
+                </h5>
+
+                <div id="errorMsg" *ngIf="errorMessage">
+                    <span class="text-danger">{{errorMessage}}</span>
+                </div><br>
+
+                <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+                <br>
+
+            </form>
+
+        </div>
+    </div>
+</div>

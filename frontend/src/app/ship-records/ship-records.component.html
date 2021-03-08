@@ -1,0 +1,30 @@
+<div class="container-fluid" mt-3 mb-2 *ngIf="ships_ | async as ships">
+<table class="table table-hover border-top mt-3">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Ship Number</th>
+        <th scope="col">Arrival Date</th>
+        <th scope="col">InvoiceNumber</th>
+        <th scope="col">Vender Name</th>
+        <th scope="col">Creator</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let ship of ships; let i=index'>
+        <td>{{i + 1}}</td>
+        <td>{{ship.shippingNumber}}</td>
+        <td>{{ship.arrivalDate}}</td>
+        <td>{{ship.invoiceNumber}}</td>
+        <td>{{ship.vender.venderName}}</td>
+        <td>{{ship.user.lastName}}</td>
+        <td>
+          <a [routerLink]="['/ship-edit', ship.shippingNumber]">Edit</a> | 
+          <!-- <a [routerLink]="['/ship-detail', ship.shippingNumber]">Detail</a> -->
+          <a [routerLink]="['/ship-detail', ship.shippingNumber]" (click)="recordUrl(ship.shippingNumber)">Detail</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

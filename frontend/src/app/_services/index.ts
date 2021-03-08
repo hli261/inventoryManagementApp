@@ -9,3 +9,4 @@ export * from './auth.service';
 export * from './bin.service';
 export * from './access.service';
 export * from './url.service';
+export * from './receiving.service';

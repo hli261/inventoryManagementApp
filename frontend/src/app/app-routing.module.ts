@@ -10,6 +10,8 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ShipsComponent } from './ships/ships.component';
 import { ShipComponent } from './ship/ship.component';
+import { ShipRecordComponent } from './ship-record/ship-record.component';
+import { ShipEditComponent } from './ship-edit/ship-edit.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BinManagementComponent } from './bin-management/bin-management.component';
 import { BinItemsComponent } from './bin-items/bin-items.component';
@@ -18,6 +20,7 @@ import { BinCreateComponent } from './bin-create/bin-create.component';
 import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
 import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
+import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 
@@ -71,9 +74,11 @@ const routes: Routes = [
     children: [
       { path: 'ships', component: ShipsComponent },
       { path: 'ship', component: ShipComponent },
-      { path: 'ship/:id', component: ShipComponent },
+      { path: 'ship-detail/:shipNum', component: ShipRecordComponent },
+      { path: 'ship-edit/:shipNum', component: ShipEditComponent },
       { path: 'orders', component: ReceivingOrdersComponent },
-      { path: 'order', component: ReceivingOrderComponent }
+      { path: 'order', component: ReceivingOrderComponent },
+      { path: 'receivingCreate', component: ReceivingCreateComponent},
     ]
   },
   { path: '**', component: PageNotFoundComponent }

@@ -33,8 +33,7 @@ export class HeaderComponent implements OnInit {
     this.headerService.getTitle().subscribe(headerTitle => this.title = headerTitle);    
     this.authService.getLoginUser().subscribe(user=> this.user=user); 
     // this.user_ = this.authService.getLoginUser();
-    // this.authService.getLoginUser();
-    
+    // this.authService.getLoginUser();    
 
   } 
 
