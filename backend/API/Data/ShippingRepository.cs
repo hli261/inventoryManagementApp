@@ -23,6 +23,7 @@ namespace API.Data
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
+                .Include(m => m.ShippingMethod)
                 .ToListAsync();
         }
 
@@ -33,6 +34,7 @@ namespace API.Data
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
+                .Include(m => m.ShippingMethod)
                 .Where(i => i.Id == id)
                 .FirstOrDefaultAsync();
         }
@@ -44,6 +46,7 @@ namespace API.Data
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
+                .Include(m => m.ShippingMethod)
                 .Where(i => i.ShippingNumber.ToUpper() == spNum.ToUpper())
                 .FirstOrDefaultAsync();
         }
@@ -85,7 +88,7 @@ namespace API.Data
             return await _context.ShippingLots.FindAsync(id);
         }
 
-         public async Task<ShippingLot> GetShippingLotByNumber(string number)
+        public async Task<ShippingLot> GetShippingLotByNumber(string number)
         {
             return await _context.ShippingLots.SingleOrDefaultAsync(x => x.LotNumber.ToUpper() == number.ToUpper());
         }

@@ -6,7 +6,7 @@ namespace API.DTOs
     {
         public DateTime ArrivalDate { get; set; }
         public string InvoiceNumber { get; set; }
-        public string ShippingMethod { get; set; }
+        public string LogisticName { get; set; }
         public string VenderNo { get; set; }
         public string UserEmail { get; set; }
     }
