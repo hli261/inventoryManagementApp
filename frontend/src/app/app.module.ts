@@ -35,6 +35,7 @@ import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ItemBinsComponent } from './item-bins/item-bins.component';
 import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
 import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
+import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ReceivingOrderComponent } from './receiving-order/receiving-order.compo
     BinEditComponent,
     ItemBinsComponent,
     ReceivingOrdersComponent,
-    ReceivingOrderComponent
+    ReceivingOrderComponent,
+    ReceivingCreateComponent,
   ],
   imports: [
     BrowserModule,

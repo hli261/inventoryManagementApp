@@ -10,3 +10,4 @@ export * from './createBin';
 export * from './binEdit';
 export * from './vender';
 export * from './lot';
+export * from './receivingCreate';

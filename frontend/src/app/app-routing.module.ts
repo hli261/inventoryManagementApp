@@ -18,6 +18,7 @@ import { BinCreateComponent } from './bin-create/bin-create.component';
 import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
 import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
+import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 
@@ -73,7 +74,8 @@ const routes: Routes = [
       { path: 'ship', component: ShipComponent },
       { path: 'ship/:id', component: ShipComponent },
       { path: 'orders', component: ReceivingOrdersComponent },
-      { path: 'order', component: ReceivingOrderComponent }
+      { path: 'order', component: ReceivingOrderComponent },
+      { path: 'receivingCreate', component: ReceivingCreateComponent},
     ]
   },
   { path: '**', component: PageNotFoundComponent }
