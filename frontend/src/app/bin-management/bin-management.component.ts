@@ -49,10 +49,7 @@ export class BinManagementComponent implements OnInit {
   }
 
   selectType(event: any, bType: any): void {
-    if (event.target.checked === true) {
-      if(this.type.includes(bType.typeName)){
-        this.type.splice(this.type.indexOf(bType.typeName), 1);
-      }
+    if (event.target.checked === true) {      
       this.type.push(bType.typeName);
     }
     if (event.target.checked === false) {
@@ -82,9 +79,7 @@ export class BinManagementComponent implements OnInit {
     }
     this.getPage(this.page);
     {
-      console.log(this.type);
       this.type=[];
-      console.log(this.type);
     }
   }
 

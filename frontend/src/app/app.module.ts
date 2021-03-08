@@ -35,6 +35,10 @@ import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ItemBinsComponent } from './item-bins/item-bins.component';
 import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
 import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
+import { ShipRecordComponent } from './ship-record/ship-record.component';
+import { ShipRecordsComponent } from './ship-records/ship-records.component';
+import { ShipEditComponent } from './ship-edit/ship-edit.component';
+import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
 
 @NgModule({
   declarations: [
@@ -48,9 +52,7 @@ import { ReceivingOrderComponent } from './receiving-order/receiving-order.compo
     FooterComponent,
     LoginComponent,
     ForgetPasswordComponent,
-    ResetPasswordComponent,
-    ShipsComponent,
-    ShipComponent,
+    ResetPasswordComponent,   
     ProfileComponent,
     BinManagementComponent,
     PagingComponent,
@@ -61,7 +63,13 @@ import { ReceivingOrderComponent } from './receiving-order/receiving-order.compo
     BinEditComponent,
     ItemBinsComponent,
     ReceivingOrdersComponent,
-    ReceivingOrderComponent
+    ReceivingOrderComponent,
+    ShipsComponent,
+    ShipComponent,
+    ShipRecordComponent,
+    ShipRecordsComponent,
+    ShipEditComponent,
+    ReceivingCreateComponent
   ],
   imports: [
     BrowserModule,
