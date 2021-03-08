@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Ship, ShipCreate, ShipMethod } from '../_models';
 import { take } from 'rxjs/operators';
+import { ReceivingCreate } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,11 @@ export class ReceivingService {
    public addShipMethod(type: ShipMethod){
     // return this.http.post(`${environment.apiUrl}/api/Vender/createShippingMethod`, type).subscribe();
     return this.http.post(`${environment.apiUrl}/api/Vender/createShippingMethod`, type);
+   }
+
+  getCreate(PONumber:any, venderNo:any, shippingNumber:any){
+    return this.http.get<ReceivingCreate>(`${environment.apiUrl}/api/Receiving/receivingOrder?PONumber=${PONumber}&venderNo=${venderNo}&shippingNumber=${shippingNumber}`);
+    
   }
 
    public getShipByNum(num: string): Observable<Ship> {

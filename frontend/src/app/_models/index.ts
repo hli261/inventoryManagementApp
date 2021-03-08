@@ -12,3 +12,4 @@ export * from './lot';
 export * from './shipCreate';
 export * from './shipMethod';
 export * from './ship';
+export * from './receivingCreate';

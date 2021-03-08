@@ -38,6 +38,7 @@ import { ReceivingOrderComponent } from './receiving-order/receiving-order.compo
 import { ShipRecordComponent } from './ship-record/ship-record.component';
 import { ShipRecordsComponent } from './ship-records/ship-records.component';
 import { ShipEditComponent } from './ship-edit/ship-edit.component';
+import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { ShipEditComponent } from './ship-edit/ship-edit.component';
     ShipComponent,
     ShipRecordComponent,
     ShipRecordsComponent,
-    ShipEditComponent
+    ShipEditComponent,
+    ReceivingCreateComponent
   ],
   imports: [
     BrowserModule,
