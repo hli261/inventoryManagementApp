@@ -16,24 +16,37 @@ namespace API.Controllers
         private readonly IERPRepository _erpRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public ReceivingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository, IVenderRepository venderRepository, IERPRepository eRPRepository, IMapper mapper)
+        private readonly IReceivingItemRepository _receivingItemRepository;
+        private readonly IReceivingRepository _receivingRepository;
+
+        private readonly IItemRepository _itemRepository;
+        public ReceivingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository,
+         IVenderRepository venderRepository, IERPRepository eRPRepository, IMapper mapper,
+         IReceivingItemRepository receivingItemRepository, IReceivingRepository receivingRepository,
+         IItemRepository itemRepository)
         {
             _mapper = mapper;
             _shippingRepository = shippingRepository;
             _userManager = userManager;
             _venderRepository = venderRepository;
             _erpRepository = eRPRepository;
+            _receivingItemRepository = receivingItemRepository;
+            _receivingRepository = receivingRepository;
+            _itemRepository = itemRepository;
         }
 
         [HttpGet("receivingOrder")]
-        public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery]ReceivingOrderDto receiving)
+        public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
         {
             var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
             var shippingNo = await _shippingRepository.GetShippingByNumber(receiving.ShippingNumber.ToUpper());
             var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
 
             var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
-
+            foreach (ERP_POitem element in poItem)
+            {
+                Console.WriteLine(element.ItemNumber);
+            }
             if (vender == null)
                 return BadRequest("Vender does not exist.");
 
@@ -51,7 +64,6 @@ namespace API.Controllers
                 PONumber = receiving.PONumber,
                 ERP_POitems = poItem,
                 OrderDate = po.OrderDate,
-                // DateRequired = po.DateRequired,
                 Shipping = shippingNo,
             };
 
@@ -62,21 +74,56 @@ namespace API.Controllers
         [HttpPost("createReceiving")]
         public async Task<ActionResult<Receiving>> CreateReceiving(CreateReceivingDto receivingDto)
         {
-            // var shipping = _mapper.Map<Shipping>(shippingDto);
+            var roNumber = "RO" + _receivingRepository.CountAsync().ToString().PadLeft(7, '0');
+            var poItem = await _erpRepository.GetReceivingItemByPO(receivingDto.PONumber.ToUpper());
 
-            // shipping.Vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo.ToUpper());
-            // shipping.User = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
-            // shipping.ShippingNumber = "SN" + _shippingRepository.LotCountAsync().ToString().PadLeft(7, '0');
-            // shipping.ShippingMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.LogisticName.ToUpper());
+            //convert ERP_POITEM into ReceivingItems with relationship to Item
+            foreach (ERP_POitem element in poItem)
+            {
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
 
-            // _shippingRepository.AddShippingAsync(shipping);
+                var roItem = new ReceivingItem
+                {
+                    PONumber = receivingDto.ROitems.PONumber,
+                    Item = item,
+                    OrderQty = receivingDto.ROitems.OrderQty,
+                    ReceiveQty = receivingDto.ROitems.ReceiveQty,
+                    DiffQty = receivingDto.ROitems.DiffQty,
+                    ExpireDate = receivingDto.ROitems.ExpireDate,
+                    // Receiving =
+                };
 
-            // if (await _shippingRepository.SaveAllAsync())
+                _receivingItemRepository.AddReceivingItemAsync(roItem);
+             }
 
-            //     return Ok(shipping);
+            //get all of them by PONumber into one object
+            var roItems = await _receivingItemRepository.GetReceivingItemsByPOAsync(receivingDto.ROitems.PONumber); 
 
-            // return BadRequest("Failed to add shipping.");
-            return Ok();
+            //change to automapper here.
+            var receiving = new Receiving
+            {
+                ROnumber = roNumber,
+                PONumber = receivingDto.PONumber,
+                ShippingNumber = receivingDto.ShippingNumber,
+                LotNumber = receivingDto.LotNumber,
+                VenderNo = receivingDto.VenderNo,
+                UserEmail = receivingDto.UserEmail,
+                ArrivalDate = receivingDto.ArrivalDate,
+                Status = receivingDto.Status,
+                ReceivingItems = roItems
+            };
+
+            _receivingRepository.AddReceivingAsync(receiving);
+            if (await _receivingItemRepository.SaveAllAsync())
+            {
+                if (await _receivingRepository.SaveAllAsync())
+                    return Ok(receiving);
+            }
+            else
+            {
+                return BadRequest("Failed to add Receiving Item.");
+            }
+            return BadRequest("Failed to add Receiving Order.");
         }
 
     }

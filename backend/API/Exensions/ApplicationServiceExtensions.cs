@@ -28,6 +28,9 @@ namespace API.Exensions
             services.AddScoped<IVenderRepository, VenderRepository>(); ///////
             services.AddScoped<IERPRepository, ERPRepository>();
 
+            services.AddScoped<IReceivingItemRepository, ReceivingItemRepository>();
+            services.AddScoped<IReceivingRepository, ReceivingRepository>();
+
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
