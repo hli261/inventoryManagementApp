@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
@@ -29,6 +30,15 @@ namespace API.Data
         {
             _context.Receivings.Add(receiving);
         }
+        public async Task<Receiving> GetReceivingByROAsync(string roNumber)
+        {
+            return await _context.Receivings.FirstOrDefaultAsync(x => x.ROnumber.ToUpper() == roNumber.ToUpper());
+        }
 
+        public void UpdateReceiving(Receiving receiving)
+        {
+            _context.Entry(receiving).State = EntityState.Modified;
+
+        }
     }
 }

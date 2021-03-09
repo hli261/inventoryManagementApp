@@ -9,5 +9,10 @@ namespace API.Interfaces
         int CountAsync();
 
         void AddReceivingAsync(Receiving receiving);
+
+        Task<Receiving> GetReceivingByROAsync(string roNumber);
+
+        
+        void UpdateReceiving(Receiving receiving);
     }
 }

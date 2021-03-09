@@ -77,6 +77,27 @@ namespace API.Controllers
             var roNumber = "RO" + _receivingRepository.CountAsync().ToString().PadLeft(7, '0');
             var poItem = await _erpRepository.GetReceivingItemByPO(receivingDto.PONumber.ToUpper());
 
+
+            //Note: change to automapper here.
+            var receiving = new Receiving
+            {
+                ROnumber = roNumber,
+                PONumber = receivingDto.PONumber,
+                ShippingNumber = receivingDto.ShippingNumber,
+                LotNumber = receivingDto.LotNumber,
+                VenderNo = receivingDto.VenderNo,
+                UserEmail = receivingDto.UserEmail,
+                ArrivalDate = receivingDto.ArrivalDate,
+                Status = receivingDto.Status,
+            };
+
+            _receivingRepository.AddReceivingAsync(receiving);
+
+            if (await _receivingRepository.SaveAllAsync() == false)
+                return BadRequest("Failed to add Receiving Order.");
+
+            var recForROItem = await _receivingRepository.GetReceivingByROAsync(roNumber);
+
             //convert ERP_POITEM into ReceivingItems with relationship to Item
             foreach (ROitemsDto element in receivingDto.ROitems)
             {
@@ -90,32 +111,20 @@ namespace API.Controllers
                     ReceiveQty = element.ReceiveQty,
                     DiffQty = element.DiffQty,
                     ExpireDate = element.ExpireDate,
-                    // Receiving =
+                    Receiving = recForROItem
                 };
 
                 _receivingItemRepository.AddReceivingItemAsync(roItem);
             }
 
-            //get all of them by PONumber into one object
-            var roItems = await _receivingItemRepository.GetReceivingItemsByPOAsync(receivingDto.PONumber);
-
-            //change to automapper here.
-            var receiving = new Receiving
-            {
-                ROnumber = roNumber,
-                PONumber = receivingDto.PONumber,
-                ShippingNumber = receivingDto.ShippingNumber,
-                LotNumber = receivingDto.LotNumber,
-                VenderNo = receivingDto.VenderNo,
-                UserEmail = receivingDto.UserEmail,
-                ArrivalDate = receivingDto.ArrivalDate,
-                Status = receivingDto.Status,
-                ReceivingItems = roItems
-            };
-
-            _receivingRepository.AddReceivingAsync(receiving);
             if (await _receivingItemRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Item.");
+
+            //get all of them by PONumber into one object
+            var roItems = await _receivingItemRepository.GetReceivingItemsByPOAsync(receivingDto.PONumber);
+            recForROItem.ReceivingItems = roItems;
+
+            _receivingRepository.UpdateReceiving(recForROItem);
 
             if (await _receivingRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Order.");
@@ -125,3 +134,4 @@ namespace API.Controllers
 
     }
 }
+
