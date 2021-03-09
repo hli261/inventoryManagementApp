@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -43,10 +45,7 @@ namespace API.Controllers
             var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
 
             var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
-            foreach (ERP_POitem element in poItem)
-            {
-                Console.WriteLine(element.ItemNumber);
-            }
+
             if (vender == null)
                 return BadRequest("Vender does not exist.");
 
@@ -59,10 +58,27 @@ namespace API.Controllers
             if (poItem == null)
                 return BadRequest("PO item not found");
 
+            List<GetReceivingItemDto> getReceivingItemDtos = new List<GetReceivingItemDto>();
+
+            foreach (ERP_POitem element in poItem)
+            {
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+
+                var getReceivingItemDto = new GetReceivingItemDto
+                {
+                    PONumber = element.PONumber,
+                    ItemNumber = element.ItemNumber,
+                    ItemDescription = item.ItemDescription,
+                    OrderQty = element.OrderQty
+                };
+                getReceivingItemDtos.Add(getReceivingItemDto);
+            }
+
             var getReceivingDto = new GetReceivingDto
             {
                 PONumber = receiving.PONumber,
-                ERP_POitems = poItem,
+                // ERP_POitems = poItem,
+                GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 Shipping = shippingNo,
             };
@@ -75,8 +91,6 @@ namespace API.Controllers
         public async Task<ActionResult<Receiving>> CreateReceiving(CreateReceivingDto receivingDto)
         {
             var roNumber = "RO" + _receivingRepository.CountAsync().ToString().PadLeft(7, '0');
-            var poItem = await _erpRepository.GetReceivingItemByPO(receivingDto.PONumber.ToUpper());
-
 
             //Note: change to automapper here.
             var receiving = new Receiving
