@@ -78,26 +78,26 @@ namespace API.Controllers
             var poItem = await _erpRepository.GetReceivingItemByPO(receivingDto.PONumber.ToUpper());
 
             //convert ERP_POITEM into ReceivingItems with relationship to Item
-            foreach (ERP_POitem element in poItem)
+            foreach (ROitemsDto element in receivingDto.ROitems)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
 
                 var roItem = new ReceivingItem
                 {
-                    PONumber = receivingDto.ROitems.PONumber,
+                    PONumber = element.PONumber,
                     Item = item,
-                    OrderQty = receivingDto.ROitems.OrderQty,
-                    ReceiveQty = receivingDto.ROitems.ReceiveQty,
-                    DiffQty = receivingDto.ROitems.DiffQty,
-                    ExpireDate = receivingDto.ROitems.ExpireDate,
+                    OrderQty = element.OrderQty,
+                    ReceiveQty = element.ReceiveQty,
+                    DiffQty = element.DiffQty,
+                    ExpireDate = element.ExpireDate,
                     // Receiving =
                 };
 
                 _receivingItemRepository.AddReceivingItemAsync(roItem);
-             }
+            }
 
             //get all of them by PONumber into one object
-            var roItems = await _receivingItemRepository.GetReceivingItemsByPOAsync(receivingDto.ROitems.PONumber); 
+            var roItems = await _receivingItemRepository.GetReceivingItemsByPOAsync(receivingDto.PONumber);
 
             //change to automapper here.
             var receiving = new Receiving
@@ -114,16 +114,13 @@ namespace API.Controllers
             };
 
             _receivingRepository.AddReceivingAsync(receiving);
-            if (await _receivingItemRepository.SaveAllAsync())
-            {
-                if (await _receivingRepository.SaveAllAsync())
-                    return Ok(receiving);
-            }
-            else
-            {
+            if (await _receivingItemRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Item.");
-            }
-            return BadRequest("Failed to add Receiving Order.");
+
+            if (await _receivingRepository.SaveAllAsync() == false)
+                return BadRequest("Failed to add Receiving Order.");
+
+            return Ok(receiving);
         }
 
     }

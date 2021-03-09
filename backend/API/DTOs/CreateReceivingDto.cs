@@ -19,6 +19,6 @@ namespace API.DTOs
         public DateTime OrderDate { get; set; }
 
         
-        public ROitemsDto ROitems { get; set; }
+        public ICollection<ROitemsDto> ROitems { get; set; }
     }
 }

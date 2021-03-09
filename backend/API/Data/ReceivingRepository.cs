@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 
@@ -21,7 +22,12 @@ namespace API.Data
 
         public int CountAsync()
         {
-           return _context.Receivings.Count();
+            return _context.Receivings.Count();
+        }
+
+        public void AddReceivingAsync(Receiving receiving)
+        {
+            _context.Receivings.Add(receiving);
         }
 
     }
