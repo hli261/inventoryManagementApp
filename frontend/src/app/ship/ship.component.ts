@@ -22,6 +22,7 @@ export class ShipComponent implements OnInit {
   errorMessage: string;
   user: User;
   otherMethod: ShipMethod = new ShipMethod();
+  visible: boolean = false;
 
   
   private buildForm() {
@@ -64,14 +65,14 @@ export class ShipComponent implements OnInit {
   //   }
   // }
 
-  check(event:any, type: any) {    
-    console.log(event.target.checked);
-     if(event.target.checked) {
-         this.shipForm.value.shipType = type;
-     }
-     if(!event.target.checked) {
-      this.shipForm.value.shipType = "";
-     }
+  check(event:any) {    
+    console.log(event.target, event.target.value );
+    //  if(event.target.checked) {
+    //      this.shipForm.value.shipType = type;
+    //  }
+    //  if(!event.target.checked) {
+    //   this.shipForm.value.shipType = "";
+    //  }
           
   }
 
@@ -101,17 +102,19 @@ export class ShipComponent implements OnInit {
    
  }
 
- createMethod() {
-   if(this.shipForm.value.shipType === "other" && this.shipForm.value.logisticName){
+ createMethod(): any {
+   if(this.shipForm.value.logisticName){
      this.otherMethod.logisticName = this.shipForm.value.logisticName;
      this.sub = this.data.addShipMethod(this.otherMethod).subscribe(
-      ()=>{ console.log("logistic method created")},
+      ()=>{ console.log("logistic method created")
+        return true;},
       err => {
         console.log(err);
+        return false;
       }
     );
    }
-   return;
+   return false;
  }
 
 
@@ -128,7 +131,12 @@ export class ShipComponent implements OnInit {
        console.log(new Date(`${this.ship.arrivalDate}`))   //use to test ngForm
         this.validate();
         console.log("after validate");
-        this.createMethod();
+        if(this.shipForm.value.shipType === "other"){
+            if(!this.createMethod()) {
+              this.errorMessage = "Shipping method can not be created!"
+              return;
+            }
+        }
         console.log("after create method");
         this.setShipValue();
         console.log(this.ship);

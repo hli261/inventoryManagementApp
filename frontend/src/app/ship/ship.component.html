@@ -44,7 +44,7 @@
           </svg>
           <br/>
           </div>
-           <div class="form-check form-check-inline" *ngFor="let type of shipMethod" >
+           <!-- <div class="form-check form-check-inline" *ngFor="let type of shipMethod" >
             <input class="form-check-input" type="checkbox" [value]="type.logisticName" (change)="check($event, type.logisticName)" id="flexCheckDefault" formControlName="shipType">
             <label class="form-check-label" for="flexCheckDefault">{{type.logisticName}}</label>
           </div>
@@ -54,15 +54,15 @@
             <label class="form-check-label" for="flexCheckDefault">Other</label>
             <input class="ms-3 border-bottom"  type="text" formControlName="logisticName">
           </div>
-          </div>
-          <!-- <select class="form-select" aria-label="example" formControlName="shipType" required>
+          </div> -->
+          <select class="form-select" aria-label="example" formControlName="shipType" (change)="check($event)" required>
             <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
-            <option value="other" (selected)="addShipMethod()">Other</option>
+            <option value="other" >Other</option>
           </select>
           <div *ngIf="visible">
             <label for="otherMethod" class="form-label">Other Shipping Method</label>
             <input class="me-2 border-bottom border-dark"  type="text" formControlName="otherMethod">
-          </div> -->
+          </div>
           <!-- <div>
             <span *ngIf="!shipForm.get('shipType').valid && shipForm.get('shipType').touched" class="help-block">
               <small class="text-danger">Ship Type is required</small></span>
