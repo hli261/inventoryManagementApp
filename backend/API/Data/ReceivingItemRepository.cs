@@ -34,5 +34,13 @@ namespace API.Data
             .Where(p => p.LotNumber.ToUpper() == lotNum.ToUpper())
             .ToListAsync();
         }
+
+        public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByROAsync(string roNum)
+        {
+            return await _context.ReceivingItems
+            .Include(i => i.Item)
+            .Where(p => p.Receiving.ROnumber.ToUpper() == roNum.ToUpper())
+            .ToListAsync();
+        }
     }
 }

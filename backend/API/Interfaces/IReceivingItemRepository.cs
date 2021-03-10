@@ -9,5 +9,6 @@ namespace API.Interfaces
         Task<bool> SaveAllAsync();
         void AddReceivingItemAsync(ReceivingItem receivingItem);
         Task<IEnumerable<ReceivingItem>> GetReceivingItemsByLotAsync(string lotNum);
+        Task<IEnumerable<ReceivingItem>> GetReceivingItemsByROAsync(string roNum);
     }
 }

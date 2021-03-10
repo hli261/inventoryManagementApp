@@ -37,14 +37,22 @@ namespace API.Controllers
             _itemRepository = itemRepository;
         }
 
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivings()
         {
             var receivings = await _receivingRepository.GetReceivingsAsync();
 
             return Ok(receivings);
         }
- 
+
+        [HttpGet("receivingItemsByRO/{roNum}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivingItems(string roNum)
+        {
+            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
+
+            return Ok(receivingItems);
+        }
+
         [HttpGet("receivingOrder")]
         public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
         {
@@ -142,7 +150,7 @@ namespace API.Controllers
             if (await _receivingItemRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Item.");
 
-            //get all of them by PONumber into one object
+            //get all of them by PONumber into one object // Note:check RO
             var roItems = await _receivingItemRepository.GetReceivingItemsByLotAsync(receivingDto.LotNumber);
             recForROItem.ReceivingItems = roItems;
 
