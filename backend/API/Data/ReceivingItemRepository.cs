@@ -27,11 +27,11 @@ namespace API.Data
             _context.ReceivingItems.Add(receivingItem);
         }
 
-        public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByPOAsync(string poNum)
+        public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByLotAsync(string lotNum)
         {
             return await _context.ReceivingItems
             .Include(i => i.Item)
-            .Where(p => p.PONumber.ToUpper() == poNum.ToUpper())
+            .Where(p => p.LotNumber.ToUpper() == lotNum.ToUpper())
             .ToListAsync();
         }
     }

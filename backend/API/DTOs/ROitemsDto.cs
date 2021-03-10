@@ -4,7 +4,7 @@ namespace API.DTOs
 {
     public class ROitemsDto
     {
-        public string PONumber { get; set; }
+        public string LotNumber { get; set; }
         public string ItemNumber { get; set; }
         public int OrderQty { get; set; }
         public int ReceiveQty { get; set; }

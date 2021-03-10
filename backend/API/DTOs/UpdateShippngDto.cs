@@ -9,5 +9,6 @@ namespace API.DTOs
         public string LogisticName { get; set; }
         public string VenderNo { get; set; }
         public string UserEmail { get; set; }
+        public string PONumber { get; set; }
     }
 }

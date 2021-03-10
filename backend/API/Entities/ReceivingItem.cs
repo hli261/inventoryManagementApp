@@ -6,7 +6,7 @@ namespace API.Entities
     {
         public int Id { get; set; }
 
-        public string PONumber { get; set; }
+        public string LotNumber { get; set; }
         public Item Item { get; set; }
         
         public int OrderQty { get; set; }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
@@ -39,6 +40,14 @@ namespace API.Data
         {
             _context.Entry(receiving).State = EntityState.Modified;
 
+        }
+
+        public async Task<IEnumerable<Receiving>> GetReceivingsAsync()
+        {
+            return await _context.Receivings
+                .Include(v => v.ReceivingItems)
+                .ThenInclude(i => i.Item)
+                .ToListAsync();
         }
     }
 }
