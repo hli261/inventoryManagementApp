@@ -33,7 +33,9 @@ namespace API.Data
         }
         public async Task<Receiving> GetReceivingByROAsync(string roNumber)
         {
-            return await _context.Receivings.FirstOrDefaultAsync(x => x.ROnumber.ToUpper() == roNumber.ToUpper());
+            return await _context.Receivings
+            .Include(i => i.ReceivingItems) //check functions
+            .FirstOrDefaultAsync(x => x.ROnumber.ToUpper() == roNumber.ToUpper());
         }
 
         public void UpdateReceiving(Receiving receiving)

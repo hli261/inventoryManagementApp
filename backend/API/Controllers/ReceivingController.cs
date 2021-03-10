@@ -45,6 +45,14 @@ namespace API.Controllers
             return Ok(receivings);
         }
 
+        [HttpGet("receivingByRO/{roNum}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceiving(string roNum)
+        {
+            var receivingItems = await _receivingRepository.GetReceivingByROAsync(roNum);
+
+            return Ok(receivingItems);
+        }
+
         [HttpGet("receivingItemsByRO/{roNum}")]
         public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivingItems(string roNum)
         {
@@ -52,6 +60,7 @@ namespace API.Controllers
 
             return Ok(receivingItems);
         }
+
 
         [HttpGet("receivingOrder")]
         public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
