@@ -111,7 +111,7 @@ namespace API.Controllers
             }
             var user = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
             var vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo);
-            var shipMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.ShippingMethod);
+            var shipMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.LogisticName);
 
             shipping.ArrivalDate = shippingDto.ArrivalDate;
             shipping.InvoiceNumber = shippingDto.InvoiceNumber;

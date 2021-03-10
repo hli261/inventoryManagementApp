@@ -1,21 +1,15 @@
 using System;
 
-namespace API.Entities
+namespace API.DTOs
 {
-    public class ReceivingItem
+    public class ROitemsDto
     {
-        public int Id { get; set; }
-
         public string PONumber { get; set; }
-        public Item Item { get; set; }
-        
+        public string ItemNumber { get; set; }
         public int OrderQty { get; set; }
         public int ReceiveQty { get; set; }
         public int DiffQty { get; set; }
-
-
         public DateTime ExpireDate { get; set; }
-
-        public Receiving Receiving { get; set; }
+        
     }
 }

@@ -6,15 +6,19 @@ namespace API.DTOs
 {
     public class CreateReceivingDto
     {
+        //
         public string PONumber { get; set; }
-        public IEnumerable<ERP_POitem> ERP_POitems { get; set; }
-
-        public int ReceiveQty { get; set; }
-
-        public Shipping Shipping { get; set; }
-
+        public string ShippingNumber { get; set; }
+        public string LotNumber { get; set; }
+        public string VenderNo { get; set; }
+        public string UserEmail { get; set; }
+        //
+        public DateTime ArrivalDate { get; set; } = DateTime.UtcNow;
+        public string Status { get; set; } = "DRAFT";
+        //"SAVE" "SUBMIT"
         public DateTime OrderDate { get; set; }
 
-        public string Status { get; set; }
+        
+        public ICollection<ROitemsDto> ROitems { get; set; }
     }
 }
