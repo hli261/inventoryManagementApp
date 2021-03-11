@@ -27,17 +27,11 @@ namespace API.Data
             _context.ReceivingItems.Add(receivingItem);
         }
 
-<<<<<<< HEAD
         public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByLOTAsync(string lotNum)
-=======
-        public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByLotAsync(string lotNum)
->>>>>>> 9f7fbc5e07ac5a1a76c7ba901fe885694082c95d
         {
             return await _context.ReceivingItems
             .Include(i => i.Item)
             .Where(p => p.LotNumber.ToUpper() == lotNum.ToUpper())
-<<<<<<< HEAD
-=======
             .ToListAsync();
         }
 
@@ -46,7 +40,6 @@ namespace API.Data
             return await _context.ReceivingItems
             .Include(i => i.Item)
             .Where(p => p.Receiving.ROnumber.ToUpper() == roNum.ToUpper())
->>>>>>> 9f7fbc5e07ac5a1a76c7ba901fe885694082c95d
             .ToListAsync();
         }
     }
