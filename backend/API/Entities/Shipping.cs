@@ -21,5 +21,7 @@ namespace API.Entities
 
         public ShippingLot ShippingLot { get; set; }
         public int ShippingLotId { get; set; }
+
+        public string PONumber { get; set; }
     }
 }

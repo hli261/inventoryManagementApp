@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
@@ -32,13 +33,23 @@ namespace API.Data
         }
         public async Task<Receiving> GetReceivingByROAsync(string roNumber)
         {
-            return await _context.Receivings.FirstOrDefaultAsync(x => x.ROnumber.ToUpper() == roNumber.ToUpper());
+            return await _context.Receivings
+            .Include(i => i.ReceivingItems) //check functions
+            .FirstOrDefaultAsync(x => x.ROnumber.ToUpper() == roNumber.ToUpper());
         }
 
         public void UpdateReceiving(Receiving receiving)
         {
             _context.Entry(receiving).State = EntityState.Modified;
 
+        }
+
+        public async Task<IEnumerable<Receiving>> GetReceivingsAsync()
+        {
+            return await _context.Receivings
+                .Include(v => v.ReceivingItems)
+                .ThenInclude(i => i.Item)
+                .ToListAsync();
         }
     }
 }

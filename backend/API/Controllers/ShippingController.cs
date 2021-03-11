@@ -118,6 +118,7 @@ namespace API.Controllers
             shipping.ShippingMethod = shipMethod;
             shipping.User = user;
             shipping.Vender = vender;
+            shipping.PONumber = shippingDto.PONumber;
 
             _shippingRepository.UpdateShipping(shipping);
 

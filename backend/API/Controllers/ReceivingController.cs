@@ -37,13 +37,38 @@ namespace API.Controllers
             _itemRepository = itemRepository;
         }
 
+        [HttpGet("getAll")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivings()
+        {
+            var receivings = await _receivingRepository.GetReceivingsAsync();
+
+            return Ok(receivings);
+        }
+
+        [HttpGet("receivingByRO/{roNum}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceiving(string roNum)
+        {
+            var receivingItems = await _receivingRepository.GetReceivingByROAsync(roNum);
+
+            return Ok(receivingItems);
+        }
+
+        [HttpGet("receivingItemsByRO/{roNum}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivingItems(string roNum)
+        {
+            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
+
+            return Ok(receivingItems);
+        }
+
+
         [HttpGet("receivingOrder")]
         public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
         {
             var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
             var shippingNo = await _shippingRepository.GetShippingByNumber(receiving.ShippingNumber.ToUpper());
-            var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
 
+            var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
             var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
 
             if (vender == null)
@@ -187,6 +212,38 @@ namespace API.Controllers
 
             return Ok(receiving);
         }
+
+
+        // [HttpPut("update/{roNum}")]
+        // public async Task<ActionResult> UpdateReceiving(UpdateShippngDto shippingDto, string roNum)
+        // {
+        //     var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
+
+        //     if (receiving == null)
+        //         return BadRequest("Shipping Number not found.");
+
+        //     if (receiving.Status.ToUpper() == "SUBMIT")
+        //         return BadRequest("Submitted RO cannot be changed");
+
+        //     var user = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
+        //     var vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo);
+        //     var shipMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.LogisticName);
+
+        //     shipping.ArrivalDate = shippingDto.ArrivalDate;
+        //     shipping.InvoiceNumber = shippingDto.InvoiceNumber;
+        //     shipping.ShippingMethod = shipMethod;
+        //     shipping.User = user;
+        //     shipping.Vender = vender;
+
+        //     _shippingRepository.UpdateShipping(shipping);
+
+
+        //     if (await _shippingRepository.SaveAllAsync())
+        //     {
+        //         return Ok(shipping);
+        //     }
+        //     return BadRequest("Failed to update shipping.");
+        // }
 
     }
 }

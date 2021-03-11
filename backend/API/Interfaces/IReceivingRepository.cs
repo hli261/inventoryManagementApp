@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Entities;
 
@@ -14,5 +15,7 @@ namespace API.Interfaces
 
         
         void UpdateReceiving(Receiving receiving);
+
+        Task<IEnumerable<Receiving>> GetReceivingsAsync();
     }
 }
