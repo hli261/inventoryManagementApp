@@ -86,6 +86,48 @@ namespace API.Controllers
             return Ok(getReceivingDto);
         }
 
+         
+          [HttpGet("loadRoItems")]
+        public async Task<ActionResult<IEnumerable<ROitemsDto>>> LoadRoItems([FromQuery] ReceivingOrderDto receiving)
+        {
+            var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
+            var shippingNo = await _shippingRepository.GetShippingByNumber(receiving.ShippingNumber.ToUpper());
+            var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
+            var lot = await _shippingRepository.GetShippingLotByNumber(receiving.ShippingNumber.ToUpper());
+            var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
+            
+            if (vender == null)
+                return BadRequest("Vender does not exist.");
+
+            if (shippingNo == null)
+                return BadRequest("Shipping Number does not exist.");
+
+            if (po == null)
+                return BadRequest("Purchase Order does not exist.");
+
+            if (poItem == null)
+                return BadRequest("PO item not found");
+
+            List<ROitemsDto> roItems = new List<ROitemsDto>();
+
+            foreach (ERP_POitem element in poItem)
+            {
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+
+                var roItem = new ROitemsDto
+                {
+                    // LotNumber = lot.LotNumber,
+                    LotNumber = "test000000",
+                    ItemNumber = element.ItemNumber,
+                    ItemDescription = item.ItemDescription,
+                    OrderQty = element.OrderQty
+                };
+                roItems.Add(roItem);
+            }
+
+            return Ok(roItems);
+        }
+
 
         [HttpPost("createReceiving")]
         public async Task<ActionResult<Receiving>> CreateReceiving(CreateReceivingDto receivingDto)
@@ -119,7 +161,7 @@ namespace API.Controllers
 
                 var roItem = new ReceivingItem
                 {
-                    PONumber = element.PONumber,
+                    LotNumber = element.LotNumber,
                     Item = item,
                     OrderQty = element.OrderQty,
                     ReceiveQty = element.ReceiveQty,
@@ -134,8 +176,8 @@ namespace API.Controllers
             if (await _receivingItemRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Item.");
 
-            //get all of them by PONumber into one object
-            var roItems = await _receivingItemRepository.GetReceivingItemsByPOAsync(receivingDto.PONumber);
+            //get all of them by LotNumber into one object
+            var roItems = await _receivingItemRepository.GetReceivingItemsByLOTAsync(receivingDto.LotNumber);
             recForROItem.ReceivingItems = roItems;
 
             _receivingRepository.UpdateReceiving(recForROItem);

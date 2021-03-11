@@ -13,3 +13,6 @@ export * from './shipCreate';
 export * from './shipMethod';
 export * from './ship';
 export * from './receivingCreate';
+export * from './roItem';
+export * from './receivingOrder';
+

@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ReceivingCreate } from '../_models';
 import { ReceivingService } from '../_services/receiving.service';
+
+// const navigationExtras: NavigationExtras = {
+//   state: {
+//     transd: 'TRANS001',
+//     workQueue: false,
+//     services: 10,
+//     code: '003'
+//   }
+// };
 
 @Component({
   selector: 'app-receiving-create',
@@ -44,7 +53,7 @@ export class ReceivingCreateComponent implements OnInit {
         this.successMessage = "loading the data successfully!";
         setTimeout(() => {
           this.successMessage = "";
-          this.router.navigate(['order']);
+          this.router.navigate(['order'], {state: this.receiving});
         }, 2000);
       },
         error => {

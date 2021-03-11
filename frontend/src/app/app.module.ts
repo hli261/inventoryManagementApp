@@ -3,8 +3,7 @@ import { NgModule, ɵɵsanitizeUrlOrResourceUrl } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor,
-         ErrorInterceptor, 
-         ShipService, 
+         ErrorInterceptor,
          AccountService,
          AuthGuard } from './_services';
 import { CommonModule } from "@angular/common";
@@ -81,7 +80,6 @@ import { ReceivingCreateComponent } from './receiving-create/receiving-create.co
     CommonModule
   ],
   providers: [
-    ShipService,
     AccountService,
     AuthGuard,
     {
