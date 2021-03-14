@@ -1,8 +1,7 @@
 import { RoItem } from './roItem'; 
 
-export class ReceiveOrder{
+export class Ro{
     id: number;
-    rOnumber: string;
     poNumber: string;
     shippingNumber: string;
     lotNumber: string;
@@ -10,6 +9,6 @@ export class ReceiveOrder{
     userEmail: string;
     arrivalDate: string;
     status: string;
-    receivingItems: Array<RoItem>;
+    rOitems: Array<RoItem>;
     orderDate: string;
 }

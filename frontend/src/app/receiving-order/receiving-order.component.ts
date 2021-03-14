@@ -28,4 +28,13 @@ export class ReceivingOrderComponent implements OnInit {
     })
   }
 
+  onChange(item:any): void{
+    console.log(item);
+      item.diffQty = item.orderQty-item.receiveQty;      
+  }
+
+  save(): void{
+
+  }
+
 }

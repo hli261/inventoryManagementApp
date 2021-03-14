@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ReceivingOrder, RoItem, Ship, ShipCreate, ShipMethod } from '../_models';
+import { ReceiveOrder, Ro, RoItem, Ship, ShipCreate, ShipMethod } from '../_models';
 import { take } from 'rxjs/operators';
 import { ReceivingCreate } from '../_models';
 
@@ -47,8 +47,9 @@ export class ReceivingService {
     return this.http.put<ShipCreate> (`${environment.apiUrl}/api/shipping/update/${num}`, ship);
   }
 
-  public createRO(ro : ReceivingOrder): Observable<ReceivingOrder>{
-    return this.http.post<ReceivingOrder>(`${environment.apiUrl}/api/Receiving/createReceiving`, ro);
+  public createRO(ro : Ro): Observable<ReceiveOrder>{
+    console.log("create RO in service");
+    return this.http.post<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/createReceiving`, ro);
   }
 
   public loadPO(PONumber:any, venderNo:any, shippingNumber:any) : Observable<RoItem[]> {

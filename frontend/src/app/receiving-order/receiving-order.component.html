@@ -1,33 +1,39 @@
-<!-- <div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem" >
-    <div class="container" *ngIf="displayTitle">
+<div class="container-fluid mt-3" *ngIf="roItems" >
+    <div class="container">
         <div class="row mb-3">
             <div class="col-sm-4">
-               <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
+               <span class="">RO number:</span> &nbsp;&nbsp;<span>{{state.rOnumber}}</span>
             </div>
             <div class="col-sm-4">
-                Location: &nbsp;&nbsp;<span>{{bin.warehouseLocation.locationName}}</span>
+                PO number: &nbsp;&nbsp;<span>{{state.poNumber}}</span>
             </div>
             <div class="col-sm-4">
-                Type: &nbsp;&nbsp;<span>{{bin.binType.typeName}}</span>
+                Create Date: &nbsp;&nbsp;<span>{{state.arrivalDate}}</span>
             </div>
         </div>    
-        <div *ngIf="previousUrl_ | async as url">
-        <button (click)="back(url)" class="btn btn-primary">Back</button>    
-       </div>     
     </div>
     <table  class="table table-hover border-top mt-3">
         <thead  class="table-light">
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">Item Number</th>
-                <th scope="col">Quantity</th>
+                <th scope="col">Item Description</th>
+                <th scope="col">Order Quantity</th>
+                <th scope="col">Receive Quantity</th>
+                <th scope="col">Diff Quantity</th>
+                <th scope="col">ExpireDate</th>
             </tr>
         </thead>
         <tbody>
-                <tr *ngFor='let item of binItem; let i = index'  (mouseenter)="showDetail(item.itemNumber)"  (mouseleave)="closeDetail()">
+                <tr *ngFor='let item of roItems; let i = index'>
                 <td>{{i + 1}}</td>
                 <td>{{item.itemNumber}}</td>
-                <td>{{item.quantity}}</td>               
+                <td>{{item.itemDescription}}</td>      
+                <td>{{item.orderQty}}</td>
+                <td><input type="text" name="receiveQty"  [(ngModel)]="item.receiveQty" (change)="onChange(item)">
+                </td>
+                <td><input type="text" name="diffQty" [(ngModel)]="item.diffQty"></td>    
+                <td><input type="text" name="expireDate" [(ngModel)]="item.expireDate"></td>  
             </tr>
         </tbody>
     </table>
@@ -36,4 +42,4 @@
         <button type="clean" class="btn btn-primary">Cancel</button>
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
-</div> -->
+</div>
