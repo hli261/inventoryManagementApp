@@ -10,5 +10,8 @@ namespace API.Interfaces
         void AddReceivingItemAsync(ReceivingItem receivingItem);
         Task<IEnumerable<ReceivingItem>> GetReceivingItemsByLOTAsync(string lotNum);
         Task<IEnumerable<ReceivingItem>> GetReceivingItemsByROAsync(string roNum);
+
+        Task<ReceivingItem> GetReceivingItemInReceivingByItemNumberAsync(string roNum, string itemNumber);
+        void UpdateReceivingItem(ReceivingItem receivingItem);
     }
 }

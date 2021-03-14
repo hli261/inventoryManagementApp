@@ -88,7 +88,7 @@ namespace API.Controllers
                 ShippingNumber = receiving.ShippingNumber,
                 LotNumber = shippingNo.ShippingLot.LotNumber,
                 VenderNo = receiving.VenderNo,
-                // User Email
+                UserEmail = receiving.UserEmail,
                 // CreateDate 
                 Status = "DRAFT",
                 // GetReceivingItemDtos = getReceivingItemDtos,
@@ -105,7 +105,7 @@ namespace API.Controllers
         }
 
 
-        [HttpPost("loadRoItems/{roNum}")]
+        [HttpPut("loadRoItems/{roNum}")]
         public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> LoadRoItems(string roNum)//(GetReceivingHeaderDto receiving)
         {
             if (await _receivingRepository.ROExist(roNum) == false)
@@ -160,15 +160,6 @@ namespace API.Controllers
             if (receivingDto.Status == "SUBMIT")
                 return BadRequest("Can not edit submitted receiving order");
 
-            // var rec = _mapper.Map<GetReceivingHeaderDto, Receiving>(receivingDto, receiving);
-
-            // _receivingRepository.AddReceivingAsync(receiving);
-
-            // if (await _receivingRepository.SaveAllAsync() == false)
-            //     return BadRequest("Failed to add Receiving Order.");
-
-            // var recForROItem = await _receivingRepository.GetReceivingByROAsync(receivingDto.RONumber);
-
             //convert ERP_POITEM into ReceivingItems with relationship to Item
             foreach (GetReceivingItemDto element in receivingDto.GetReceivingItemDtos)
             {
@@ -199,36 +190,45 @@ namespace API.Controllers
         }
 
 
-        // [HttpPut("update/{roNum}")]
-        // public async Task<ActionResult> UpdateReceiving(GetReceivingHeaderDto receivingDto, string roNum)
-        // {
-        //     var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
-
-        //     if (receiving == null)
-        //         return BadRequest("Shipping Number not found.");
-
-        //     if (receiving.Status.ToUpper() == "SUBMIT")
-        //         return BadRequest("Submitted RO cannot be changed");
-
-        //     var user = await _userManager.FindByEmailAsync(shippingDto.UserEmail);
-        //     var vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo);
-        //     var shipMethod = await _venderRepository.GetShippingMethodbyName(shippingDto.LogisticName);
-
-        //     shipping.ArrivalDate = shippingDto.ArrivalDate;
-        //     shipping.InvoiceNumber = shippingDto.InvoiceNumber;
-        //     shipping.ShippingMethod = shipMethod;
-        //     shipping.User = user;
-        //     shipping.Vender = vender;
-
-        //     _shippingRepository.UpdateShipping(shipping);
+        [HttpPut("update/{roNum}")]
+        public async Task<ActionResult> UpdateReceiving(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum)
+        {
+            var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
+            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
 
 
-        //     if (await _shippingRepository.SaveAllAsync())
-        //     {
-        //         return Ok(shipping);
-        //     }
-        //     return BadRequest("Failed to update receiving");
-        // }
+            if (receiving == null)
+                return BadRequest("Shipping Number not found.");
+
+            if (receiving.Status.ToUpper() == "SUBMIT")
+                return BadRequest("Submitted RO cannot be changed");
+
+            foreach (GetReceivingItemDto element in receivingItemsDto)
+            {
+                // var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                var receivingItemsObj = receivingItemsDto.FirstOrDefault(i => i.ItemNumber == element.ItemNumber);
+                if (receivingItemsObj != null){
+                    var roItem = await _receivingItemRepository.GetReceivingItemInReceivingByItemNumberAsync(roNum, element.ItemNumber);
+
+                    roItem.OrderQty = receivingItemsObj.OrderQty;
+                    roItem.DiffQty = receivingItemsObj.DiffQty;
+                    roItem.ExpireDate = receivingItemsObj.ExpireDate;
+                    _receivingItemRepository.UpdateReceivingItem(roItem);
+                }
+            }
+
+            if (await _receivingItemRepository.SaveAllAsync() == false)
+                return BadRequest("Failed to add Receiving Item.");
+
+
+            _receivingRepository.UpdateReceiving(receiving);
+
+            if (await _shippingRepository.SaveAllAsync())
+            {
+                return Ok(receiving);
+            }
+            return BadRequest("Failed to update receiving");
+        }
 
     }
 }

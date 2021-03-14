@@ -42,5 +42,18 @@ namespace API.Data
             .Where(p => p.Receiving.RONumber.ToUpper() == roNum.ToUpper())
             .ToListAsync();
         }
+
+        public async Task<ReceivingItem> GetReceivingItemInReceivingByItemNumberAsync(string roNum, string itemNumber)
+        {
+            return await _context.ReceivingItems.Where(x => x.Receiving.RONumber.ToUpper() == roNum.ToUpper())
+            .FirstOrDefaultAsync(i => i.ItemNumber.ToUpper() == itemNumber.ToUpper());
+        }
+
+        public void UpdateReceivingItem(ReceivingItem receivingItem)
+        {
+            _context.Entry(receivingItem).State = EntityState.Modified;
+
+        }
+
     }
 }
