@@ -57,5 +57,16 @@ namespace API.Data
                 // .ThenInclude(i => i.Item)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status)
+        {
+            return await _context.Receivings
+                .Include(v => v.ReceivingItems)
+                .Where(x => x.Status.ToUpper() == status.ToUpper())
+                // .ThenInclude(i => i.Item)
+                .ToListAsync();
+        }
+
+        
     }
 }

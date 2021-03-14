@@ -207,7 +207,8 @@ namespace API.Controllers
             {
                 // var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
                 var receivingItemsObj = receivingItemsDto.FirstOrDefault(i => i.ItemNumber == element.ItemNumber);
-                if (receivingItemsObj != null){
+                if (receivingItemsObj != null)
+                {
                     var roItem = await _receivingItemRepository.GetReceivingItemInReceivingByItemNumberAsync(roNum, element.ItemNumber);
 
                     roItem.ReceiveQty = receivingItemsObj.ReceiveQty;
@@ -228,6 +229,14 @@ namespace API.Controllers
                 return Ok(receiving);
             }
             return BadRequest("Failed to update receiving");
+        }
+
+        [HttpGet("getReceivingByStatus/{status}")]
+        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingByStatus(string status)
+        {
+            var receivingItems = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper());
+
+            return Ok(receivingItems);
         }
 
     }
