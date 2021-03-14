@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using API.Entities;
 
-namespace API.Entities
+namespace API.DTOs
 {
-    public class Receiving
+    public class GetReceivingHeaderDto
     {
-        public int Id { get; set; }
-        // public Task<Shipping> Shipping { get; set; }
+
         public string RONumber { get; set; }
         //
         public string PONumber { get; set; }
@@ -21,6 +20,7 @@ namespace API.Entities
         //"SAVE" "SUBMIT"
         public DateTime OrderDate { get; set; }
 
-        public IEnumerable<ReceivingItem> ReceivingItems { get; set; }
+        public IEnumerable<GetReceivingItemDto> GetReceivingItemDtos { get; set; }
+
     }
 }

@@ -38,7 +38,7 @@ namespace API.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivings()
+        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings()
         {
             var receivings = await _receivingRepository.GetReceivingsAsync();
 
@@ -46,15 +46,15 @@ namespace API.Controllers
         }
 
         [HttpGet("receivingByRO/{roNum}")]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceiving(string roNum)
+        public async Task<ActionResult<Receiving>> GetReceiving(string roNum)
         {
-            var receivingItems = await _receivingRepository.GetReceivingByROAsync(roNum);
+            var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
 
-            return Ok(receivingItems);
+            return Ok(receiving);
         }
 
         [HttpGet("receivingItemsByRO/{roNum}")]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetReceivingItems(string roNum)
+        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum)
         {
             var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
 
@@ -62,14 +62,13 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("receivingOrder")]
-        public async Task<ActionResult<GetReceivingDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
+        [HttpGet("createROHeader")]
+        public async Task<ActionResult<GetReceivingHeaderDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
         {
             var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
             var shippingNo = await _shippingRepository.GetShippingByNumber(receiving.ShippingNumber.ToUpper());
 
             var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
-            var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
 
             if (vender == null)
                 return BadRequest("Vender does not exist.");
@@ -80,47 +79,45 @@ namespace API.Controllers
             if (po == null)
                 return BadRequest("Purchase Order does not exist.");
 
-            if (poItem == null)
-                return BadRequest("PO item not found");
+            var roNumber = "RO" + receiving.PONumber + receiving.ShippingNumber + receiving.VenderNo;
 
-            List<GetReceivingItemDto> getReceivingItemDtos = new List<GetReceivingItemDto>();
-
-            foreach (ERP_POitem element in poItem)
-            {
-                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-
-                var getReceivingItemDto = new GetReceivingItemDto
-                {
-                    PONumber = element.PONumber,
-                    ItemNumber = element.ItemNumber,
-                    ItemDescription = item.ItemDescription,
-                    OrderQty = element.OrderQty
-                };
-                getReceivingItemDtos.Add(getReceivingItemDto);
-            }
-
-            var getReceivingDto = new GetReceivingDto
+            var getReceivingDto = new GetReceivingHeaderDto
             {
                 PONumber = receiving.PONumber,
-                // ERP_POitems = poItem,
-                GetReceivingItemDtos = getReceivingItemDtos,
+                RONumber = roNumber,
+                ShippingNumber = receiving.ShippingNumber,
+                LotNumber = shippingNo.ShippingLot.LotNumber,
+                VenderNo = receiving.VenderNo,
+                // User Email
+                // CreateDate 
+                Status = "DRAFT",
+                // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
-                Shipping = shippingNo,
+                // Shipping = shippingNo,
             };
-
             return Ok(getReceivingDto);
         }
 
-         
-          [HttpGet("loadRoItems")]
-        public async Task<ActionResult<IEnumerable<ROitemsDto>>> LoadRoItems([FromQuery] ReceivingOrderDto receiving)
+
+        [HttpPost("loadRoItems")]
+        public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> LoadRoItems(GetReceivingHeaderDto receiving)
         {
+            if (await _receivingRepository.ROExist(receiving.RONumber))
+            {//get ro from databse and continue to work on that
+                var ro = await _receivingRepository.GetReceivingByROAsync(receiving.RONumber);
+                var items = await _receivingItemRepository.GetReceivingItemsByROAsync(receiving.RONumber);
+
+                //check status
+                if (ro.Status == "SUBMIT") return BadRequest("Can not edit submitted receiving order");
+
+                //get and return
+                return Ok(_mapper.Map<IEnumerable<GetReceivingItemDto>>(items));
+            }
             var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
             var shippingNo = await _shippingRepository.GetShippingByNumber(receiving.ShippingNumber.ToUpper());
             var po = await _erpRepository.GetReceivingByPO(receiving.PONumber.ToUpper());
-            var lot = await _shippingRepository.GetShippingLotByNumber(receiving.ShippingNumber.ToUpper());
             var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
-            
+
             if (vender == null)
                 return BadRequest("Vender does not exist.");
 
@@ -133,16 +130,15 @@ namespace API.Controllers
             if (poItem == null)
                 return BadRequest("PO item not found");
 
-            List<ROitemsDto> roItems = new List<ROitemsDto>();
+            List<GetReceivingItemDto> roItems = new List<GetReceivingItemDto>();
 
             foreach (ERP_POitem element in poItem)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
 
-                var roItem = new ROitemsDto
+                var roItem = new GetReceivingItemDto
                 {
-                    // LotNumber = lot.LotNumber,
-                    LotNumber = "test000000",
+                    LotNumber = shippingNo.ShippingLot.LotNumber,
                     ItemNumber = element.ItemNumber,
                     ItemDescription = item.ItemDescription,
                     OrderQty = element.OrderQty
@@ -155,45 +151,25 @@ namespace API.Controllers
 
 
         [HttpPost("createReceiving")]
-        public async Task<ActionResult<Receiving>> CreateReceiving(CreateReceivingDto receivingDto)
+        public async Task<ActionResult<Receiving>> CreateReceiving(GetReceivingHeaderDto receivingDto)
         {
-            var roNumber = "RO" + _receivingRepository.CountAsync().ToString().PadLeft(7, '0');
-
             //Note: change to automapper here.
-            var receiving = new Receiving
-            {
-                ROnumber = roNumber,
-                PONumber = receivingDto.PONumber,
-                ShippingNumber = receivingDto.ShippingNumber,
-                LotNumber = receivingDto.LotNumber,
-                VenderNo = receivingDto.VenderNo,
-                UserEmail = receivingDto.UserEmail,
-                ArrivalDate = receivingDto.ArrivalDate,
-                Status = receivingDto.Status,
-            };
+            var receiving = _mapper.Map<Receiving>(receivingDto);
 
             _receivingRepository.AddReceivingAsync(receiving);
 
             if (await _receivingRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Order.");
 
-            var recForROItem = await _receivingRepository.GetReceivingByROAsync(roNumber);
+            var recForROItem = await _receivingRepository.GetReceivingByROAsync(receivingDto.RONumber);
 
             //convert ERP_POITEM into ReceivingItems with relationship to Item
-            foreach (ROitemsDto element in receivingDto.ROitems)
+            foreach (GetReceivingItemDto element in receivingDto.GetReceivingItemDtos)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
 
-                var roItem = new ReceivingItem
-                {
-                    LotNumber = element.LotNumber,
-                    Item = item,
-                    OrderQty = element.OrderQty,
-                    ReceiveQty = element.ReceiveQty,
-                    DiffQty = element.DiffQty,
-                    ExpireDate = element.ExpireDate,
-                    Receiving = recForROItem
-                };
+                var roItem = _mapper.Map<ReceivingItem>(element);
+                roItem.Receiving = recForROItem;
 
                 _receivingItemRepository.AddReceivingItemAsync(roItem);
             }

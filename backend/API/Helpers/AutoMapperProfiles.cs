@@ -14,7 +14,7 @@ namespace API.Helpers
 
             CreateMap<BinDto, Bin>();
             CreateMap<Bin, BinDto>();
-            CreateMap<Bin, CreateBinDto>(); 
+            CreateMap<Bin, CreateBinDto>();
             CreateMap<CreateBinDto, Bin>();
             CreateMap<UpdateBinDto, Bin>();
             CreateMap<Bin, UpdateBinDto>();
@@ -41,6 +41,11 @@ namespace API.Helpers
             CreateMap<Shipping, ShippingDto>();
 
             CreateMap<ShippingMethodDto, ShippingMethod>();
+
+            CreateMap<GetReceivingHeaderDto, Receiving>();
+            CreateMap<Receiving, GetReceivingHeaderDto>();
+            CreateMap<GetReceivingItemDto, ReceivingItem>();
+            CreateMap<ReceivingItem, GetReceivingItemDto>();
         }
     }
 }
