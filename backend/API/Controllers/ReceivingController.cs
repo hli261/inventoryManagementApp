@@ -210,7 +210,7 @@ namespace API.Controllers
                 if (receivingItemsObj != null){
                     var roItem = await _receivingItemRepository.GetReceivingItemInReceivingByItemNumberAsync(roNum, element.ItemNumber);
 
-                    roItem.OrderQty = receivingItemsObj.OrderQty;
+                    roItem.ReceiveQty = receivingItemsObj.ReceiveQty;
                     roItem.DiffQty = receivingItemsObj.DiffQty;
                     roItem.ExpireDate = receivingItemsObj.ExpireDate;
                     _receivingItemRepository.UpdateReceivingItem(roItem);
