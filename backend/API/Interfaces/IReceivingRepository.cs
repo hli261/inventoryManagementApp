@@ -17,5 +17,6 @@ namespace API.Interfaces
         void UpdateReceiving(Receiving receiving);
 
         Task<IEnumerable<Receiving>> GetReceivingsAsync();
+        Task<bool> ROExist(string roNo);
     }
 }

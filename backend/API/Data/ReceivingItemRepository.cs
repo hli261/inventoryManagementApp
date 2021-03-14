@@ -30,7 +30,7 @@ namespace API.Data
         public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByLOTAsync(string lotNum)
         {
             return await _context.ReceivingItems
-            .Include(i => i.Item)
+            // .Include(i => i.Item)
             .Where(p => p.LotNumber.ToUpper() == lotNum.ToUpper())
             .ToListAsync();
         }
@@ -38,8 +38,8 @@ namespace API.Data
         public async Task<IEnumerable<ReceivingItem>> GetReceivingItemsByROAsync(string roNum)
         {
             return await _context.ReceivingItems
-            .Include(i => i.Item)
-            .Where(p => p.Receiving.ROnumber.ToUpper() == roNum.ToUpper())
+            // .Include(i => i.Item)
+            .Where(p => p.Receiving.RONumber.ToUpper() == roNum.ToUpper())
             .ToListAsync();
         }
     }

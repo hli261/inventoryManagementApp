@@ -35,7 +35,7 @@ namespace API.Data
         {
             return await _context.Receivings
             .Include(i => i.ReceivingItems) //check functions
-            .FirstOrDefaultAsync(x => x.ROnumber.ToUpper() == roNumber.ToUpper());
+            .FirstOrDefaultAsync(x => x.RONumber.ToUpper() == roNumber.ToUpper());
         }
 
         public void UpdateReceiving(Receiving receiving)
@@ -44,11 +44,17 @@ namespace API.Data
 
         }
 
+        public async Task<bool> ROExist(string roNo)
+        {
+            return await _context.Receivings.AnyAsync(x => x.RONumber == roNo);
+        }
+
+
         public async Task<IEnumerable<Receiving>> GetReceivingsAsync()
         {
             return await _context.Receivings
                 .Include(v => v.ReceivingItems)
-                .ThenInclude(i => i.Item)
+                // .ThenInclude(i => i.Item)
                 .ToListAsync();
         }
     }
