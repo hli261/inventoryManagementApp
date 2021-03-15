@@ -13,10 +13,11 @@ namespace API.Interfaces
 
         Task<Receiving> GetReceivingByROAsync(string roNumber);
 
-        
+
         void UpdateReceiving(Receiving receiving);
 
         Task<IEnumerable<Receiving>> GetReceivingsAsync();
         Task<bool> ROExist(string roNo);
+        Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status);
     }
 }
