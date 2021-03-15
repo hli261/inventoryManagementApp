@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { RoItem } from '../_models';
+import { ReceiveOrder, RoItem } from '../_models';
 import { ReceivingService } from '../_services';
 
 @Component({
@@ -17,15 +17,16 @@ export class ReceivingOrderComponent implements OnInit {
 
   constructor(private router: Router, private data : ReceivingService) {     
      this.state = this.router.getCurrentNavigation().extras.state;
-  console.log("ro-----", this.state);
+     console.log("ro-----", this.state);
   }
 
   ngOnInit(): void {
     console.log(this.state);
-    this.sub=this.data.loadPO("39389", "SP0074","SN0000431").subscribe((data)=>{
-      console.log("load PO");
-      this.roItems = data; console.log(this.roItems);
-    })
+    this.roItems = this.state.getReceivingItemDtos;
+    // this.sub=this.data.loadPO(this.state.roNumber, ).subscribe((data)=>{
+    //   console.log("load PO");
+    //   this.roItems = data; console.log(this.roItems);
+    // })
   }
 
   onChange(item:any): void{

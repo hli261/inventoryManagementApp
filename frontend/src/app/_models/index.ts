@@ -15,5 +15,4 @@ export * from './ship';
 export * from './receivingCreate';
 export * from './roItem';
 export * from './receiveOrder';
-export * from './ro';
 

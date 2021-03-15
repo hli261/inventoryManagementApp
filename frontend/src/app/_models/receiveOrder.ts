@@ -2,14 +2,14 @@ import { RoItem } from './roItem';
 
 export class ReceiveOrder{
     id: number;
-    rOnumber: string;
+    roNumber: string;
     poNumber: string;
     shippingNumber: string;
     lotNumber: string;
     venderNo: string;
     userEmail: string;
-    arrivalDate: string;
+    createDate: string;
     status: string;
-    receivingItems: Array<RoItem>;
     orderDate: string;
+    getReceivingItemDtos: Array<RoItem>;    
 }

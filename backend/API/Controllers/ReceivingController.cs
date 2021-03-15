@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
 
-        [HttpPost("createROHeader")]
+        [HttpGet("createROHeader")]
         public async Task<ActionResult<GetReceivingHeaderDto>> GetROExist([FromQuery] ReceivingOrderDto receiving)
         {
             var vender = await _venderRepository.GetVenderByNumber(receiving.VenderNo.ToUpper());
@@ -94,18 +94,74 @@ namespace API.Controllers
                 // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 // Shipping = shippingNo,
-            };
+            };       
+            
+            var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
 
-            _receivingRepository.AddReceivingAsync(_mapper.Map<Receiving>(getReceivingDto));
+            // if (shippingNo == null)
+            //     return BadRequest("Shipping Number does not exist.");
+
+            if (poItem == null)
+                return BadRequest("PO item not found");
+
+            List<GetReceivingItemDto> roItems = new List<GetReceivingItemDto>();
+
+            foreach (ERP_POitem element in poItem)
+            {
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+
+                var roItem = new GetReceivingItemDto
+                {
+                    LotNumber = shippingNo.ShippingLot.LotNumber,
+                    ItemNumber = element.ItemNumber,
+                    ItemDescription = item.ItemDescription,
+                    OrderQty = element.OrderQty
+                };
+                roItems.Add(roItem);
+            }
+   
+           getReceivingDto.GetReceivingItemDtos = roItems;
+
+             _receivingRepository.AddReceivingAsync(_mapper.Map<Receiving>(getReceivingDto));
 
             if (await _receivingRepository.SaveAllAsync() == false)
-                return BadRequest("Failed to add Receiving Order.");
+                return BadRequest("Failed to add Receiving Order.");  
 
             return Ok(getReceivingDto);
         }
 
 
-        [HttpPost("loadRoItems/{roNum}")]
+        [HttpPut("updateRoItems/{roNum}")]
+        public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> UpdateRoItems(string roNum, GetReceivingItemDto[] roItems)//(GetReceivingHeaderDto receiving)
+        {
+            if (await _receivingRepository.ROExist(roNum) == false)
+                return BadRequest("RO not Exist");
+
+            //get ro from databse and continue to work on that
+            var ro = await _receivingRepository.GetReceivingByROAsync(roNum);
+            var items = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
+            if (items.Any() == true)
+            {
+                //check status
+                if (ro.Status == "SUBMIT") return BadRequest("Can not edit submitted receiving order");
+
+                //get and return
+                return Ok(_mapper.Map<IEnumerable<GetReceivingItemDto>>(items));
+            }
+        
+ 
+            foreach (ReceivingItem element in items)
+            {
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+
+                item.receiveQty = element.ReceiveQty;
+            }
+
+            return Ok();
+        }
+        
+
+           [HttpPost("loadRoItems/{roNum}")]
         public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> LoadRoItems(string roNum)//(GetReceivingHeaderDto receiving)
         {
             if (await _receivingRepository.ROExist(roNum) == false)
@@ -150,6 +206,7 @@ namespace API.Controllers
 
             return Ok(roItems);
         }
+
 
 
         [HttpPost("createReceiving")]

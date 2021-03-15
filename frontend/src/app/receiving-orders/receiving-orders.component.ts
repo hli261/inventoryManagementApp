@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ReceiveOrder } from '../_models';
 
 @Component({
   selector: 'app-receiving-orders',
@@ -6,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./receiving-orders.component.css']
 })
 export class ReceivingOrdersComponent implements OnInit {
+
+  receiveOrders_: Observable<ReceiveOrder[]>;
+  
 
   constructor() { }
 
