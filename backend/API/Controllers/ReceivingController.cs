@@ -81,6 +81,8 @@ namespace API.Controllers
 
             var roNumber = "RO" + receiving.PONumber + receiving.ShippingNumber + receiving.VenderNo;
 
+            if(await _receivingRepository.ROExist(roNumber)) return BadRequest("RO Number already Exist");
+
             var getReceivingDto = new GetReceivingHeaderDto
             {
                 PONumber = receiving.PONumber,
@@ -185,7 +187,7 @@ namespace API.Controllers
         {
             //Note: change to automapper here.
             var receiving = await _receivingRepository.GetReceivingByROAsync(receivingDto.RONumber);
-            if (receivingDto.Status == "SUBMIT")
+            if (receiving.Status == "SUBMIT")
                 return BadRequest("Can not edit submitted receiving order");
 
             //convert ERP_POITEM into ReceivingItems with relationship to Item
