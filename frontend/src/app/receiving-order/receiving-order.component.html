@@ -2,16 +2,16 @@
     <div class="container">
         <div class="row mb-3">
             <div class="col-sm-4">
-               <span class="">RO number:</span> &nbsp;&nbsp;<span>{{state.roNumber}}</span>
+               <span class="fs-5">RO number:</span> &nbsp;&nbsp;<span>{{roNum}}</span>
             </div>
             <div class="col-sm-3">
-                PO number: &nbsp;&nbsp;<span>{{state.poNumber}}</span>
+                <span class="fs-5">PO number:</span> &nbsp;&nbsp;<span>{{state.poNumber}}</span>
             </div>
             <div class="col-sm-3">
-                Create Date: &nbsp;&nbsp;<span>{{state.createDate}}</span>
+                <span class="fs-5">Create Date:</span> &nbsp;&nbsp;<span>{{state.createDate}}</span>
             </div>
-            <div class="col-sm-3">
-                Status: &nbsp;&nbsp;<span>{{state.status}}</span>
+            <div class="col-sm-2">
+                <span class="fs-5">Status:</span> &nbsp;&nbsp;<span>{{state.status}}</span>
             </div>
         </div>    
     </div>
@@ -43,6 +43,6 @@
     <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
         <button type=""  (click)="save()"  class="btn btn-primary">Save</button>
         <button type="clean" class="btn btn-primary">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" (click)="submit()" class="btn btn-primary">Submit</button>
     </div>
 </div>

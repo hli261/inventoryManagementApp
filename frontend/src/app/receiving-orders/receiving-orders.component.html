@@ -69,19 +69,47 @@
                 </div>
       </div> -->
     </div>
-    <!-- <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
+    <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
       <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
     </div>
-    <div *ngIf="(bins_ | async)?.length == 0" class="d-flex justify-content-center mt-5">
-      <p class="text-center">No Bin</p>
+    <div *ngIf="(orders_ | async)?.length == 0" class="d-flex justify-content-center mt-5">
+      <p class="text-center">No Receiving Order</p>
     </div>
-    <div *ngIf="(bins_ | async)?.length > 0" class="row mb-5">
-      <app-bins [bins_]="bins_"></app-bins>
-      <div *ngIf="(bins_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end">
+    <div *ngIf="(orders_ | async)?.length > 0" class="row mb-5">
+      <div *ngIf="orders_ | async as orders" class ="container-fluid mt-3">
+        <table class="table table-hover border-top mt-3">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">RO Number</th>
+              <th scope="col">PO Number</th>
+              <th scope="col">Lot Number</th>
+              <th scope="col">Create Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor = 'let order of orders; let i = index'>
+              <td>{{i + 1}}</td>
+              <td>{{order.roNumber}}</td>
+              <td>{{order.poNumber}}</td>
+              <td>{{order.lotNumber}}</td>
+              <td>{{order.createDate}}</td>
+              <td>{{order.status}}</td>
+              <td>
+                <a [routerLink]="['/order-edit', order.roNumber]">Edit</a> | 
+                <a [routerLink]="['/order-detail', order.roNumber]">Detail</a>
+              </td>
+            </tr>    
+           </tbody>
+        </table>       
+      </div>
+      <div *ngIf="(orders_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end">
         <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
       </div>
       <ng-template #elseBlock>
         <app-paging [page]="page" [nextPage]="false" (newPage)="getPage($event)"></app-paging>
       </ng-template>
-    </div> -->
+    </div>
   </div>

@@ -50,16 +50,17 @@ export class ReceivingService {
     return this.http.get<any>(`${environment.apiUrl}/api/Receiving/createROHeader?PONumber=${PONumber}&venderNo=${venderNo}&shippingNumber=${shippingNumber}`);    
   }
 
-  public loadPO(roNumber:string, ro: ReceiveOrder ) : Observable<ReceiveOrder> {
-    console.log("loadPO in service");
-    return this.http.put<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/loadroItems/${roNumber}`, ro);
-    
+  public updateROItems(roNumber:string, roItems: RoItem[] ) : Observable<RoItem[]> {
+    return this.http.put<RoItem[]>(`${environment.apiUrl}/api/Receiving/update/${roNumber}`, roItems);
   }
 
-  public updateRO(roNumber:string, roItems: RoItem[] ) : Observable<ReceiveOrder> {
-    console.log("loadPO in service");
-    return this.http.put<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/loadroItems/${roNumber}`, roItems);
-    
+  public getROItemsByRONum(roNumber:string) : Observable<RoItem[]> {
+    console.log("start get Roitems......")
+    return this.http.get<RoItem[]>(`${environment.apiUrl}/api/Receiving/receivingItemsByRO/${roNumber}`);
+  }
+
+  public updateRO(ro: ReceiveOrder) : Observable<ReceiveOrder> {
+    return this.http.put<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/createreceiving`, ro);
   }
 
 

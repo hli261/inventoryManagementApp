@@ -78,6 +78,8 @@ const routes: Routes = [
       { path: 'ship-edit/:shipNum', component: ShipEditComponent },
       { path: 'orders', component: ReceivingOrdersComponent },
       { path: 'order', component: ReceivingOrderComponent },
+      { path: 'order-detail/:roNum', component: ReceivingOrderComponent },
+      { path: 'order-edit/:roNum', component: ReceivingOrderComponent },
       { path: 'receivingCreate', component: ReceivingCreateComponent},
     ]
   },

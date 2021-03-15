@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReceiveOrder } from '../_models';
+import { ReceivingService } from '../_services';
 
 @Component({
   selector: 'app-receiving-orders',
@@ -9,12 +10,19 @@ import { ReceiveOrder } from '../_models';
 })
 export class ReceivingOrdersComponent implements OnInit {
 
-  receiveOrders_: Observable<ReceiveOrder[]>;
+  orders_: Observable<ReceiveOrder[]>;
+  page: number = 1;
+  errorMessage: string;
   
 
-  constructor() { }
+  constructor(private data: ReceivingService) { }
 
   ngOnInit(): void {
+    this.orders_ = this.data.getAllRO();
+  }
+
+  getPage(event:any): void{
+
   }
 
 }
