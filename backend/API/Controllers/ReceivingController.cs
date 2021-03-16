@@ -43,7 +43,7 @@ namespace API.Controllers
         {
             var receivings = await _receivingRepository.GetReceivingsAsync();
 
-            return Ok(receivings);
+            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receivings));
         }
 
         [HttpGet("receivingByRO/{roNum}")]
@@ -51,7 +51,7 @@ namespace API.Controllers
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
 
-            return Ok(receiving);
+            return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
         }
 
         [HttpGet("receivingItemsByRO/{roNum}")]
@@ -59,7 +59,7 @@ namespace API.Controllers
         {
             var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
 
-            return Ok(receivingItems);
+            return Ok(_mapper.Map<IEnumerable<GetReceivingItemDto>>(receivingItems));
         }
 
 
@@ -216,7 +216,7 @@ namespace API.Controllers
             if (await _receivingRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Order.");
 
-            return Ok(receiving);
+            return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
         }
 
 
@@ -256,7 +256,7 @@ namespace API.Controllers
 
             if (await _shippingRepository.SaveAllAsync())
             {
-                return Ok(receiving);
+                return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
             }
             return BadRequest("Failed to update receiving");
         }
@@ -265,9 +265,9 @@ namespace API.Controllers
         [HttpGet("getReceivingByStatus/{status}")]
         public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingByStatus(string status)
         {
-            var receivingItems = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper());
+            var receiving = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper());
 
-            return Ok(receivingItems);
+            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receiving));
         }
 
     }
