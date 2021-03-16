@@ -1,4 +1,5 @@
 export class RoItem{
+    id: number;
     lotNumber: string;
     itemNumber: string;
     itemDescription: string;

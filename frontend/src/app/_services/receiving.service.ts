@@ -59,8 +59,13 @@ export class ReceivingService {
     return this.http.get<RoItem[]>(`${environment.apiUrl}/api/Receiving/receivingItemsByRO/${roNumber}`);
   }
 
-  public updateRO(ro: ReceiveOrder) : Observable<ReceiveOrder> {
-    return this.http.put<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/createreceiving`, ro);
+  public getROByRONum(roNumber:string) : Observable<ReceiveOrder> {
+    console.log("start get Ro......")
+    return this.http.get<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/receivingByRO/${roNumber}`);
+  }
+
+  public submitRO(ro: ReceiveOrder) : Observable<ReceiveOrder> {
+    return this.http.post<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/createreceiving`, ro);
   }
 
 
