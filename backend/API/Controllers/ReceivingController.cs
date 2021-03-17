@@ -42,8 +42,8 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings()
         {
             var receivings = await _receivingRepository.GetReceivingsAsync();
-
-            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receivings));
+            var obj = _mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receivings);
+            return Ok(obj);
         }
 
         [HttpGet("receivingByRO/{roNum}")]
@@ -81,7 +81,7 @@ namespace API.Controllers
 
             var roNumber = "RO" + receiving.PONumber + receiving.ShippingNumber + receiving.VenderNo;
 
-            if(await _receivingRepository.ROExist(roNumber)) return BadRequest("RO Number already Exist");
+            if (await _receivingRepository.ROExist(roNumber)) return BadRequest("RO Number already Exist");
 
             var getReceivingDto = new GetReceivingHeaderDto
             {
@@ -96,8 +96,8 @@ namespace API.Controllers
                 // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 // Shipping = shippingNo,
-            };       
-            
+            };
+
             var poItem = await _erpRepository.GetReceivingItemByPO(receiving.PONumber.ToUpper());
 
             // if (shippingNo == null)
@@ -121,17 +121,17 @@ namespace API.Controllers
                 };
                 roItems.Add(roItem);
             }
-   
-           getReceivingDto.GetReceivingItemDtos = roItems;
 
-             _receivingRepository.AddReceivingAsync(_mapper.Map<Receiving>(getReceivingDto));
+            getReceivingDto.GetReceivingItemDtos = roItems;
+
+            _receivingRepository.AddReceivingAsync(_mapper.Map<Receiving>(getReceivingDto));
 
             if (await _receivingRepository.SaveAllAsync() == false)
-                return BadRequest("Failed to add Receiving Order.");  
+                return BadRequest("Failed to add Receiving Order.");
 
             return Ok(getReceivingDto);
-        }        
-        
+        }
+
 
         //    [HttpPost("loadRoItems/{roNum}")]
         // [HttpPut("loadRoItems/{roNum}")]
@@ -220,12 +220,11 @@ namespace API.Controllers
         }
 
 
-        [HttpPut("update/{roNum}")]
-        public async Task<ActionResult> UpdateReceiving(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum)
+        [HttpPut("update/{roNum}/{status}")]
+        public async Task<ActionResult> UpdateReceiving(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum, string status)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
-
 
             if (receiving == null)
                 return BadRequest("Shipping Number not found.");
@@ -251,7 +250,7 @@ namespace API.Controllers
             if (await _receivingItemRepository.SaveAllAsync() == false)
                 return BadRequest("Failed to add Receiving Item.");
 
-
+            receiving.Status = status;
             _receivingRepository.UpdateReceiving(receiving);
 
             if (await _shippingRepository.SaveAllAsync())
