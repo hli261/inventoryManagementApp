@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -16,7 +17,7 @@ namespace API.Interfaces
 
         void UpdateReceiving(Receiving receiving);
 
-        Task<IEnumerable<Receiving>> GetReceivingsAsync();
+        Task<PagedList<Receiving>> GetReceivingsAsync(PagingParams receivingParams);
         Task<bool> ROExist(string roNo);
         Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status);
     }

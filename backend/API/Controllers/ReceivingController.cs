@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -39,10 +41,10 @@ namespace API.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings()
+        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings([FromQuery] PagingParams receivingParams)
         {
-            var receivings = await _receivingRepository.GetReceivingsAsync();
-
+            var receivings = await _receivingRepository.GetReceivingsAsync(receivingParams);
+            Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receivings));
         }
 
@@ -55,10 +57,10 @@ namespace API.Controllers
         }
 
         [HttpGet("receivingItemsByRO/{roNum}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum)
+        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
         {
-            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
-
+            var receivingItems = await _receivingItemRepository.GetReceivingItemParamByROAsync(roNum, receivingItemParams);
+            Response.AddPaginationHeader(receivingItems.CurrentPage, receivingItems.PageSize, receivingItems.TotalCount, receivingItems.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingItemDto>>(receivingItems));
         }
 
@@ -117,7 +119,7 @@ namespace API.Controllers
             foreach (ERP_POitem element in poItem)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-                if(item == null) return BadRequest("Item Not Found in database");
+                if (item == null) return BadRequest("Item Not Found in database");
                 // Console.WriteLine(item.ItemDescription);
 
                 var roItem = new ReceivingItem

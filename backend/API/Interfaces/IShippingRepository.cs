@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -16,7 +17,8 @@ namespace API.Interfaces
         // Task<PagedList<Item>> GetItemsAsync(PagingParams itemParams); //paging
 
         // Task<Item> GetItemByNumber(string number);
-        Task<IEnumerable<Shipping>> GetShippingsAsync();
+        Task<PagedList<Shipping>> GetShippingsAsync(PagingParams shippingParams);
+        // Task<IEnumerable<Shipping>> GetShippingsAsync();
         Task<Shipping> GetShippingById(int id);
         Task<bool> SaveAllAsync();
 
@@ -25,7 +27,7 @@ namespace API.Interfaces
         void CreateShippingLot(ShippingLot lot);
         void UpdateShipping(Shipping shipping);
         Task<ShippingLot> GetShippingLotById(int id);
-        Task<ShippingLot> GetShippingLotByNumber(string number);   
+        Task<ShippingLot> GetShippingLotByNumber(string number);
         int LotCountAsync();
         Task<Shipping> GetShippingByNumber(string spNum);
     }

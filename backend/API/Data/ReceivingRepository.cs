@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -49,13 +50,14 @@ namespace API.Data
             return await _context.Receivings.AnyAsync(x => x.RONumber == roNo);
         }
 
-
-        public async Task<IEnumerable<Receiving>> GetReceivingsAsync()
+        public async Task<PagedList<Receiving>> GetReceivingsAsync(PagingParams receivingParams)
         {
-            return await _context.Receivings
-                .Include(v => v.ReceivingItems)
+            var query = _context.Receivings
+               .Include(v => v.ReceivingItems)
                 // .ThenInclude(i => i.Item)
-                .ToListAsync();
+                .AsNoTracking();
+
+            return await PagedList<Receiving>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
         }
 
         public async Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status)
@@ -67,6 +69,5 @@ namespace API.Data
                 .ToListAsync();
         }
 
-       
     }
 }

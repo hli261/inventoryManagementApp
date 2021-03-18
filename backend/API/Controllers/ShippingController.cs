@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using API.Controllers;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using AutoMapper;
@@ -29,9 +31,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings()
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings([FromQuery]PagingParams shippingParams)
         {
-            var shippings = await _shippingRepository.GetShippingsAsync();
+            var shippings = await _shippingRepository.GetShippingsAsync(shippingParams);
+            Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
 
             return Ok(shippings);
         }
