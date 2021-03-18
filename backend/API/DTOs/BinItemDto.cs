@@ -21,6 +21,7 @@ namespace API.DTOs
 
         public int ShippingLotId { get; set; } 
 
-        public string LotNumber { get; set; }   
+        public string LotNumber { get; set; }
+
     }
 }
