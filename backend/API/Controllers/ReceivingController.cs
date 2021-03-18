@@ -92,7 +92,7 @@ namespace API.Controllers
                 VenderNo = receiving.VenderNo,
                 UserEmail = receiving.UserEmail,
                 // CreateDate 
-                Status = "DRAFT",
+                Status = "SUBMIT",
                 // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 // Shipping = shippingNo,
@@ -117,6 +117,8 @@ namespace API.Controllers
             foreach (ERP_POitem element in poItem)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                if(item == null) return BadRequest("Item Not Found in database");
+                // Console.WriteLine(item.ItemDescription);
 
                 var roItem = new ReceivingItem
                 {
@@ -242,7 +244,7 @@ namespace API.Controllers
                 return BadRequest("Receiving not found.");
 
             if (receiving.Status.ToUpper() == "SUBMIT")
-                return BadRequest("Submitted RO cannot be changed");
+                return BadRequest("Submited RO cannot be changed");
 
             foreach (GetReceivingItemDto element in receivingItemsDto)
             {
