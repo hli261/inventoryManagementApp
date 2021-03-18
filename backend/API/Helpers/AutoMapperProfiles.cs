@@ -44,6 +44,7 @@ namespace API.Helpers
 
             CreateMap<GetReceivingHeaderDto, Receiving>();
             CreateMap<Receiving, GetReceivingHeaderDto>();
+            CreateMap<Receiving, GetReceivingHeaderDto>().ForMember(dest => dest.GetReceivingItemDtos, opt => opt.MapFrom(src => src.ReceivingItems));
             CreateMap<GetReceivingItemDto, ReceivingItem>();
             CreateMap<ReceivingItem, GetReceivingItemDto>();
         }
