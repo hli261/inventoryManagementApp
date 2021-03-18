@@ -55,5 +55,9 @@ namespace API.Data
 
         }
 
+         public async Task<bool> ItemExist(string number){
+            return await _context.ReceivingItems.AnyAsync(i => i.ItemNumber == number);
+        }
+
     }
 }

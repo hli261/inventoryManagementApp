@@ -23,9 +23,12 @@ namespace API.Controllers
         private readonly IItemRepository _itemRepository;
         private readonly IBinRepository _binRepository;
         private readonly IShippingRepository _shippingRepository;
+        private readonly IReceivingRepository _receivingRepository;
+         private readonly IReceivingItemRepository _receivingItemRepository;
 
         public BinItemController(IMapper mapper, IBinItemRepository binItemRepository, CSVService csvHandler,
-            IBinRepository binRepository, IItemRepository itemRepository, IShippingRepository shippingRepository)
+            IBinRepository binRepository, IItemRepository itemRepository, IShippingRepository shippingRepository,
+            IReceivingRepository receivingRepository, IReceivingItemRepository receivingItemRepository)
         {
             _csvHandler = csvHandler;
             _itemRepository = itemRepository;
@@ -33,6 +36,8 @@ namespace API.Controllers
             _mapper = mapper;
             _binItemRepository = binItemRepository;
             _shippingRepository = shippingRepository;
+            _receivingRepository = receivingRepository;
+            _receivingItemRepository = receivingItemRepository;
         }
 
         [HttpGet("binitemcsvfile")]
@@ -68,6 +73,57 @@ namespace API.Controllers
                 return Ok(_mapper.Map<BinItemDto>(binItem));
 
             return BadRequest("Failed to add item.");
+        }
+
+        //Firstly, create BinItems for Receiving Bin.
+        //Secondly, if the BinItem is exist, only add the quantity and update!!!
+        [HttpPost("CreateReceivingBinItems")]
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReceivingBinItems(ReceivingDto receivingDto){
+            var bin = await _binRepository.GetBinByCode("RECEIVING");
+          
+            var lot = await _shippingRepository.GetShippingLotByNumber(receivingDto.LotNumber);
+
+            var binItems = new List<BinItem>();
+
+            foreach(ROitemsDto element in receivingDto.ROitems){
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                    
+                var quantity = element.ReceiveQty;
+
+                var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), receivingDto.LotNumber);
+
+                if(bi is null){
+                    var binItem = new BinItem
+                    {
+                        Quantity = quantity,
+                        Bin = bin,
+                        Item = item,
+                        ShippingLot = lot,
+                    };
+
+                    _binItemRepository.AddBinItem(binItem);
+                    binItems.Add(binItem);
+
+                    if (await _binItemRepository.SaveAllAsync())
+
+                    return Ok(_mapper.Map<BinItemDto>(binItem));
+
+                    return BadRequest("Failed to add item.");
+                }
+                else
+                {
+                    binItems.Add(bi);
+                    bi.Quantity += quantity;
+                    _binItemRepository.UpdateBinItemAsync(bi);
+
+                    if (await _binItemRepository.SaveAllAsync()) return NoContent();
+
+                    return BadRequest("Failed to update item.");
+                }
+
+            }
+
+            return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
         }
 
         [HttpGet("all")]
@@ -146,7 +202,7 @@ namespace API.Controllers
             return BadRequest("Failed to delete item.");
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<ActionResult> UpdateBinItem(BinItemDto binItemDto)
         {
             var binItem = await _binItemRepository.GetBinItemById(binItemDto.Id);
@@ -159,5 +215,6 @@ namespace API.Controllers
 
             return BadRequest("Failed to update item.");
         }
+
     }
 }

@@ -13,5 +13,7 @@ namespace API.Interfaces
 
         Task<ReceivingItem> GetReceivingItemInReceivingByItemNumberAsync(string roNum, string itemNumber);
         void UpdateReceivingItem(ReceivingItem receivingItem);
+
+        Task<bool> ItemExist(string number);
     }
 }

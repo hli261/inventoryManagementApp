@@ -21,5 +21,7 @@ namespace API.Interfaces
 
         Task<bool> SaveAllAsync();
 
+        Task<BinItem> GetBinItemByThree(string code, string number, string lot);
+
     }
 }
