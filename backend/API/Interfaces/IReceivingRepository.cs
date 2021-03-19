@@ -13,7 +13,7 @@ namespace API.Interfaces
         void AddReceivingAsync(Receiving receiving);
 
         Task<Receiving> GetReceivingByROAsync(string roNumber);
-
+        Task<Receiving> GetReceivingByLotAsync(string lotNum);
 
         void UpdateReceiving(Receiving receiving);
 

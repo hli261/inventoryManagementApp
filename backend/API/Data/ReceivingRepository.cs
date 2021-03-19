@@ -39,6 +39,13 @@ namespace API.Data
             .FirstOrDefaultAsync(x => x.RONumber.ToUpper() == roNumber.ToUpper());
         }
 
+        public async Task<Receiving> GetReceivingByLotAsync(string lotNum)
+        {
+            return await _context.Receivings
+            .Include(i => i.ReceivingItems) //check functions
+            .FirstOrDefaultAsync(x => x.LotNumber.ToUpper() == lotNum.ToUpper());
+        }
+
         public void UpdateReceiving(Receiving receiving)
         {
             _context.Entry(receiving).State = EntityState.Modified;

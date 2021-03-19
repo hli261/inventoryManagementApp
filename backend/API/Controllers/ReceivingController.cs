@@ -56,6 +56,14 @@ namespace API.Controllers
             return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
         }
 
+        [HttpGet("receivingByLot/{lotNum}")]
+        public async Task<ActionResult<Receiving>> GetReceivingByLot(string lotNum)
+        {
+            var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
+
+            return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
+        }
+
         [HttpGet("receivingItemsByRO/{roNum}")]
         public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
         {
@@ -299,8 +307,8 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteShipping(string ro)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(ro);
-            if(receiving.Status == "SUBMIT") return BadRequest("Can not delete submited receiving");
-            
+            if (receiving.Status == "SUBMIT") return BadRequest("Can not delete submited receiving");
+
             var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(ro);
 
             if (receiving != null)
