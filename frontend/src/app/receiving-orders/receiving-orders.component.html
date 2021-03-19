@@ -95,11 +95,12 @@
               <td>{{order.roNumber}}</td>
               <td>{{order.poNumber}}</td>
               <td>{{order.lotNumber}}</td>
-              <td>{{order.createDate}}</td>
+              <td>{{order.createDate | date}}</td>
               <td>{{order.status}}</td>
               <td>
-                <a [routerLink]="['/order-edit', order.roNumber]">Edit</a> | 
-                <a [routerLink]="['/order-detail', order.roNumber]">Detail</a>
+                <a *ngIf="!(order.status == 'SUBMIT')" [routerLink]="['/order-edit', order.roNumber]">Edit</a> 
+                <!-- <a *ngIf="(order.status == 'SUBMIT')" class="text-success fw-normal" [routerLink]="['/order-detail', order.roNumber]">Detail</a> -->
+                <a  class="text-success fw-normal" [routerLink]="['/order-detail', order.roNumber]"> | Detail</a>
               </td>
             </tr>    
            </tbody>

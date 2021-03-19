@@ -34,10 +34,11 @@ import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ItemBinsComponent } from './item-bins/item-bins.component';
 import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
 import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
-import { ShipRecordComponent } from './ship-record/ship-record.component';
+import { ShipDetailComponent } from './ship-detail/ship-detail.component';
 import { ShipRecordsComponent } from './ship-records/ship-records.component';
 import { ShipEditComponent } from './ship-edit/ship-edit.component';
 import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
+import { ReceivingDetailComponent } from './receiving-detail/receiving-detail.component';
 
 @NgModule({
   declarations: [
@@ -65,10 +66,11 @@ import { ReceivingCreateComponent } from './receiving-create/receiving-create.co
     ReceivingOrderComponent,
     ShipsComponent,
     ShipComponent,
-    ShipRecordComponent,
+    ShipDetailComponent,
     ShipRecordsComponent,
     ShipEditComponent,
-    ReceivingCreateComponent
+    ReceivingCreateComponent,
+    ReceivingDetailComponent
   ],
   imports: [
     BrowserModule,

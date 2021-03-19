@@ -233,13 +233,13 @@ namespace API.Controllers
 
 
         [HttpPut("update/{roNum}")]
-        public async Task<ActionResult> UpdateReceiving(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum)
+        public async Task<ActionResult> Update(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
 
             if (receiving == null)
-                return BadRequest("Receiving not found.");
+                return BadRequest("RO can not be found.");
 
             if (receiving.Status.ToUpper() == "SUBMIT")
                 return BadRequest("Submitted RO cannot be changed");
@@ -267,7 +267,7 @@ namespace API.Controllers
 
 
         [HttpPut("updateStatus/{roNum}/{status}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> EditReceivingStatusByRO(string roNum, string status)
+        public async Task<ActionResult<Receiving>> EditROStatusByRO(string roNum, string status)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             receiving.Status = status;
@@ -281,6 +281,22 @@ namespace API.Controllers
 
             return BadRequest("Failed to update receiving");
         }
+
+        // [HttpPut("updateStatus/{roNum}/{status}")]
+        // public async Task<ActionResult<IEnumerable<ReceivingItem>>> EditReceivingStatusByRO(string roNum, string status)
+        // {
+        //     var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
+        //     receiving.Status = status;
+
+        //     _receivingRepository.UpdateReceiving(receiving);
+
+        //     if (await _receivingRepository.SaveAllAsync())
+        //     {
+        //         return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
+        //     }
+
+        //     return BadRequest("Failed to update receiving");
+        // }
 
 
         [HttpGet("getReceivingByStatus/{status}")]

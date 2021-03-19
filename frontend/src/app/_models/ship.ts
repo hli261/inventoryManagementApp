@@ -12,4 +12,5 @@ export class Ship{
     vender: Vender;
     user: User;
     shippingLot: Lot;
+    poNumber: string;
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ReceiveOrder, RoItem, Ship, ShipCreate, ShipMethod } from '../_models';
+import { ReceiveOrder, RoItem, Ship, ShipCreate, ShipMethod, Vender } from '../_models';
 import { take } from 'rxjs/operators';
 import { ReceivingCreate } from '../_models';
 
@@ -46,21 +46,22 @@ export class ReceivingService {
     return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/getAll`);    
   }
 
-  public createRO(PONumber:any, venderNo:any, shippingNumber:any) : Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/Receiving/createROHeader?PONumber=${PONumber}&venderNo=${venderNo}&shippingNumber=${shippingNumber}`);    
+  public createRO(PONumber:any, venderNo:any, shippingNumber:any, email: string) : Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Receiving/createROHeader?PONumber=${PONumber}&venderNo=${venderNo}&shippingNumber=${shippingNumber}&UserEmail=${email}`);    
   }
 
-  public updateROItems(roNumber:string, roItems: RoItem[] ) : Observable<RoItem[]> {
+  public updateROItems(roNumber:string, roItems: RoItem[] ) : Observable<RoItem[]> {  console.log("update ro");
     return this.http.put<RoItem[]>(`${environment.apiUrl}/api/Receiving/update/${roNumber}`, roItems);
+  }
+  public updateStatus(roNumber:string, status: string, roItems: RoItem[] ) : Observable<ReceiveOrder> {
+    return this.http.put<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/updateStatus/${roNumber}/${status}`, roItems);
   }
 
   public getROItemsByRONum(roNumber:string) : Observable<RoItem[]> {
-    console.log("start get Roitems......")
     return this.http.get<RoItem[]>(`${environment.apiUrl}/api/Receiving/receivingItemsByRO/${roNumber}`);
   }
 
   public getROByRONum(roNumber:string) : Observable<ReceiveOrder> {
-    console.log("start get Ro......")
     return this.http.get<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/receivingByRO/${roNumber}`);
   }
 
@@ -68,6 +69,9 @@ export class ReceivingService {
     return this.http.post<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/createreceiving`, ro);
   }
 
+  public getVenderByNum(num:string) : Observable<Vender> {
+    return this.http.get<Vender>(`${environment.apiUrl}/api/Vender/venderExist/${num}`);
+  }
 
  
 

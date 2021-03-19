@@ -9,85 +9,108 @@
     <br>
     <div class="container-fluid mb-3">
       <form action="" [formGroup]="shipForm" (ngSubmit)="onSubmit()" class="container">
-        <div class="mb-3 col-sm-12">
-          <div class="input-group">
-          <label for="dp" class="form-label me-1">Arrival Date</label>
-          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
-            <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
-          </svg>
-        </div>
-          <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="arrivalDate"
-              [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" required>
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calender" (click)="d.toggle()" type="button">
-                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-calendar3" viewBox="0 0 16 16">
-                    <path
-                      d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                    <path
-                      d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                  </svg></span>
-              </button>
+        <div class="row">
+          <div class="mb-3 col-sm-6">
+            <div class="input-group">
+              <label for="dp" class="form-label me-1">Arrival Date</label>
+              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor"
+                class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+                <path
+                  d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+              </svg>
             </div>
-          </div>
-          <!-- <div>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="arrivalDate"
+                [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calender" (click)="d.toggle()" type="button">
+                  <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-calendar3" viewBox="0 0 16 16">
+                      <path
+                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                      <path
+                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                    </svg></span>
+                </button>
+              </div>
+            </div>
+            <!-- <div>
             <span *ngIf="!shipForm.get('arrivalDate').valid && shipForm.get('arrivalDate').touched" class="help-block">
               <small class="text-danger">Arrival Date is required</small></span>
           </div> -->
-        </div>
-        <div class="mb-3 col-md-12">
-          <div class="input-group">
-          <label for="shipType" class="form-label me-1">Type </label>
-          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
-            <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
-          </svg>
-          <br/>
           </div>
-           <!-- <div class="form-check form-check-inline" *ngFor="let type of shipMethod" >
-            <input class="form-check-input" type="checkbox" [value]="type.logisticName" (change)="check($event, type.logisticName)" id="flexCheckDefault" formControlName="shipType">
-            <label class="form-check-label" for="flexCheckDefault">{{type.logisticName}}</label>
-          </div>
-          <div class="form-check form-check-inline">
+          <div class="mb-3 col-md-6">
             <div class="input-group">
-            <input class="form-check-input" type="checkbox" value="other" (change)="otherChecked($event)" id="flexCheckDefault" formControlName="shipType">
-            <label class="form-check-label" for="flexCheckDefault">Other</label>
-            <input class="ms-3 border-bottom"  type="text" formControlName="logisticName">
+              <label for="poNo" class="form-label me-1">PO Number</label>
+              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor"
+                class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+                <path
+                  d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+              </svg>
+            </div>
+            <input class="form-control" placeholder="" name="poNo" formControlName="poNo" required>
           </div>
-          </div> -->
-          <select class="form-select" aria-label="example" formControlName="shipType" (change)="check($event)" required>
-            <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
-            <option value="other" >Other</option>
-          </select>
-          <div *ngIf="visible">
-            <label for="otherMethod" class="form-label">Other Shipping Method</label>
-            <input class="me-2 border-bottom border-dark"  type="text" formControlName="otherMethod">
-          </div>
-          <!-- <div>
-            <span *ngIf="!shipForm.get('shipType').valid && shipForm.get('shipType').touched" class="help-block">
-              <small class="text-danger">Ship Type is required</small></span>
-          </div> -->
+
         </div>
-        <div class="mb-3 col-md-6">
-          <div class="input-group">
-          <label for="shipType" class="form-label me-1">Vender Number</label>
-          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
-            <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
-          </svg>
-        </div>
-          <input class="form-control" placeholder="" name="venderNo" formControlName="venderNo" requried>
-          <!-- <div>
+        <div class="row">
+          <div class="mb-3 col-md-6">
+            <div class="input-group">
+              <label for="venderNo" class="form-label me-1">Vender Number</label>
+              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor"
+                class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+                <path
+                  d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+              </svg>
+            </div>
+            <input class="form-control" placeholder="" name="venderNo" formControlName="venderNo" required>
+            <!-- <div>
             <span *ngIf="!shipForm.get('venderNo').valid && shipForm.get('venderNo').touched" class="help-block">
               <small class="text-danger">Vender Number is required</small></span>
           </div> -->
+          </div>
+          <div class="mb-3 col-md-6">
+            <label for="shipType" class="form-label">Invoice Number</label>
+            <input class="form-control" placeholder="" name="invoiceNo" formControlName="invoiceNo">
+          </div>
         </div>
-        <div class="mb-3 col-md-6">
-          <label for="shipType" class="form-label">Invoice Number</label>
-          <input class="form-control" placeholder="" name="invoiceNo" formControlName="invoiceNo">
+        <div class="row">
+          <div class="mb-3 col-md-6">
+            <div class="input-group">
+              <label for="shipType" class="form-label me-1">Type </label>
+              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor"
+                class="bi bi-asterisk mt-2 text-primary" viewBox="0 0 16 16">
+                <path
+                  d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+              </svg>
+              <br />
+            </div>
+            <select class="form-select" aria-label="example" formControlName="shipType" (change)="otherChecked($event)"
+              required>
+              <!-- <select class="form-select" aria-label="example" formControlName="shipType" required> -->
+              <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+            <div class="mb-3 col-md-6" *ngIf="visible">
+              <div class="input-group w-75">
+                <label for="otherMethod" class="form-label">Other type is </label>
+                <input class="mx-2 border-bottom border-dark" type="text" formControlName="logisticName">
+                <!-- <input class="mx-3 border-bottom border-dark"  type="text" formControlName="otherMethod"> -->
+              </div>
+            </div>
+            <!-- <div>
+            <span *ngIf="!shipForm.get('shipType').valid && shipForm.get('shipType').touched" class="help-block">
+              <small class="text-danger">Ship Type is required</small></span>
+          </div> -->          
         </div>
-        <div id="errorMsg" *ngIf="errorMessage">
-          <span class="text-danger">{{errorMessage}}</span>
-        </div><br>
+        <div class="row">
+          <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
+              <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
+            </div>
+            <div class="mb-3 bg-success text-white bg-gradient rounded-3" id="successMsg" *ngIf="successMessage">
+              <span class="d-md-flex justify-content-md-evenly" >{{successMessage}}</span>
+          </div> 
+      </div><br>
 
         <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
           <button type="submit" class="btn btn-primary">Create</button>

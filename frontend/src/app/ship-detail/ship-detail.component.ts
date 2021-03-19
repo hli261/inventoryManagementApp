@@ -5,11 +5,11 @@ import { Ship } from '../_models';
 import { ReceivingService, AccountService, UrlService } from '../_services';
 
 @Component({
-  selector: 'app-ship-record',
-  templateUrl: './ship-record.component.html',
-  styleUrls: ['./ship-record.component.css']
+  selector: 'app-ship-detail',
+  templateUrl: './ship-detail.component.html',
+  styleUrls: ['./ship-detail.component.css']
 })
-export class ShipRecordComponent implements OnInit {
+export class ShipDetailComponent implements OnInit {
 
   ship_: Observable<Ship>;
   shipNum: string;
@@ -30,6 +30,7 @@ export class ShipRecordComponent implements OnInit {
      
     console.log("shipdetatil");
   }
+  
   back(url: any): void {
     this.router.navigateByUrl(`${url}`);
   }

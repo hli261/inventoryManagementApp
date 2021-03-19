@@ -8,6 +8,7 @@ export class ShipCreate {
   venderNo: string;
   userEmail: string;
   invoiceNumber: string;
+  poNumber: string;
 }
 
 

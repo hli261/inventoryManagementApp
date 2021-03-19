@@ -8,7 +8,8 @@ export class ReceiveOrder{
     lotNumber: string;
     venderNo: string;
     userEmail: string;
-    createDate: string;
+    // createDate: string;
+    createDate: Date;
     status: string;
     orderDate: string;
     getReceivingItemDtos: Array<RoItem>;    

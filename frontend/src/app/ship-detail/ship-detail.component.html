@@ -2,47 +2,52 @@
     <header title="pageTitle"></header>
 </div>
 <div *ngIf="ship_ | async as ship" class="container mt-3 mb-5">
-    <h3 class="mt-3 mb-3">Shipping record details</h3>
+    <h3 class="mt-3">Ship record details</h3>
+    <div *ngIf="previousUrl_ | async as url" class="mt-3 d-flex justify-content-start">
+        <button (click)="back(url)" class="btn btn-primary mt-3">Back</button>    
+    </div>  
     <hr/>
     <div class="row">
-        <div class="col-sm-2"><b>Shipping number:</b></div>
+        <div class="col-sm-2"><b>Ship #</b></div>
         <div class="col-sm-8">{{ship.shippingNumber}}</div>
     </div>
     <div class="row">
-        <div class="col-sm-2"><b>Arrival date:</b></div>
+        <div class="col-sm-2"><b>PO #</b></div>
+        <div class="col-sm-8">{{ship.poNumber}}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><b>Arrival date</b></div>
         <div class="col-sm-8">{{ship.arrivalDate}}</div>
     </div>
     <div class="row">
-        <div class="col-sm-2"><b>Invoice number:</b></div>
+        <div class="col-sm-2"><b>Invoice #</b></div>
         <div class="col-sm-8">{{ship.invoiceNumber}}</div>
     </div>
     <div class="row">
-        <div class="col-sm-2"><b>Shipping method:</b></div>
+        <div class="col-sm-2"><b>Ship method</b></div>
         <div class="col-sm-8">{{ship.shippingMethod.logisticName}}</div>
     </div>
     <div class="row">
-        <div class="col-sm-2"><b>LOT number:</b></div>
+        <div class="col-sm-2"><b>LOT #</b></div>
         <div class="col-sm-8">{{ship.shippingLot.lotNumber}}</div>
     </div>
     <hr/>    
     <div class="row">
-        <div class="col-sm-2"><b>Vender number:</b></div>
+        <div class="col-sm-2"><b>Vender #</b></div>
         <div class="col-sm-8">{{ship.vender.venderNo}}</div>
     </div>
     <div class="row">
-        <div class="col-sm-2"><b>Vender name:</b></div>
+        <div class="col-sm-2"><b>Vender name</b></div>
         <div class="col-sm-8">{{ship.vender.venderName}}</div>
     </div>
     <hr/>
     <div class="row">
-        <div class="col-sm-2"><b>Creator name:</b></div>
+        <div class="col-sm-2"><b>Creator name</b></div>
         <div class="col-sm-8">{{ship.user.firstName}} &nbsp;{{ship.user.lastName}}</div>
     </div>
     <div class="row">
-        <div class="col-sm-2"><b>Email address:</b></div>
+        <div class="col-sm-2"><b>Email address</b></div>
         <div class="col-sm-8">{{ship.user.email}}</div>
     </div>    
-    <div *ngIf="previousUrl_ | async as url" class="mt-3 d-flex justify-content-start">
-        <button (click)="back(url)" class="btn btn-primary mt-3">Back</button>    
-    </div>  
+    
 </div>

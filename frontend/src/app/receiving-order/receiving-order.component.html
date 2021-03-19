@@ -1,18 +1,26 @@
 <div class="container-fluid mt-3" *ngIf="roItems" >
     <div class="container">
+        <div class="row">
+            <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
+                <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
+              </div>
+              <div class="mb-3 bg-success text-white bg-gradient rounded-3" id="successMsg" *ngIf="successMessage">
+                <span class="d-md-flex justify-content-md-evenly" >{{successMessage}}</span>
+            </div> 
+        </div>
         <div class="row mb-3">
             <div class="col-sm-4">
                <span >RO number:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{roNum}}</span>
             </div>
-            <!-- <div class="col-sm-3">
-                <span>PO number:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{state.poNumber}}</span>
+            <div class="col-sm-3">
+                <span>PO number:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{ro.poNumber}}</span>
             </div>
             <div class="col-sm-3">
-                <span>Create Date:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{state.createDate}}</span>
+                <span>Create Date:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{ro.createDate | date}}</span>
             </div>
             <div class="col-sm-2">
-                <span>Status:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{state.status}}</span>
-            </div> -->
+                <span>Status:</span> &nbsp;&nbsp;<span class="fs-6 fst-italic">{{ro.status}}</span>
+            </div>
         </div>    
     </div>
     <table  class="table table-hover border-top mt-3">
