@@ -51,6 +51,16 @@ namespace API.Data
             return binItems;
         }
 
+        public async Task<BinItem> GetBinItemByThree(string code, string number, string lot){
+            return await _context.BinItems.Include(b => b.Bin)
+                .Include(i => i.Item)
+                .Include(s => s.ShippingLot)
+                .Where(b=>b.Bin.BinCode == code)
+                .Where(i=>i.Item.ItemNumber == number)
+                .FirstOrDefaultAsync(l=>l.ShippingLot.LotNumber == lot);
+          
+        }
+
         public async Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCode(string code)
         {
             try

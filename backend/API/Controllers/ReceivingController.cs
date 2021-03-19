@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -39,10 +41,10 @@ namespace API.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings()
+        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings([FromQuery] PagingParams receivingParams)
         {
-            var receivings = await _receivingRepository.GetReceivingsAsync();
-
+            var receivings = await _receivingRepository.GetReceivingsAsync(receivingParams);
+            Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receivings));
         }
 
@@ -54,11 +56,19 @@ namespace API.Controllers
             return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
         }
 
-        [HttpGet("receivingItemsByRO/{roNum}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum)
+        [HttpGet("receivingByLot/{lotNum}")]
+        public async Task<ActionResult<Receiving>> GetReceivingByLot(string lotNum)
         {
-            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
+            var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
 
+            return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
+        }
+
+        [HttpGet("receivingItemsByRO/{roNum}")]
+        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
+        {
+            var receivingItems = await _receivingItemRepository.GetReceivingItemParamByROAsync(roNum, receivingItemParams);
+            Response.AddPaginationHeader(receivingItems.CurrentPage, receivingItems.PageSize, receivingItems.TotalCount, receivingItems.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingItemDto>>(receivingItems));
         }
 
@@ -92,7 +102,7 @@ namespace API.Controllers
                 VenderNo = receiving.VenderNo,
                 UserEmail = receiving.UserEmail,
                 // CreateDate 
-                Status = "DRAFT",
+                Status = "SUBMIT",
                 // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 // Shipping = shippingNo,
@@ -117,6 +127,8 @@ namespace API.Controllers
             foreach (ERP_POitem element in poItem)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                if (item == null) return BadRequest("Item Not Found in database");
+                // Console.WriteLine(item.ItemDescription);
 
                 var roItem = new ReceivingItem
                 {
@@ -242,7 +254,7 @@ namespace API.Controllers
                 return BadRequest("RO can not be found.");
 
             if (receiving.Status.ToUpper() == "SUBMIT")
-                return BadRequest("Submitted RO cannot be changed");
+                return BadRequest("Submited RO cannot be changed");
 
             foreach (GetReceivingItemDto element in receivingItemsDto)
             {
@@ -305,6 +317,30 @@ namespace API.Controllers
             var receiving = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper());
 
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receiving));
+        }
+
+        [HttpDelete("deleteReceivingDraftByRO/{ro}")]
+        public async Task<ActionResult> DeleteShipping(string ro)
+        {
+            var receiving = await _receivingRepository.GetReceivingByROAsync(ro);
+            if (receiving.Status == "SUBMIT") return BadRequest("Can not delete submited receiving");
+
+            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(ro);
+
+            if (receiving != null)
+            {
+                _receivingRepository.DeleteReceiving(receiving);
+            }
+
+            if (await _receivingRepository.SaveAllAsync() && receivingItems != null)
+            {
+                _receivingItemRepository.DeleteReceivingItems(receivingItems);
+            }
+
+            if (await _receivingItemRepository.SaveAllAsync())
+                return Ok();
+
+            return BadRequest("Failed to delete shipping.");
         }
 
     }

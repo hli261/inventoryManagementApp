@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,15 @@ namespace API.Data
             _mapper = mapper;
             _context = context;
         }
-        public async Task<IEnumerable<Shipping>> GetShippingsAsync()
+        public async Task<PagedList<Shipping>> GetShippingsAsync(PagingParams shippingParams)
         {
-            return await _context.Shippings
+            var query =  _context.Shippings
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
                 .Include(m => m.ShippingMethod)
-                .ToListAsync();
+                .AsNoTracking();
+                return await PagedList<Shipping>.CreateAsync(query, shippingParams.pageNumber, shippingParams.PageSize);
         }
 
         public async Task<Shipping> GetShippingById(int id)

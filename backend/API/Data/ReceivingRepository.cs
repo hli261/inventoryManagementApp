@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,13 @@ namespace API.Data
             .FirstOrDefaultAsync(x => x.RONumber.ToUpper() == roNumber.ToUpper());
         }
 
+        public async Task<Receiving> GetReceivingByLotAsync(string lotNum)
+        {
+            return await _context.Receivings
+            .Include(i => i.ReceivingItems) //check functions
+            .FirstOrDefaultAsync(x => x.LotNumber.ToUpper() == lotNum.ToUpper());
+        }
+
         public void UpdateReceiving(Receiving receiving)
         {
             _context.Entry(receiving).State = EntityState.Modified;
@@ -49,13 +57,14 @@ namespace API.Data
             return await _context.Receivings.AnyAsync(x => x.RONumber == roNo);
         }
 
-
-        public async Task<IEnumerable<Receiving>> GetReceivingsAsync()
+        public async Task<PagedList<Receiving>> GetReceivingsAsync(PagingParams receivingParams)
         {
-            return await _context.Receivings
-                .Include(v => v.ReceivingItems)
+            var query = _context.Receivings
+               .Include(v => v.ReceivingItems)
                 // .ThenInclude(i => i.Item)
-                .ToListAsync();
+                .AsNoTracking();
+
+            return await PagedList<Receiving>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
         }
 
         public async Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status)
@@ -67,6 +76,10 @@ namespace API.Data
                 .ToListAsync();
         }
 
-        
+        public void DeleteReceiving(Receiving receiving)
+        {
+            _context.Receivings.Remove(receiving);
+        }
+
     }
 }
