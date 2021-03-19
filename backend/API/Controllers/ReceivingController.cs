@@ -295,6 +295,30 @@ namespace API.Controllers
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receiving));
         }
 
+        [HttpDelete("deleteReceivingDraftByRO/{ro}")]
+        public async Task<ActionResult> DeleteShipping(string ro)
+        {
+            var receiving = await _receivingRepository.GetReceivingByROAsync(ro);
+            if(receiving.Status == "SUBMIT") return BadRequest("Can not delete submited receiving");
+            
+            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(ro);
+
+            if (receiving != null)
+            {
+                _receivingRepository.DeleteReceiving(receiving);
+            }
+
+            if (await _receivingRepository.SaveAllAsync() && receivingItems != null)
+            {
+                _receivingItemRepository.DeleteReceivingItems(receivingItems);
+            }
+
+            if (await _receivingItemRepository.SaveAllAsync())
+                return Ok();
+
+            return BadRequest("Failed to delete shipping.");
+        }
+
     }
 }
 

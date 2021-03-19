@@ -17,5 +17,6 @@ namespace API.Interfaces
         void UpdateReceivingItem(ReceivingItem receivingItem);
 
         Task<bool> ItemExist(string number);
+        void DeleteReceivingItems(IEnumerable<ReceivingItem> receivingItems);
     }
 }

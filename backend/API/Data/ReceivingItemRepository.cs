@@ -65,8 +65,17 @@ namespace API.Data
 
         }
 
-         public async Task<bool> ItemExist(string number){
+        public async Task<bool> ItemExist(string number)
+        {
             return await _context.ReceivingItems.AnyAsync(i => i.ItemNumber == number);
+        }
+        
+        public void DeleteReceivingItems(IEnumerable<ReceivingItem> receivingItems)
+        {
+            foreach (ReceivingItem item in receivingItems)
+            {
+                _context.ReceivingItems.Remove(item);
+            }
         }
 
     }

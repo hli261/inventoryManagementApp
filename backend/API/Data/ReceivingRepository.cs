@@ -69,5 +69,10 @@ namespace API.Data
                 .ToListAsync();
         }
 
+        public void DeleteReceiving(Receiving receiving)
+        {
+            _context.Receivings.Remove(receiving);
+        }
+
     }
 }
