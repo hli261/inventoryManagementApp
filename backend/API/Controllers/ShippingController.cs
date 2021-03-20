@@ -21,13 +21,16 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly CSVService _csvHandler;
-        public ShippingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository, IVenderRepository venderRepository, CSVService csvHandler, IMapper mapper)
+        private readonly IERPRepository _erpRepository;
+        public ShippingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository,
+        IVenderRepository venderRepository, CSVService csvHandler, IMapper mapper, IERPRepository eRPRepository)
         {
             _mapper = mapper;
             _shippingRepository = shippingRepository;
             _userManager = userManager;
             _venderRepository = venderRepository;
             _csvHandler = csvHandler;
+            _erpRepository = eRPRepository;
         }
 
         [HttpGet]
@@ -102,6 +105,10 @@ namespace API.Controllers
         [HttpPost("createShipping")]
         public async Task<ActionResult<ShippingDto>> CreateShipping(ShippingDto shippingDto)
         {
+            var po = await _erpRepository.GetReceivingByPO(shippingDto.PONumber.ToUpper());
+
+            if (po.VendorNo != shippingDto.VenderNo) return BadRequest("Invalid PO or Vender Number.");
+
             var shipping = _mapper.Map<Shipping>(shippingDto);
 
             shipping.Vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo.ToUpper());
