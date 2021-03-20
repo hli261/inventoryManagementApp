@@ -2,81 +2,173 @@
   <header title="pageTitle"></header>
 </div>
 <div class="container-fluid mt-4 mb-3 me-3 ms-2">
-    <div class="row mb-5">
-      <div class="col-sm-3">
-        <h3>List of ROs</h3>
-        <a routerLink="/receivingCreate" class="btn btn-primary">Create New</a>
-      </div>
-      <!-- <div class="col-sm-8">
-        <div class="input-group ">
-          <div class="accordion w-50" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                  aria-expanded="true" aria-controls="collapseOne">
-                  Type
-                </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="form-check" *ngFor="let bType of binType">
-                    <input class="form-check-input" type="checkbox" (change)="selectType($event, bType)" value=""
-                      id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                      {{bType.typeName}}
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion w-50" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                  aria-expanded="false" aria-controls="collapseTwo">
-                  Code Range:
-                </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <input class="form-control" type="text" placeholder="from" [(ngModel)]="minCode"
-                    (change)="setMinCode($event)" aria-label="codeRange">
-                  <input class="form-control" type="text" placeholder="to" [(ngModel)]="maxCode"
-                    (change)="setMaxCode($event)" aria-label="codeRange">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="input-group w-50">
-            <select class="form-select fs-6 " (change)="selectLocation($event)" aria-label="Default select example">
-              <option selected>Location</option>
-              <option *ngFor="let loc of warehouseLocation" [value]="loc.locationName">{{loc.locationName}}</option>
-            </select>
-          </div>
-                <button type="submit" (click)="filter()" class="btn btn-primary me-6">Filter
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                    <path
-                      d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                  </svg>
-                </button>
-              <div class="mx-auto"></div>
-                <div class="d-flex justify-content-end">
-                  <button type="clear" (click)="clear()" class="btn btn-primary">Clear </button>
-                </div>
-      </div> -->
+  <div class="row mb-5">
+    <div class="col-sm-3">
+      <h3>List of ROs</h3>
+      <a routerLink="/receivingCreate" class="btn btn-primary">Create New</a>
     </div>
+    <!-- <div class="col-sm-8">
+      <div class="input-group ">
+        <div class="accordion w-50" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Type
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="form-check" *ngFor="let bType of binType">
+                  <input class="form-check-input" type="checkbox" (change)="selectType($event, bType)" value=""
+                    id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    {{bType.typeName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion w-50" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                aria-expanded="false" aria-controls="collapseTwo">
+                Create Date:
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <input class="form-control" type="text" placeholder="start 0000-00-00" [(ngModel)]="start"
+                  (change)="setStart($event)" aria-label="codeRange">
+                <input class="form-control" type="text" placeholder="end 0000-00-00" [(ngModel)]="end"
+                  (change)="setEnd($event)" aria-label="codeRange">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="input-group w-50">
+          <select class="form-select fs-6 " (change)="selectLocation($event)" aria-label="Default select example">
+            <option selected>Location</option>
+            <option *ngFor="let loc of warehouseLocation" [value]="loc.locationName">{{loc.locationName}}</option>
+          </select>
+        </div>
+        <button type="submit" (click)="filter()" class="btn btn-primary me-6">Filter
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+            <path
+              d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+          </svg>
+        </button>
+        <div class="mx-auto"></div>
+        <div class="d-flex justify-content-end">
+          <button type="clear" (click)="clear()" class="btn btn-primary">Clear </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+     <div class="col-sm-3"></div>
+     <div class="col-sm-6">
+      <form class="d-flex justify-content-start" (ngSubmit)="onSubmit()">
+        <div class="input-group w-50">
+          <select class="form-select fs-6 btn-secondary" (change)="selectKey($event)"
+            aria-label="Default select example">
+            <option value="roNum" selected>RO number</option>
+            <option value="poNum">PO number</option>
+          </select>
+          <input class="form-control w-25" type="search" placeholder="Search" aria-label="Search"
+            [(ngModel)]="searchInput" name="searchInput">
+          <button class="btn btn-outline-primary btn-sm" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- <div class="input-group ">
+        <div class="accordion w-50" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Type
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="form-check" *ngFor="let logistic of shipMethod">
+                  <input class="form-check-input" type="checkbox" (change)="selectType($event, logistic)" value=""
+                    id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    {{logistic}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion w-50" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                aria-expanded="false" aria-controls="collapseTwo">
+                Arrival Date:
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <input class="form-control" type="text" placeholder="start 0000-00-00" [(ngModel)]="start"
+                  (change)="setStart($event)" aria-label="codeRange">
+                <input class="form-control" type="text" placeholder="end 0000-00-00" [(ngModel)]="end"
+                  (change)="setEnd($event)" aria-label="codeRange">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="input-group w-50">
+          <select class="form-select fs-6 " (change)="selectMethod($event)" aria-label="Default select example">
+            <option selected>Ship Method</option>
+            <option *ngFor="let logistic of shipMethod" [value]="logistic.logisticName">{{logistic.logisticName}}
+            </option>
+          </select>
+        </div>
+        <button type="submit" (click)="filter()" class="btn btn-primary me-6">Filter
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+            <path
+              d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+          </svg>
+        </button>
+        <div class="mx-auto"></div>
+        <div class="d-flex justify-content-end">
+          <button type="clear" (click)="clear()" class="btn btn-primary">Clear </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row mb-3">
     <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
       <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
     </div>
+  </div>
+  <div class="row mb-3">
     <div *ngIf="(orders_ | async)?.length == 0" class="d-flex justify-content-center mt-5">
       <p class="text-center">No Receiving Order</p>
     </div>
     <div *ngIf="(orders_ | async)?.length > 0" class="row mb-5">
-      <div *ngIf="orders_ | async as orders" class ="container-fluid mt-3">
+      <div *ngIf="orders_ | async as orders" class="container-fluid mt-3">
         <table class="table table-hover border-top mt-3">
           <thead class="table-light">
             <tr>
@@ -90,7 +182,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor = 'let order of orders; let i = index'>
+            <tr *ngFor='let order of orders; let i = index'>
               <td>{{i + 1 + (page-1)*10}}</td>
               <td>{{order.roNumber}}</td>
               <td>{{order.poNumber}}</td>
@@ -98,13 +190,14 @@
               <td>{{order.createDate | date}}</td>
               <td>{{order.status}}</td>
               <td>
-                <a *ngIf="!(order.status == 'SUBMIT')" [routerLink]="['/order-edit', order.roNumber]">Edit</a> 
-                <a *ngIf="(order.status == 'SUBMIT')" class="text-success fw-normal" [routerLink]="['/order-detail', order.roNumber]">Detail</a>
+                <a *ngIf="!(order.status == 'SUBMIT')" [routerLink]="['/order-edit', order.roNumber]">Edit</a>
+                <a *ngIf="(order.status == 'SUBMIT')" class="text-success fw-normal"
+                  [routerLink]="['/order-detail', order.roNumber]">Detail</a>
                 <!-- <a  class="text-success fw-normal" [routerLink]="['/order-detail', order.roNumber]"> | Detail</a> -->
               </td>
-            </tr>    
-           </tbody>
-        </table>       
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div *ngIf="(orders_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end">
         <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
@@ -114,3 +207,38 @@
       </ng-template>
     </div>
   </div>
+  <!-- <div class="row mb-3">
+    <div *ngIf="searchResult" class="row container-fluid mt-3">
+      <table class="table table-hover border-top mt-3">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">RO Number</th>
+            <th scope="col">PO Number</th>
+            <th scope="col">Lot Number</th>
+            <th scope="col">Create Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{1}}</td>
+            <td>{{searchResult.roNumber}}</td>
+            <td>{{searchResult.poNumber}}</td>
+            <td>{{searchResult.lotNumber}}</td>
+            <td>{{searchResult.createDate | date}}</td>
+            <td>{{searchResult.status}}</td>
+            <td>
+              <a *ngIf="!(searchResult.status == 'SUBMIT')"
+                [routerLink]="['/order-edit', searchResult.roNumber]">Edit</a>
+              <a *ngIf="(searchResult.status == 'SUBMIT')" class="text-success fw-normal"
+                [routerLink]="['/order-detail', searchResult.roNumber]">Detail</a>
+              <a  class="text-success fw-normal" [routerLink]="['/order-detail', order.roNumber]"> | Detail</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+</div>

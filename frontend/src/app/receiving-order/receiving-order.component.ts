@@ -49,18 +49,7 @@ export class ReceivingOrderComponent implements OnInit {
       })
       this.headerService.setTitle("RO edit");
     }
-    if(window.location.pathname.includes("/order-detail/") ){
-      this.roNum = this.route.snapshot.params['roNum'];
-      // this.sub = this.data.getROItemsByRONum(this.roNum).subscribe((data)=>{
-      //   this.roItems = data;
-      //   console.log(this.roItems);
-      // })
-      this.sub = this.data.getROByRONum(this.roNum).subscribe((data)=>{
-        this.ro = data;
-        this.roItems = data.getReceivingItemDtos;
-        console.log(this.ro);
-      })
-    }
+    
   }
 
   ngOnDestroy(){
@@ -76,12 +65,12 @@ export class ReceivingOrderComponent implements OnInit {
   save(): void{
     console.log("this.roitems:....", this.roItems);
     console.log("status: ", this.ro.status);
-    this.ro.status = "SAVE";
       this.sub = this.data.updateROItems(this.roNum, this.roItems).subscribe((data)=>{
-        this.roItems = data;
         this.successMessage = "Order has been saved!"
-        console.log(this.roItems);
-        console.log(this.successMessage);
+        setTimeout(()=>{
+          this.successMessage="";
+          this.router.navigate(['order-detail', this.ro.roNumber]);
+        }, 2000);
       },
       err => {
         console.log("this is an error:" , err);
@@ -91,7 +80,7 @@ export class ReceivingOrderComponent implements OnInit {
   }
 
   submit(): void{
-    this.save();
+    this.sub = this.data.updateROItems(this.roNum, this.roItems).subscribe();
     this.ro.status = "TEST";
     // this.ro.status = "SUBMIT";
     this.sub = this.data.updateStatus(this.roNum,this.ro.status, this.roItems).subscribe((data)=>{

@@ -42,9 +42,9 @@
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
               data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <input class="form-control" type="text" placeholder="start" [(ngModel)]="start"
+                <input class="form-control" type="text" placeholder="start 0000-00-00" [(ngModel)]="start"
                   (change)="setStart($event)" aria-label="codeRange">
-                <input class="form-control" type="text" placeholder="end" [(ngModel)]="end" (change)="setEnd($event)"
+                <input class="form-control" type="text" placeholder="end 0000-00-00" [(ngModel)]="end" (change)="setEnd($event)"
                   aria-label="codeRange">
               </div>
             </div>
@@ -75,7 +75,7 @@
     <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
   </div>
   <div *ngIf="(ships_ | async)?.length == 0" class="d-flex justify-content-center mt-5">
-    <p class="text-center">No Shipping Record</p>
+    <p class="text-center">No Ship Record</p>
   </div>
   <div *ngIf="(ships_ | async)?.length > 0" class="row mb-5">
     <app-ship-records [ships_]="ships_" [page]="page-1"></app-ship-records>
