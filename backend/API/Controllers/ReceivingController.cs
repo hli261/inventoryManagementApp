@@ -64,6 +64,26 @@ namespace API.Controllers
             return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
         }
 
+        [HttpGet("receivingByROArrayFormat/{roNum}")]
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivingArray(string roNum)
+        {
+            var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
+            List<Receiving> arrayFormat = new List<Receiving>();
+            arrayFormat.Add(receiving);
+
+            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(arrayFormat));
+        }
+
+        [HttpGet("receivingByLotArrayFormat/{lotNum}")]
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivingByLotArray(string lotNum)
+        {
+            var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
+            List<Receiving> arrayFormat = new List<Receiving>();
+            arrayFormat.Add(receiving);
+
+            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(arrayFormat));
+        }
+
         [HttpGet("receivingItemsByRO/{roNum}")]
         public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
         {

@@ -52,6 +52,22 @@ namespace API.Controllers
             return Ok(shipping);
         }
 
+        [HttpGet("getShippinginArrayFormat/{shipNum}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> ShippingByNum(string shipNum)
+        {
+            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
+
+            if (shipping == null)
+            {
+                return BadRequest("Shipping Number not found.");
+            }
+
+            List<Shipping> arrayFormat = new List<Shipping>();
+            arrayFormat.Add(shipping);
+
+            return Ok(arrayFormat);
+        }
+
         // [HttpGet("shippingsByVender/{venderNo}")]
         // public async Task<ActionResult<IEnumerable<Shipping>>> GetShippingsByVender(string venderNo, [FromQuery] PagingParams shippingParams)
         // {
