@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,6 +6,7 @@ using API.Entities;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -18,15 +20,20 @@ namespace API.Data
             _mapper = mapper;
             _context = context;
         }
-        public async Task<PagedList<Shipping>> GetShippingsAsync(PagingParams shippingParams)
+        public async Task<PagedList<Shipping>> GetShippingsAsync(ShippingParams shippingParams)
         {
+
             var query = _context.Shippings
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
-                .Include(m => m.ShippingMethod)
-                .AsNoTracking();
-            return await PagedList<Shipping>.CreateAsync(query, shippingParams.pageNumber, shippingParams.PageSize);
+                .Include(m => m.ShippingMethod).AsQueryable();
+
+            if (shippingParams.fromTimeRange > new DateTime())
+                query = query.Where(t => t.ArrivalDate <= shippingParams.toTimeRange && t.ArrivalDate >= shippingParams.fromTimeRange);
+
+            return await PagedList<Shipping>.CreateAsync(query.ProjectTo<Shipping>(_mapper.ConfigurationProvider).AsNoTracking(),
+            shippingParams.pageNumber, shippingParams.PageSize);
         }
 
         public async Task<Shipping> GetShippingById(int id)

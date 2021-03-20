@@ -39,6 +39,7 @@ namespace API.Helpers
 
             CreateMap<ShippingDto, Shipping>();
             CreateMap<Shipping, ShippingDto>();
+            CreateMap<Shipping, Shipping>();
 
             CreateMap<ShippingMethodDto, ShippingMethod>();
 

@@ -31,7 +31,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings([FromQuery] PagingParams shippingParams)
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings([FromQuery] ShippingParams shippingParams)
         {
             var shippings = await _shippingRepository.GetShippingsAsync(shippingParams);
             Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
