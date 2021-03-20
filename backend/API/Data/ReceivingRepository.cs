@@ -67,13 +67,14 @@ namespace API.Data
             return await PagedList<Receiving>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
         }
 
-        public async Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status)
+        public async Task<PagedList<Receiving>> GetReceivingByStatusAsync(string status, PagingParams receivingParams)
         {
-            return await _context.Receivings
+            var query = _context.Receivings
                 .Include(v => v.ReceivingItems)
                 .Where(x => x.Status.ToUpper() == status.ToUpper())
                 // .ThenInclude(i => i.Item)
-                .ToListAsync();
+                .AsNoTracking();
+            return await PagedList<Receiving>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
         }
 
         public void DeleteReceiving(Receiving receiving)

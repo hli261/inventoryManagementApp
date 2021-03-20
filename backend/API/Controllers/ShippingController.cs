@@ -31,9 +31,31 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings([FromQuery]PagingParams shippingParams)
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings([FromQuery] PagingParams shippingParams)
         {
             var shippings = await _shippingRepository.GetShippingsAsync(shippingParams);
+            Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
+
+            return Ok(shippings);
+        }
+
+        [HttpGet("getShipping/{shipNum}")]
+        public async Task<ActionResult> ShippingByNumber(string shipNum)
+        {
+            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
+
+            if (shipping == null)
+            {
+                return BadRequest("Shipping Number not found.");
+            }
+
+            return Ok(shipping);
+        }
+
+        [HttpGet("shippingsByVender/{venderNo}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippingsByVender(string venderNo, [FromQuery] PagingParams shippingParams)
+        {
+            var shippings = await _shippingRepository.GetShippingByVenderAsync(venderNo, shippingParams);
             Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
 
             return Ok(shippings);
@@ -88,19 +110,6 @@ namespace API.Controllers
                 return Ok(shipping);
 
             return BadRequest("Failed to add shipping.");
-        }
-
-        [HttpGet("getShipping/{shipNum}")]
-        public async Task<ActionResult> ShippingByNumber(string shipNum)
-        {
-            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
-
-            if (shipping == null)
-            {
-                return BadRequest("Shipping Number not found.");
-            }
-
-            return Ok(shipping);
         }
 
         [HttpPut("update/{shipNum}")]
@@ -158,5 +167,7 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<ShippingLot>(lot));
         }
+
+
     }
 }

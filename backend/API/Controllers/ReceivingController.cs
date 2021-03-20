@@ -41,7 +41,7 @@ namespace API.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings([FromQuery] PagingParams receivingParams)
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivings([FromQuery] PagingParams receivingParams)
         {
             var receivings = await _receivingRepository.GetReceivingsAsync(receivingParams);
             Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpGet("receivingByRO/{roNum}")]
-        public async Task<ActionResult<Receiving>> GetReceiving(string roNum)
+        public async Task<ActionResult<GetReceivingHeaderDto>> GetReceiving(string roNum)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
 
@@ -57,7 +57,7 @@ namespace API.Controllers
         }
 
         [HttpGet("receivingByLot/{lotNum}")]
-        public async Task<ActionResult<Receiving>> GetReceivingByLot(string lotNum)
+        public async Task<ActionResult<GetReceivingHeaderDto>> GetReceivingByLot(string lotNum)
         {
             var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
 
@@ -65,7 +65,7 @@ namespace API.Controllers
         }
 
         [HttpGet("receivingItemsByRO/{roNum}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
+        public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
         {
             var receivingItems = await _receivingItemRepository.GetReceivingItemParamByROAsync(roNum, receivingItemParams);
             Response.AddPaginationHeader(receivingItems.CurrentPage, receivingItems.PageSize, receivingItems.TotalCount, receivingItems.TotalPages);
@@ -279,7 +279,7 @@ namespace API.Controllers
 
 
         [HttpPut("updateStatus/{roNum}/{status}")]
-        public async Task<ActionResult<Receiving>> EditROStatusByRO(string roNum, string status)
+        public async Task<ActionResult<GetReceivingHeaderDto>> EditROStatusByRO(string roNum, string status)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             receiving.Status = status;
@@ -312,10 +312,10 @@ namespace API.Controllers
 
 
         [HttpGet("getReceivingByStatus/{status}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingByStatus(string status)
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivingByStatus(string status, [FromQuery] PagingParams receivingParams)
         {
-            var receiving = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper());
-
+            var receiving = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper(), receivingParams);
+            Response.AddPaginationHeader(receiving.CurrentPage, receiving.PageSize, receiving.TotalCount, receiving.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receiving));
         }
 

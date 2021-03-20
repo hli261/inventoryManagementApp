@@ -20,13 +20,13 @@ namespace API.Data
         }
         public async Task<PagedList<Shipping>> GetShippingsAsync(PagingParams shippingParams)
         {
-            var query =  _context.Shippings
+            var query = _context.Shippings
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
                 .Include(m => m.ShippingMethod)
                 .AsNoTracking();
-                return await PagedList<Shipping>.CreateAsync(query, shippingParams.pageNumber, shippingParams.PageSize);
+            return await PagedList<Shipping>.CreateAsync(query, shippingParams.pageNumber, shippingParams.PageSize);
         }
 
         public async Task<Shipping> GetShippingById(int id)
@@ -98,6 +98,18 @@ namespace API.Data
         public void DeleteShipping(Shipping shipping)
         {
             _context.Shippings.Remove(shipping);
+        }
+
+        public async Task<PagedList<Shipping>> GetShippingByVenderAsync(string venderNo, PagingParams receivingParams)
+        {
+            var query = _context.Shippings
+                .Include(v => v.Vender)
+                .Include(u => u.User)
+                .Include(l => l.ShippingLot)
+                .Include(m => m.ShippingMethod)
+                .Where(i => i.Vender.VenderNo.ToUpper() == venderNo.ToUpper())
+                .AsNoTracking();
+            return await PagedList<Shipping>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
         }
     }
 }

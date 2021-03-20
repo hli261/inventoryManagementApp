@@ -19,7 +19,7 @@ namespace API.Interfaces
 
         Task<PagedList<Receiving>> GetReceivingsAsync(PagingParams receivingParams);
         Task<bool> ROExist(string roNo);
-        Task<IEnumerable<Receiving>> GetReceivingByStatusAsync(string status);
+        Task<PagedList<Receiving>> GetReceivingByStatusAsync(string status, PagingParams receivingParams);
 
         void DeleteReceiving(Receiving receiving);
     }

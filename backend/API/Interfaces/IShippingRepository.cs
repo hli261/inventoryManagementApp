@@ -30,5 +30,6 @@ namespace API.Interfaces
         Task<ShippingLot> GetShippingLotByNumber(string number);
         int LotCountAsync();
         Task<Shipping> GetShippingByNumber(string spNum);
+        Task<PagedList<Shipping>> GetShippingByVenderAsync(string venderNo, PagingParams receivingParams);
     }
 }
