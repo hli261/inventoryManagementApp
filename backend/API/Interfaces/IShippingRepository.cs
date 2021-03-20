@@ -17,7 +17,7 @@ namespace API.Interfaces
         // Task<PagedList<Item>> GetItemsAsync(PagingParams itemParams); //paging
 
         // Task<Item> GetItemByNumber(string number);
-        Task<PagedList<Shipping>> GetShippingsAsync(PagingParams shippingParams);
+        Task<PagedList<Shipping>> GetShippingsAsync(ShippingParams shippingParams);
         // Task<IEnumerable<Shipping>> GetShippingsAsync();
         Task<Shipping> GetShippingById(int id);
         Task<bool> SaveAllAsync();
@@ -30,5 +30,6 @@ namespace API.Interfaces
         Task<ShippingLot> GetShippingLotByNumber(string number);
         int LotCountAsync();
         Task<Shipping> GetShippingByNumber(string spNum);
+        // Task<PagedList<Shipping>> GetShippingByVenderAsync(string venderNo, PagingParams receivingParams);
     }
 }
