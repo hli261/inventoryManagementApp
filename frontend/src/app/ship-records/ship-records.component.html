@@ -13,9 +13,9 @@
     </thead>
     <tbody>
       <tr *ngFor='let ship of ships; let i=index'>
-        <td>{{i + 1}}</td>
+        <td>{{i + 1 + page*10}}</td>
         <td>{{ship.shippingNumber}}</td>
-        <td>{{ship.arrivalDate}}</td>
+        <td>{{ship.arrivalDate | date}}</td>
         <td>{{ship.invoiceNumber}}</td>
         <td>{{ship.vender.venderName}}</td>
         <td>{{ship.user.lastName}}</td>

@@ -13,16 +13,18 @@ export class ReceivingOrdersComponent implements OnInit {
   orders_: Observable<ReceiveOrder[]>;
   page: number = 1;
   errorMessage: string;
+  pageSize: number = 10;
   
 
   constructor(private data: ReceivingService) { }
 
   ngOnInit(): void {
-    this.orders_ = this.data.getAllRO();
+    this.getPage(this.page);
   }
 
-  getPage(event:any): void{
-
+  getPage(num: number): void{
+    this.page = num;
+    this.orders_ = this.data.getAllRO(num, this.pageSize);
   }
 
 }

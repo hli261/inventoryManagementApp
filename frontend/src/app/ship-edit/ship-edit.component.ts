@@ -46,7 +46,7 @@ ngOnDestroy() {
  }
 
  mapperShip() {
-   this.updateShip.arrivalDate = this.ship.arrivalDate;
+   this.updateShip.arrivalDate = this.ship.arrivalDate.toString();
    this.updateShip.logisticName = this.ship.shippingMethod.logisticName;
    this.updateShip.venderNo = this.ship.vender.venderNo;   
    this.updateShip.userEmail = this.ship.user.email;

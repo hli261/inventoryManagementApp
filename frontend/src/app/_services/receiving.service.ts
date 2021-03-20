@@ -20,8 +20,8 @@ export class ReceivingService {
     );
   }
 
-  public getShips(): Observable<Ship[]> {
-    return this.http.get<Ship[]> (`${environment.apiUrl}/api/shipping`);
+  public getShips(page: number, pageSize: number): Observable<Ship[]> {
+    return this.http.get<Ship[]> (`${environment.apiUrl}/api/shipping?pageNumber=${page}&PageSize=${pageSize}`);
   }
 
   public addShip(ship: ShipCreate): Observable<Ship>{
@@ -42,8 +42,8 @@ export class ReceivingService {
     return this.http.put<ShipCreate> (`${environment.apiUrl}/api/shipping/update/${num}`, ship);
   }
 
-  getAllRO() : Observable<ReceiveOrder[]>{
-    return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/getAll`);    
+  getAllRO(page: number, pageSize: number) : Observable<ReceiveOrder[]>{
+    return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/getAll?pageNumber=${page}&PageSize=${pageSize}`);    
   }
 
   public createRO(PONumber:any, venderNo:any, shippingNumber:any, email: string) : Observable<any> {

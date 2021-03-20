@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj": {}
+    "C:\\Users\\YangJos\\Jossie\\project\\inventoryManagementApp\\backend\\API\\API.csproj": {}
   },
   "projects": {
-    "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj": {
+    "C:\\Users\\YangJos\\Jossie\\project\\inventoryManagementApp\\backend\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\YangJos\\Jossie\\project\\inventoryManagementApp\\backend\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\xxxpp\\.nuget\\packages\\",
-        "outputPath": "E:\\Seneca_Study\\2021WINTER_SENECA\\PRJ666NCC\\inventoryManagementApp\\backend\\API\\obj\\",
+        "projectPath": "C:\\Users\\YangJos\\Jossie\\project\\inventoryManagementApp\\backend\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\YangJos\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\YangJos\\Jossie\\project\\inventoryManagementApp\\backend\\API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "E:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\xxxpp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\YangJos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -115,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

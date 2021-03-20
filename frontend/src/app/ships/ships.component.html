@@ -78,7 +78,7 @@
     <p class="text-center">No Shipping Record</p>
   </div>
   <div *ngIf="(ships_ | async)?.length > 0" class="row mb-5">
-    <app-ship-records [ships_]="ships_"></app-ship-records>
+    <app-ship-records [ships_]="ships_" [page]="page-1"></app-ship-records>
     <div *ngIf="(ships_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end">
       <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
     </div>

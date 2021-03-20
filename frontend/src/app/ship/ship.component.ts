@@ -93,6 +93,7 @@ export class ShipComponent implements OnInit {
  }
 
  createMethod(): any {
+   let res = false;
    if(this.shipForm.value.logisticName){
      this.otherMethod.logisticName = this.shipForm.value.logisticName;
      this.sub = this.data.addShipMethod(this.otherMethod).subscribe(
@@ -104,13 +105,12 @@ export class ShipComponent implements OnInit {
       }
     );
    }
-   return false;
  }
 
 
  setShipValue(){
    this.ship.arrivalDate = `${this.shipForm.value.arrivalDate.year}-${this.shipForm.value.arrivalDate.month}-${this.shipForm.value.arrivalDate.day}`;
-   this.ship.logisticName = this.shipForm.value.shipType;
+   this.ship.logisticName = this.shipForm.value.shipType === "other" ? this.shipForm.value.logisticName : this.shipForm.value.shipType;
    this.ship.userEmail = this.authService.readToken().nameid;
    this.ship.venderNo = this.shipForm.value.venderNo;
    this.ship.invoiceNumber = this.shipForm.value.invoiceNo || "";
@@ -118,13 +118,16 @@ export class ShipComponent implements OnInit {
  }
 
   onSubmit() {
-       console.log('ship submit: ', this.shipForm.value);  
-       console.log(new Date(`${this.ship.arrivalDate}`))   //use to test ngForm
-        this.validate();
-        console.log("after validate");
+       console.log('ship submit: ', this.shipForm.value);
+       this.validate();
+        console.log(this.shipForm.value.shipType);
         if(this.shipForm.value.shipType === "other"){
-            if(!this.createMethod()) {
-              this.errorMessage = "Shipping method can not be created!"
+          console.log(this.createMethod());
+            if(this.createMethod()== false) {
+              this.errorMessage = "Shipping method can not be created!";
+              setTimeout(() => {
+                this.errorMessage = "";
+               }, 2000);
               return;
             }
         }
