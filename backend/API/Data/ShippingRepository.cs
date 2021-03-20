@@ -32,6 +32,9 @@ namespace API.Data
             if (shippingParams.fromTimeRange > new DateTime())
                 query = query.Where(t => t.ArrivalDate <= shippingParams.toTimeRange && t.ArrivalDate >= shippingParams.fromTimeRange);
 
+            if (shippingParams.VenderNo != null)
+                query = query.Where(i => i.Vender.VenderNo.ToUpper() == shippingParams.VenderNo.ToUpper());
+
             return await PagedList<Shipping>.CreateAsync(query.ProjectTo<Shipping>(_mapper.ConfigurationProvider).AsNoTracking(),
             shippingParams.pageNumber, shippingParams.PageSize);
         }
@@ -107,16 +110,16 @@ namespace API.Data
             _context.Shippings.Remove(shipping);
         }
 
-        public async Task<PagedList<Shipping>> GetShippingByVenderAsync(string venderNo, PagingParams receivingParams)
-        {
-            var query = _context.Shippings
-                .Include(v => v.Vender)
-                .Include(u => u.User)
-                .Include(l => l.ShippingLot)
-                .Include(m => m.ShippingMethod)
-                .Where(i => i.Vender.VenderNo.ToUpper() == venderNo.ToUpper())
-                .AsNoTracking();
-            return await PagedList<Shipping>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
-        }
+        // public async Task<PagedList<Shipping>> GetShippingByVenderAsync(string venderNo, PagingParams receivingParams)
+        // {
+        //     var query = _context.Shippings
+        //         .Include(v => v.Vender)
+        //         .Include(u => u.User)
+        //         .Include(l => l.ShippingLot)
+        //         .Include(m => m.ShippingMethod)
+        //         .Where(i => i.Vender.VenderNo.ToUpper() == venderNo.ToUpper())
+        //         .AsNoTracking();
+        //     return await PagedList<Shipping>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
+        // }
     }
 }

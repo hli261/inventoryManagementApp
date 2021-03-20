@@ -52,14 +52,14 @@ namespace API.Controllers
             return Ok(shipping);
         }
 
-        [HttpGet("shippingsByVender/{venderNo}")]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippingsByVender(string venderNo, [FromQuery] PagingParams shippingParams)
-        {
-            var shippings = await _shippingRepository.GetShippingByVenderAsync(venderNo, shippingParams);
-            Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
+        // [HttpGet("shippingsByVender/{venderNo}")]
+        // public async Task<ActionResult<IEnumerable<Shipping>>> GetShippingsByVender(string venderNo, [FromQuery] PagingParams shippingParams)
+        // {
+        //     var shippings = await _shippingRepository.GetShippingByVenderAsync(venderNo, shippingParams);
+        //     Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
 
-            return Ok(shippings);
-        }
+        //     return Ok(shippings);
+        // }
 
 
         [HttpGet("shippingCSVfile")]

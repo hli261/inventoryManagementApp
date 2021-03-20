@@ -6,5 +6,7 @@ namespace API.Helpers
     {
         public DateTime fromTimeRange { get; set; }
         public DateTime toTimeRange { get; set; }
+
+        public string VenderNo { get; set; }
     }
 }
