@@ -102,7 +102,7 @@ namespace API.Controllers
                 VenderNo = receiving.VenderNo,
                 UserEmail = receiving.UserEmail,
                 // CreateDate 
-                Status = "SUBMIT",
+                Status = "DRAFT",
                 // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 // Shipping = shippingNo,
