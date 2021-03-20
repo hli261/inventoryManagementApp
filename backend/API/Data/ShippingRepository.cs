@@ -27,7 +27,9 @@ namespace API.Data
                 .Include(v => v.Vender)
                 .Include(u => u.User)
                 .Include(l => l.ShippingLot)
-                .Include(m => m.ShippingMethod).AsQueryable();
+                .Include(m => m.ShippingMethod)
+                .OrderByDescending(o => o.ArrivalDate)
+                .AsQueryable();
 
             if (shippingParams.fromTimeRange > new DateTime())
                 query = query.Where(t => t.ArrivalDate <= shippingParams.toTimeRange && t.ArrivalDate >= shippingParams.fromTimeRange);

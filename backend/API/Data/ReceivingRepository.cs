@@ -61,6 +61,7 @@ namespace API.Data
         {
             var query = _context.Receivings
                .Include(v => v.ReceivingItems)
+               .OrderByDescending(o => o.CreateDate)
                 // .ThenInclude(i => i.Item)
                 .AsNoTracking();
 
@@ -72,6 +73,7 @@ namespace API.Data
             var query = _context.Receivings
                 .Include(v => v.ReceivingItems)
                 .Where(x => x.Status.ToUpper() == status.ToUpper())
+                .OrderByDescending(o => o.CreateDate)
                 // .ThenInclude(i => i.Item)
                 .AsNoTracking();
             return await PagedList<Receiving>.CreateAsync(query, receivingParams.pageNumber, receivingParams.PageSize);
