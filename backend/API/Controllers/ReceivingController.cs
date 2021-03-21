@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -39,26 +41,56 @@ namespace API.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<Receiving>>> GetReceivings()
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivings([FromQuery] PagingParams receivingParams)
         {
-            var receivings = await _receivingRepository.GetReceivingsAsync();
-
+            var receivings = await _receivingRepository.GetReceivingsAsync(receivingParams);
+            Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receivings));
         }
 
         [HttpGet("receivingByRO/{roNum}")]
-        public async Task<ActionResult<Receiving>> GetReceiving(string roNum)
+        public async Task<ActionResult<GetReceivingHeaderDto>> GetReceiving(string roNum)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
 
             return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
         }
 
-        [HttpGet("receivingItemsByRO/{roNum}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingItems(string roNum)
+        [HttpGet("receivingByLot/{lotNum}")]
+        public async Task<ActionResult<GetReceivingHeaderDto>> GetReceivingByLot(string lotNum)
         {
-            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
+            var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
 
+            return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
+        }
+
+        [HttpGet("receivingByROArrayFormat/{roNum}")]
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivingArray(string roNum)
+        {
+            var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
+            List<Receiving> arrayFormat = new List<Receiving>();
+            if (receiving != null)
+                arrayFormat.Add(receiving);
+
+            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(arrayFormat));
+        }
+
+        [HttpGet("receivingByLotArrayFormat/{lotNum}")]
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivingByLotArray(string lotNum)
+        {
+            var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
+            List<Receiving> arrayFormat = new List<Receiving>();
+            if (receiving != null)
+                arrayFormat.Add(receiving);
+
+            return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(arrayFormat));
+        }
+
+        [HttpGet("receivingItemsByRO/{roNum}")]
+        public async Task<ActionResult<IEnumerable<GetReceivingItemDto>>> GetReceivingItems(string roNum, [FromQuery] PagingParams receivingItemParams)
+        {
+            var receivingItems = await _receivingItemRepository.GetReceivingItemParamByROAsync(roNum, receivingItemParams);
+            Response.AddPaginationHeader(receivingItems.CurrentPage, receivingItems.PageSize, receivingItems.TotalCount, receivingItems.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingItemDto>>(receivingItems));
         }
 
@@ -92,7 +124,7 @@ namespace API.Controllers
                 VenderNo = receiving.VenderNo,
                 UserEmail = receiving.UserEmail,
                 // CreateDate 
-                Status = "SUBMIT",
+                Status = "DRAFT",
                 // GetReceivingItemDtos = getReceivingItemDtos,
                 OrderDate = po.OrderDate,
                 // Shipping = shippingNo,
@@ -117,7 +149,7 @@ namespace API.Controllers
             foreach (ERP_POitem element in poItem)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-                if(item == null) return BadRequest("Item Not Found in database");
+                if (item == null) return BadRequest("Item Not Found in database");
                 // Console.WriteLine(item.ItemDescription);
 
                 var roItem = new ReceivingItem
@@ -235,13 +267,13 @@ namespace API.Controllers
 
 
         [HttpPut("update/{roNum}")]
-        public async Task<ActionResult> UpdateReceiving(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum)
+        public async Task<ActionResult> Update(IEnumerable<GetReceivingItemDto> receivingItemsDto, string roNum)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(roNum);
 
             if (receiving == null)
-                return BadRequest("Receiving not found.");
+                return BadRequest("RO can not be found.");
 
             if (receiving.Status.ToUpper() == "SUBMIT")
                 return BadRequest("Submited RO cannot be changed");
@@ -269,7 +301,7 @@ namespace API.Controllers
 
 
         [HttpPut("updateStatus/{roNum}/{status}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> EditReceivingStatusByRO(string roNum, string status)
+        public async Task<ActionResult<GetReceivingHeaderDto>> EditROStatusByRO(string roNum, string status)
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             receiving.Status = status;
@@ -284,13 +316,53 @@ namespace API.Controllers
             return BadRequest("Failed to update receiving");
         }
 
+        // [HttpPut("updateStatus/{roNum}/{status}")]
+        // public async Task<ActionResult<IEnumerable<ReceivingItem>>> EditReceivingStatusByRO(string roNum, string status)
+        // {
+        //     var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
+        //     receiving.Status = status;
+
+        //     _receivingRepository.UpdateReceiving(receiving);
+
+        //     if (await _receivingRepository.SaveAllAsync())
+        //     {
+        //         return Ok(_mapper.Map<GetReceivingHeaderDto>(receiving));
+        //     }
+
+        //     return BadRequest("Failed to update receiving");
+        // }
+
 
         [HttpGet("getReceivingByStatus/{status}")]
-        public async Task<ActionResult<IEnumerable<ReceivingItem>>> GetReceivingByStatus(string status)
+        public async Task<ActionResult<IEnumerable<GetReceivingHeaderDto>>> GetReceivingByStatus(string status, [FromQuery] PagingParams receivingParams)
         {
-            var receiving = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper());
-
+            var receiving = await _receivingRepository.GetReceivingByStatusAsync(status.ToUpper(), receivingParams);
+            Response.AddPaginationHeader(receiving.CurrentPage, receiving.PageSize, receiving.TotalCount, receiving.TotalPages);
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(receiving));
+        }
+
+        [HttpDelete("deleteReceivingDraftByRO/{ro}")]
+        public async Task<ActionResult> DeleteShipping(string ro)
+        {
+            var receiving = await _receivingRepository.GetReceivingByROAsync(ro);
+            if (receiving.Status == "SUBMIT") return BadRequest("Can not delete submited receiving");
+
+            var receivingItems = await _receivingItemRepository.GetReceivingItemsByROAsync(ro);
+
+            if (receiving != null)
+            {
+                _receivingRepository.DeleteReceiving(receiving);
+            }
+
+            if (await _receivingRepository.SaveAllAsync() && receivingItems != null)
+            {
+                _receivingItemRepository.DeleteReceivingItems(receivingItems);
+            }
+
+            if (await _receivingItemRepository.SaveAllAsync())
+                return Ok();
+
+            return BadRequest("Failed to delete shipping.");
         }
 
     }

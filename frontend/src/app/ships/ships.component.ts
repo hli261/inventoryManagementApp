@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import { Ship } from '../_models';
 import { ReceivingService, AccountService } from '../_services';
 import { Router } from '@angular/router';
@@ -21,6 +21,8 @@ export class ShipsComponent implements OnInit {
   pageSize: number = 10;
   page: number = 1;
   errorMessage: string = "";
+
+  shipType: string;
   start: string;
   end: string;
 
@@ -29,12 +31,10 @@ export class ShipsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sub = this.data.getShips().subscribe(data=> {this.ships = data; console.log(this.ships);});    
+    // this.sub = this.data.getShips().subscribe(data=> {this.ships = data; console.log(this.ships);});    
+    this.getPage(this.page);
     this.headerService.setTitle('Ship Information');
-    this.sub = this.data.getShippingMethod().subscribe(data => this.shipMethod = data);
-    // this.ships_ = this.data.getShips().pipe(take(10));
-    this.ships_ = this.data.getShips();
-    // console.log(this.ships_);
+    this.sub = this.data.getShippingMethod().subscribe(data => this.shipMethod = data);   
   }
 
   ngOnDestroy(){
@@ -51,17 +51,17 @@ export class ShipsComponent implements OnInit {
   }
 
   selectMethod(event: any): void {
-    // if (event.target.value !== "Location") {
-    //   this.location = event.target.value;
-    // }
+    if (event.target.value !== "Ship Method") {
+      this.shipType = event.target.value;
+    }
   }
 
   setStart(event: any): void{
-    // this.minCode = event.target.value.trim();    
+    this.start = event.target.value.trim();    
   }
 
   setEnd(event: any): void{
-    // this.maxCode = event.target.value.trim();
+    this.end = event.target.value.trim();
   }
 
   filter(): void {
@@ -80,13 +80,15 @@ export class ShipsComponent implements OnInit {
       this.router.navigate(['ships']);
   }
 
-  getPage(num: any): void {
-    // this.page = num;
+  getPage(num: number): void {
+    this.page = num;
     // // this.router.navigate(['/bins'], { queryParams: { pageNumber: this.page, pageSize: this.pageSize }, queryParamsHandling :"merge" });
     // this.router.navigate(['/bins-list'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize }});
     // this.urlService.setPreviousUrl(`bins-list?pageNumber=${this.page}&pageSize=${this.pageSize}&type=${this.type}&location=${this.location}&minCode=${this.minCode}&maxCode=${this.maxCode}`);
     // this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode)
-      
+    // this.sub = this.data.getShips(num, this.pageSize).subscribe(data=> {this.ships = data; console.log(this.ships);}); 
+     this.ships_ = this.data.getShips(num, this.pageSize).pipe(take(5));
+     console.log(this.ships_);     
   }
 
   getPageFromQuery() {

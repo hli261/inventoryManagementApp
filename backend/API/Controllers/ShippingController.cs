@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using API.Controllers;
 using API.DTOs;
 using API.Entities;
+using API.Exensions;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using AutoMapper;
@@ -19,22 +21,65 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly CSVService _csvHandler;
-        public ShippingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository, IVenderRepository venderRepository, CSVService csvHandler, IMapper mapper)
+        private readonly IERPRepository _erpRepository;
+        public ShippingController(UserManager<AppUser> userManager, IShippingRepository shippingRepository,
+        IVenderRepository venderRepository, CSVService csvHandler, IMapper mapper, IERPRepository eRPRepository)
         {
             _mapper = mapper;
             _shippingRepository = shippingRepository;
             _userManager = userManager;
             _venderRepository = venderRepository;
             _csvHandler = csvHandler;
+            _erpRepository = eRPRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings()
+        public async Task<ActionResult<IEnumerable<Shipping>>> GetShippings([FromQuery] ShippingParams shippingParams)
         {
-            var shippings = await _shippingRepository.GetShippingsAsync();
+            var shippings = await _shippingRepository.GetShippingsAsync(shippingParams);
+            Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
 
             return Ok(shippings);
         }
+
+        [HttpGet("getShipping/{shipNum}")]
+        public async Task<ActionResult> ShippingByNumber(string shipNum)
+        {
+            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
+
+            if (shipping == null)
+            {
+                return BadRequest("Shipping Number not found.");
+            }
+
+            return Ok(shipping);
+        }
+
+        [HttpGet("getShippinginArrayFormat/{shipNum}")]
+        public async Task<ActionResult<IEnumerable<Shipping>>> ShippingByNum(string shipNum)
+        {
+            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
+
+            if (shipping == null)
+            {
+                return BadRequest("Shipping Number not found.");
+            }
+
+            List<Shipping> arrayFormat = new List<Shipping>();
+            if (shipping != null)
+                arrayFormat.Add(shipping);
+
+            return Ok(arrayFormat);
+        }
+
+        // [HttpGet("shippingsByVender/{venderNo}")]
+        // public async Task<ActionResult<IEnumerable<Shipping>>> GetShippingsByVender(string venderNo, [FromQuery] PagingParams shippingParams)
+        // {
+        //     var shippings = await _shippingRepository.GetShippingByVenderAsync(venderNo, shippingParams);
+        //     Response.AddPaginationHeader(shippings.CurrentPage, shippings.PageSize, shippings.TotalCount, shippings.TotalPages);
+
+        //     return Ok(shippings);
+        // }
 
 
         [HttpGet("shippingCSVfile")]
@@ -61,6 +106,10 @@ namespace API.Controllers
         [HttpPost("createShipping")]
         public async Task<ActionResult<ShippingDto>> CreateShipping(ShippingDto shippingDto)
         {
+            var po = await _erpRepository.GetReceivingByPO(shippingDto.PONumber.ToUpper());
+
+            if (po.VendorNo != shippingDto.VenderNo) return BadRequest("Invalid PO or Vender Number.");
+
             var shipping = _mapper.Map<Shipping>(shippingDto);
 
             shipping.Vender = await _venderRepository.GetVenderByNumber(shippingDto.VenderNo.ToUpper());
@@ -85,19 +134,6 @@ namespace API.Controllers
                 return Ok(shipping);
 
             return BadRequest("Failed to add shipping.");
-        }
-
-        [HttpGet("getShipping/{shipNum}")]
-        public async Task<ActionResult> ShippingByNumber(string shipNum)
-        {
-            var shipping = await _shippingRepository.GetShippingByNumber(shipNum);
-
-            if (shipping == null)
-            {
-                return BadRequest("Shipping Number not found.");
-            }
-
-            return Ok(shipping);
         }
 
         [HttpPut("update/{shipNum}")]
@@ -155,5 +191,7 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<ShippingLot>(lot));
         }
+
+
     }
 }

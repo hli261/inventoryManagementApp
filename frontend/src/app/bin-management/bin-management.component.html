@@ -76,7 +76,7 @@
       <p class="text-center">No Bin</p>
     </div>
     <div *ngIf="(bins_ | async)?.length > 0" class="row mb-5">
-      <app-bins [bins_]="bins_"></app-bins>
+      <app-bins [bins_]="bins_" [page]="page-1"></app-bins>
       <div *ngIf="(bins_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end">
         <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
       </div>

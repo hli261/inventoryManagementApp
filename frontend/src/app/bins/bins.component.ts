@@ -10,6 +10,7 @@ import { Bin } from '../_models';
 export class BinsComponent implements OnInit {
 
   @Input() bins_: Observable<Bin[]>;
+  @Input() page: number;
   detail: boolean = true;
 
   constructor() {     

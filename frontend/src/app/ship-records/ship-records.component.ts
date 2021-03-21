@@ -11,7 +11,8 @@ import { UrlService } from '../_services';
 export class ShipRecordsComponent implements OnInit {
 
   @Input() ships_: Observable<Ship[]>;
-
+  @Input() page: number;
+  
   constructor(private urlService : UrlService) { }
 
   ngOnInit(): void {

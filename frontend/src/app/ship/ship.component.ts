@@ -20,6 +20,7 @@ export class ShipComponent implements OnInit {
   sub: Subscription;
   shipForm: any;
   errorMessage: string;
+  successMessage: string;
   user: User;
   otherMethod: ShipMethod = new ShipMethod();
   visible: boolean = false;
@@ -31,7 +32,8 @@ export class ShipComponent implements OnInit {
       shipType: [null, [Validators.required]],
       venderNo: [null, [Validators.required, Validators.minLength(6)]],
       invoiceNo: [null], 
-      logisticName: [null]
+      logisticName: [null],
+      poNo: [null]
     });
   }
 
@@ -58,26 +60,10 @@ export class ShipComponent implements OnInit {
       this.sub.unsubscribe();
   }
 
-  // addShipMethod() {
-  //   console.log("test other");
-  //   if(this.shipForm.value.shipType === "other"){
-  //      this.visible = true;
-  //   }
-  // }
-
-  check(event:any) {    
-    console.log(event.target, event.target.value );
-    //  if(event.target.checked) {
-    //      this.shipForm.value.shipType = type;
-    //  }
-    //  if(!event.target.checked) {
-    //   this.shipForm.value.shipType = "";
-    //  }
-          
-  }
 
   otherChecked(event: any){
     if(event.target.value === "other") {
+      this.visible = true;
       this.shipForm.value.shipType = event.target.value;
     }
   }
@@ -99,14 +85,19 @@ export class ShipComponent implements OnInit {
       this.errorMessage = "Vender Number is required";
       return;
     }
+    if(!this.shipForm.value.poNo) {
+      this.errorMessage = "PO Number is required";
+      return;
+    }
    
  }
 
  createMethod(): any {
+   let res = false;
    if(this.shipForm.value.logisticName){
      this.otherMethod.logisticName = this.shipForm.value.logisticName;
      this.sub = this.data.addShipMethod(this.otherMethod).subscribe(
-      ()=>{ console.log("logistic method created")
+      ()=>{
         return true;},
       err => {
         console.log(err);
@@ -114,43 +105,50 @@ export class ShipComponent implements OnInit {
       }
     );
    }
-   return false;
  }
 
 
  setShipValue(){
    this.ship.arrivalDate = `${this.shipForm.value.arrivalDate.year}-${this.shipForm.value.arrivalDate.month}-${this.shipForm.value.arrivalDate.day}`;
-   this.ship.logisticName = this.shipForm.value.shipType;
+   this.ship.logisticName = this.shipForm.value.shipType === "other" ? this.shipForm.value.logisticName : this.shipForm.value.shipType;
    this.ship.userEmail = this.authService.readToken().nameid;
    this.ship.venderNo = this.shipForm.value.venderNo;
    this.ship.invoiceNumber = this.shipForm.value.invoiceNo || "";
+   this.ship.poNumber = this.shipForm.value.poNo;
  }
 
   onSubmit() {
-       console.log('ship submit: ', this.shipForm.value);  
-       console.log(new Date(`${this.ship.arrivalDate}`))   //use to test ngForm
-        this.validate();
-        console.log("after validate");
+       console.log('ship submit: ', this.shipForm.value);
+       this.validate();
+        console.log(this.shipForm.value.shipType);
         if(this.shipForm.value.shipType === "other"){
-            if(!this.createMethod()) {
-              this.errorMessage = "Shipping method can not be created!"
+          console.log(this.createMethod());
+            if(this.createMethod()== false) {
+              this.errorMessage = "Shipping method can not be created!";
+              setTimeout(() => {
+                this.errorMessage = "";
+               }, 2000);
               return;
             }
         }
-        console.log("after create method");
         this.setShipValue();
         console.log(this.ship);
         this.sub = this.data.addShip(this.ship).subscribe(
           (data)=>{
-             console.log("success", data);
-             this.router.navigate(['ship-detail', data.shippingNumber]);
+             this.successMessage = "Ship record created!";
+             setTimeout(() => {
+               this.successMessage = "";
+              }, 3000);
+              this.router.navigate(['ship-detail', data.shippingNumber]);
           },
           err =>{
             console.log(err);
-          }
+            this.errorMessage= err;
+          }         
         );
-
-
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 3000);
       
    }
 
