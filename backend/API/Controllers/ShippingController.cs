@@ -66,7 +66,8 @@ namespace API.Controllers
             }
 
             List<Shipping> arrayFormat = new List<Shipping>();
-            arrayFormat.Add(shipping);
+            if (shipping != null)
+                arrayFormat.Add(shipping);
 
             return Ok(arrayFormat);
         }
