@@ -78,14 +78,14 @@ namespace API.Controllers
         //Firstly, create BinItems for Receiving Bin.
         //Secondly, if the BinItem is exist, only add the quantity and update!!!
         [HttpPost("CreateReceivingBinItems")]
-        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReceivingBinItems(ReceivingDto receivingDto){
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReceivingBinItems(GetReceivingHeaderDto receivingDto){
             var bin = await _binRepository.GetBinByCode("RECEIVING");
           
             var lot = await _shippingRepository.GetShippingLotByNumber(receivingDto.LotNumber);
 
             var binItems = new List<BinItem>();
 
-            foreach(ROitemsDto element in receivingDto.ROitems){
+            foreach(GetReceivingItemDto element in receivingDto.GetReceivingItemDtos){
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
                     
                 var quantity = element.ReceiveQty;
@@ -112,7 +112,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    binItems.Add(bi);
+                    //binItems.Add(bi);
                     bi.Quantity += quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
 
@@ -124,6 +124,95 @@ namespace API.Controllers
             }
 
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
+        }
+
+        //move BinItems from RECEIVING to PUTAWAY operation bin
+        [HttpPost("CreatePutAwayBinItems")]
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreatePutAwayBinItems(GetReceivingHeaderDto receivingDto){
+            var bin = await _binRepository.GetBinByCode("PUTAWAY");
+          
+            var lot = await _shippingRepository.GetShippingLotByNumber(receivingDto.LotNumber);
+
+            var binItems = new List<BinItem>();
+
+            foreach(GetReceivingItemDto element in receivingDto.GetReceivingItemDtos){
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                    
+                var quantity = element.ReceiveQty;
+
+                var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), receivingDto.LotNumber);
+
+                if(bi is null){
+                    var binItem = new BinItem
+                    {
+                        Quantity = quantity,
+                        Bin = bin,
+                        Item = item,
+                        ShippingLot = lot,
+                    };
+
+                    _binItemRepository.AddBinItem(binItem);
+                    binItems.Add(binItem);
+
+                    if (await _binItemRepository.SaveAllAsync())
+
+                    return Ok(_mapper.Map<BinItemDto>(binItem));
+
+                    return BadRequest("Failed to add item.");
+                }
+                else
+                {
+                    //binItems.Add(bi);
+                    bi.Quantity += quantity;
+                    _binItemRepository.UpdateBinItemAsync(bi);
+
+                    if (await _binItemRepository.SaveAllAsync()) return NoContent();
+
+                    return BadRequest("Failed to update item.");
+                }
+
+            }
+
+            return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
+        }
+
+        //remove RECEIVING binItems when move binItems from RECEIVING to PUTAWAY
+        [HttpPost("RemoveReceivingBinItems")]
+        public async Task<ActionResult> RemoveReceivingBinItems(GetReceivingHeaderDto receivingDto){
+            var bin = await _binRepository.GetBinByCode("RECEIVING");
+          
+            var lot = await _shippingRepository.GetShippingLotByNumber(receivingDto.LotNumber);
+
+            foreach(GetReceivingItemDto element in receivingDto.GetReceivingItemDtos){
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                    
+                var quantity = element.ReceiveQty;
+
+                var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), receivingDto.LotNumber);
+
+                if(bi is null){
+                    return BadRequest("Failed to remove receiving binItems.");
+                }
+                else
+                {
+                    bi.Quantity -= quantity;
+
+                    if(bi.Quantity > 0){
+                        _binItemRepository.UpdateBinItemAsync(bi);
+                    }
+                    else
+                    {
+                        _binItemRepository.DeleteBinItem(bi);
+                    }
+
+                    if (await _binItemRepository.SaveAllAsync()) return Ok();
+
+                    return BadRequest("Failed to  remove receiving binItems.");
+                }
+
+            }
+
+            return Ok();
         }
 
         [HttpGet("all")]
