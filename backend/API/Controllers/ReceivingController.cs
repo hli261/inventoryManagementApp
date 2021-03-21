@@ -69,7 +69,8 @@ namespace API.Controllers
         {
             var receiving = await _receivingRepository.GetReceivingByROAsync(roNum);
             List<Receiving> arrayFormat = new List<Receiving>();
-            arrayFormat.Add(receiving);
+            if (receiving != null)
+                arrayFormat.Add(receiving);
 
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(arrayFormat));
         }
@@ -79,7 +80,8 @@ namespace API.Controllers
         {
             var receiving = await _receivingRepository.GetReceivingByLotAsync(lotNum);
             List<Receiving> arrayFormat = new List<Receiving>();
-            arrayFormat.Add(receiving);
+            if (receiving != null)
+                arrayFormat.Add(receiving);
 
             return Ok(_mapper.Map<IEnumerable<GetReceivingHeaderDto>>(arrayFormat));
         }
