@@ -2,8 +2,8 @@ import { Component, OnInit, Type } from '@angular/core';
 import { Ship } from '../_models';
 import { ReceivingService, AccountService, UrlService } from '../_services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 
 
 @Component({
@@ -121,10 +121,24 @@ export class ShipsComponent implements OnInit {
     }
     else{
     if(this.selector === "shipNum"){
-      this.ships_ = this.data.getShipArrayByNum(this.searchInput);
+      this.ships_ = this.data.getShipArrayByNum(this.searchInput).pipe(
+        catchError(err => {
+          this.errorMessage = err; return throwError(err);
+         })
+       );
+       setTimeout(()=>{
+        this.errorMessage="";
+      }, 3000);
     }
     if(this.selector === "vendorNum"){
-     this.ships_ = this.data.getShipsByVendor(this.searchInput,this.page, this.pageSize);
+     this.ships_ = this.data.getShipsByVendor(this.searchInput,this.page, this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage = err; return throwError(err);
+       })
+     );
+     setTimeout(()=>{
+      this.errorMessage="";
+    }, 3000);
     }
   }
 

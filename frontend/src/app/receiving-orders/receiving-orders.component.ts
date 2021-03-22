@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { textChangeRangeIsUnchanged } from 'typescript';
 import { ReceiveOrder } from '../_models';
 import { AccountService, ReceivingService, UrlService } from '../_services';
@@ -71,10 +72,21 @@ export class ReceivingOrdersComponent implements OnInit {
     }
     else{
       if(this.selector === "roNum"){
-        this.orders_ = this.data.getROArrayByRONum(this.searchInput);
+        this.orders_ = this.data.getROArrayByRONum(this.searchInput).pipe(
+          catchError(err => {
+            this.errorMessage = err; return throwError(err);
+           })
+         );
       }
       if(this.selector === "lotNum"){
-       this.orders_ = this.data.getROArrayBylotNum(this.searchInput);
+       this.orders_ = this.data.getROArrayBylotNum(this.searchInput).pipe(
+        catchError(err => {
+          this.errorMessage = err; return throwError(err);
+         })
+       );
+        setTimeout(()=>{
+          this.errorMessage="";
+        }, 3000);
        console.log(this.orders_);
      }
     }    
@@ -87,7 +99,11 @@ export class ReceivingOrdersComponent implements OnInit {
     this.page = 1;
     if (event.target.checked === true) {      
       this.status = event.target.value;
-      this.orders_ = this.data.getROArrayByStatus(event.target.value, this.page, this.pageSize);
+      this.orders_ = this.data.getROArrayByStatus(event.target.value, this.page, this.pageSize).pipe(
+        catchError(err => {
+          this.errorMessage = err; return throwError(err);
+         })
+       );
     }
     if (event.target.checked === false) {
       this.status ="";      
