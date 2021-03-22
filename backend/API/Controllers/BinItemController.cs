@@ -75,6 +75,32 @@ namespace API.Controllers
             return BadRequest("Failed to add item.");
         }
 
+        
+        [HttpPost("CreateBinItemAfterPutaway")]
+        public async Task<ActionResult<BinItemDto>> CreateBinItemAfterPutaway(CreateBinItemAfterPutawayDto createBinItemAfterPutawayDto)
+        {
+            var fromBin = await _binRepository.GetBinByCode(createBinItemAfterPutawayDto.FromBinCode);
+            var item = await _itemRepository.GetItemByNumber(createBinItemAfterPutawayDto.ItemNumber);
+            var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemAfterPutawayDto.LotNumber);
+            var destinationBin = await _binRepository.GetBinByCode(createBinItemAfterPutawayDto.DestinationBinCode);
+
+            var binItem = new BinItem
+            {
+                Quantity = createBinItemAfterPutawayDto.Quantity,
+                Bin = destinationBin,
+                Item = item,
+                ShippingLot = lot,
+            };
+
+            _binItemRepository.AddBinItem(binItem);
+
+            if (await _binItemRepository.SaveAllAsync())
+
+                return Ok(_mapper.Map<BinItemDto>(binItem));
+
+            return BadRequest("Failed to add item.");
+        }
+
         //Firstly, create BinItems for Receiving Bin.
         //Secondly, if the BinItem is exist, only add the quantity and update!!!
         [HttpPost("CreateReceivingBinItems")]
@@ -208,6 +234,45 @@ namespace API.Controllers
                     if (await _binItemRepository.SaveAllAsync()) return Ok();
 
                     return BadRequest("Failed to  remove receiving binItems.");
+                }
+
+            }
+
+            return Ok();
+        }
+
+        //remove PUTAWAY binItems when move binItems from PUTAWAY to Primary/Overstock
+        [HttpPost("RemovePutawayBinItems")]
+        public async Task<ActionResult> RemovePutawayBinItems(GetReceivingHeaderDto receivingDto){
+            var bin = await _binRepository.GetBinByCode("PUTAWAY");
+          
+            var lot = await _shippingRepository.GetShippingLotByNumber(receivingDto.LotNumber);
+
+            foreach(GetReceivingItemDto element in receivingDto.GetReceivingItemDtos){
+                var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
+                    
+                var quantity = element.ReceiveQty;
+
+                var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), receivingDto.LotNumber);
+
+                if(bi is null){
+                    return BadRequest("Failed to remove PUTAWAY binItems.");
+                }
+                else
+                {
+                    bi.Quantity -= quantity;
+
+                    if(bi.Quantity > 0){
+                        _binItemRepository.UpdateBinItemAsync(bi);
+                    }
+                    else
+                    {
+                        _binItemRepository.DeleteBinItem(bi);
+                    }
+
+                    if (await _binItemRepository.SaveAllAsync()) return Ok();
+
+                    return BadRequest("Failed to  remove PUTAWAY binItems.");
                 }
 
             }
