@@ -49,7 +49,7 @@
     </table>
     <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
         <button type=""  (click)="save()"  class="btn btn-primary">Save</button>
-        <button type="clean" (click)="return()" class="btn btn-primary">Cancel</button>
+        <button type="" *ngIf="previousUrl_ | async as url" (click)="back(url)" class="btn btn-primary">Cancel</button>
         <button type="submit" (click)="submit()" class="btn btn-primary">Submit</button>
     </div>
 </div>

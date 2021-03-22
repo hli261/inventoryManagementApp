@@ -19,15 +19,26 @@ export class ReceivingService {
       take(5)      
     );
   }
-
-  public getShips(page: number, pageSize: number): Observable<Ship[]> {
+  public getAllShips(page: number, pageSize: number): Observable<Ship[]> {
     return this.http.get<Ship[]> (`${environment.apiUrl}/api/shipping?pageNumber=${page}&PageSize=${pageSize}`);
+  }
+
+  public getShips(start:string, end: string, venderNo: string, page: number, pageSize: number): Observable<Ship[]> {
+    return this.http.get<Ship[]> (`${environment.apiUrl}/api/shipping?fromTimeRange=${start}&toTimeRange=${end}&VenderNo=${venderNo}&pageNumber=${page}&PageSize=${pageSize}`);
+  }
+
+  public getShipsByVendor(venderNo: string, page: number, pageSize: number): Observable<Ship[]> {
+    return this.http.get<Ship[]> (`${environment.apiUrl}/api/shipping?VenderNo=${venderNo}&pageNumber=${page}&PageSize=${pageSize}`);
   }
 
   public addShip(ship: ShipCreate): Observable<Ship>{
     //  return this.http.post(`${environment.apiUrl}/api/Shipping/createShipping`, ship).subscribe();
      return this.http.post<Ship>(`${environment.apiUrl}/api/Shipping/createShipping`, ship);
    }
+
+   public updateShip(num: string, ship: ShipCreate): Observable<ShipCreate> {
+    return this.http.put<ShipCreate> (`${environment.apiUrl}/api/shipping/update/${num}`, ship);
+  }
 
    public addShipMethod(type: ShipMethod){
     // return this.http.post(`${environment.apiUrl}/api/Vender/createShippingMethod`, type).subscribe();
@@ -38,11 +49,11 @@ export class ReceivingService {
     return this.http.get<Ship> (`${environment.apiUrl}/api/shipping/getShipping/${num}`);
   }
 
-  public updateShip(num: string, ship: ShipCreate): Observable<ShipCreate> {
-    return this.http.put<ShipCreate> (`${environment.apiUrl}/api/shipping/update/${num}`, ship);
-  }
+  public getShipArrayByNum(num: string): Observable<Ship[]> {
+    return this.http.get<Ship[]> (`${environment.apiUrl}/api/shipping/getShippinginArrayFormat/${num}`);
+  }  
 
-  getAllRO(page: number, pageSize: number) : Observable<ReceiveOrder[]>{
+  public getAllRO(page: number, pageSize: number) : Observable<ReceiveOrder[]>{
     return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/getAll?pageNumber=${page}&PageSize=${pageSize}`);    
   }
 
@@ -63,6 +74,18 @@ export class ReceivingService {
 
   public getROByRONum(roNumber:string) : Observable<ReceiveOrder> {
     return this.http.get<ReceiveOrder>(`${environment.apiUrl}/api/Receiving/receivingByRO/${roNumber}`);
+  }
+
+  public getROArrayByRONum(roNumber:string) : Observable<ReceiveOrder[]> {
+    return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/receivingByROArrayFormat/${roNumber}`);
+  }
+
+  public getROArrayBylotNum(lotNumber:string) : Observable<ReceiveOrder[]> {
+    return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/receivingByLotArrayFormat/${lotNumber}`);
+  }
+
+  public getROArrayByStatus(status:string, page: number, pageSize: number) : Observable<ReceiveOrder[]> {
+    return this.http.get<ReceiveOrder[]>(`${environment.apiUrl}/api/Receiving/getReceivingByStatus/${status}?pageNumber=${page}&PageSize=${pageSize}`);
   }
 
   public submitRO(ro: ReceiveOrder) : Observable<ReceiveOrder> {

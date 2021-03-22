@@ -18,8 +18,8 @@ export class ShipRecordsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  recordUrl(num: string){
-     this.urlService.setPreviousUrl(`ships`);
-  }
+  // recordUrl(num: string){
+  //    this.urlService.setPreviousUrl(`ships`);
+  // }
 
 }

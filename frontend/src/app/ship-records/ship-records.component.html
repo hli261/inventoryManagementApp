@@ -22,7 +22,8 @@
         <td>
           <a [routerLink]="['/ship-edit', ship.shippingNumber]">Edit</a> | 
           <!-- <a [routerLink]="['/ship-detail', ship.shippingNumber]">Detail</a> -->
-          <a [routerLink]="['/ship-detail', ship.shippingNumber]" (click)="recordUrl(ship.shippingNumber)">Detail</a>
+          <!-- <a [routerLink]="['/ship-detail', ship.shippingNumber]" (click)="recordUrl(ship.shippingNumber)">Detail</a> -->
+          <a [routerLink]="['/ship-detail', ship.shippingNumber]" >Detail</a>
         </td>
       </tr>
     </tbody>
