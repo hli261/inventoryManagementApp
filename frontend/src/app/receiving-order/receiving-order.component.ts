@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ReceiveOrder, RoItem } from '../_models';
-import { AccountService, ReceivingService } from '../_services';
+import { AccountService, ReceivingService, UrlService } from '../_services';
 
 @Component({
   selector: 'app-receiving-order',
@@ -18,11 +18,14 @@ export class ReceivingOrderComponent implements OnInit {
   successMessage: string;
   errorMessage: string;
   ro: ReceiveOrder;
+  previousUrl_: Observable<string>;
+
 
   constructor(private router: Router, 
               private data : ReceivingService,
               private route : ActivatedRoute,
-              private headerService: AccountService) {     
+              private headerService: AccountService,
+              private urlService : UrlService) {     
      this.state = this.router.getCurrentNavigation().extras.state;
      console.log("ro-----", this.state);
   }
@@ -49,7 +52,7 @@ export class ReceivingOrderComponent implements OnInit {
       })
       this.headerService.setTitle("RO edit");
     }
-    
+     this.previousUrl_= this.urlService.previousUrl$; 
   }
 
   ngOnDestroy(){
@@ -100,8 +103,8 @@ export class ReceivingOrderComponent implements OnInit {
     )
   }
 
-  return(): void{
-    this.router.navigate(['orders']);
+  back(url: any): void {
+    this.router.navigateByUrl(`${url}`);
   }
 
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit, Type } from '@angular/core';
 import { Ship } from '../_models';
-import { ReceivingService, AccountService } from '../_services';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { ReceivingService, AccountService, UrlService } from '../_services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 
 
 @Component({
@@ -18,23 +18,36 @@ export class ShipsComponent implements OnInit {
   private sub :any;
   shipMethod: Array<any>;
   ships_: Observable<Ship[]>;
-  pageSize: number = 10;
-  page: number = 1;
   errorMessage: string = "";
 
+  pageSize: number = 10;
+  page: number = 1;
+  selector: string = "shipNum";
+  searchInput: string;
   shipType: string;
-  start: string;
-  end: string;
+  start: string = "";
+  end: string = "";
+  
 
-  constructor(private data:ReceivingService, private router: Router, private headerService: AccountService) {
+  constructor(private data:ReceivingService, 
+              private router: Router, 
+              private headerService: AccountService,
+              private urlService : UrlService,
+              private route: ActivatedRoute) {
 
   }
 
-  ngOnInit(): void {
-    // this.sub = this.data.getShips().subscribe(data=> {this.ships = data; console.log(this.ships);});    
-    this.getPage(this.page);
+  ngOnInit(): void {    
     this.headerService.setTitle('Ship Information');
-    this.sub = this.data.getShippingMethod().subscribe(data => this.shipMethod = data);   
+    this.sub = this.data.getShippingMethod().subscribe(data => this.shipMethod = data);
+    if(window.location.pathname === "/ships-list"){
+      console.log(window.location.search);
+      this.getPageFromQuery();
+    }
+    // if(window.location.pathname === "/ships"){
+    //   console.log(window.location.search);
+    // }
+    this.getPage(this.page);
   }
 
   ngOnDestroy(){
@@ -65,15 +78,18 @@ export class ShipsComponent implements OnInit {
   }
 
   filter(): void {
-    // this.page = 1;
-    // if (!(this.minCode) && this.maxCode || this.minCode == this.maxCode) {
-    //   this.minCode = this.maxCode;
-    //   this.maxCode = "";
-    // }
-    // this.getPage(this.page);
-    // {
-    //   this.type=[];
-    // }
+    this.page = 1;
+    if (!(this.start) && this.end || this.start == this.end) {
+      this.start = this.end;
+      this.start = "";
+    }
+    this.getPage(this.page);
+ 
+  }
+
+  selectKey($event : any) : void {
+    this.selector = $event.target.value;
+    console.log(this.selector);
   }
 
   clear(){
@@ -82,25 +98,50 @@ export class ShipsComponent implements OnInit {
 
   getPage(num: number): void {
     this.page = num;
-    // // this.router.navigate(['/bins'], { queryParams: { pageNumber: this.page, pageSize: this.pageSize }, queryParamsHandling :"merge" });
-    // this.router.navigate(['/bins-list'], { queryParams: { type: this.type, location: this.location, minCode: this.minCode, maxCode: this.maxCode, pageNumber: this.page, pageSize: this.pageSize }});
-    // this.urlService.setPreviousUrl(`bins-list?pageNumber=${this.page}&pageSize=${this.pageSize}&type=${this.type}&location=${this.location}&minCode=${this.minCode}&maxCode=${this.maxCode}`);
-    // this.bins_ = this.binService.getQuery(this.page, this.pageSize, this.type.toString(), this.location, this.minCode, this.maxCode)
-    // this.sub = this.data.getShips(num, this.pageSize).subscribe(data=> {this.ships = data; console.log(this.ships);}); 
-     this.ships_ = this.data.getShips(num, this.pageSize).pipe(take(5));
-     console.log(this.ships_);     
+    this.ships_ = this.data.getAllShips(num, this.pageSize);  
+    // this.router.navigate(['/ships-list'], { queryParams: { pageNumber: this.page, pageSize: this.pageSize }});
+    this.urlService.setPreviousUrl(`ships-list?pageNumber=${this.page}&pageSize=${this.pageSize}`);
+    // if(this.start != "") {
+    //   this.ships_ = this.data.getShips(this.start, this.end, this.searchInput, num, this.pageSize); 
+    // } 
+    
   }
 
   getPageFromQuery() {
-      // this.route.queryParams.subscribe((params: any) => {
-      //   this.type = this.route.snapshot.queryParamMap.getAll('type');
-      //   this.location = this.route.snapshot.queryParamMap.get('location');
-      //   this.minCode = this.route.snapshot.queryParamMap.get('minCode');
-      //   this.maxCode = this.route.snapshot.queryParamMap.get('maxCode');
-      //   this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber')) || 1;
-      //   this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize')) || 10;
-      //   this.getPage(this.page);
-      // })
+      this.route.queryParams.subscribe((params: any) => {    
+        this.page = Number(this.route.snapshot.queryParamMap.get('pageNumber')) || 1;
+        this.pageSize = Number(this.route.snapshot.queryParamMap.get('pageSize')) || 10;
+        this.getPage(this.page);
+      })
   }
+
+  onSubmit(): void {
+    if(!this.searchInput){
+      this.getPage(this.page);
+    }
+    else{
+    if(this.selector === "shipNum"){
+      this.ships_ = this.data.getShipArrayByNum(this.searchInput).pipe(
+        catchError(err => {
+          this.errorMessage = err; return throwError(err);
+         })
+       );
+       setTimeout(()=>{
+        this.errorMessage="";
+      }, 3000);
+    }
+    if(this.selector === "vendorNum"){
+     this.ships_ = this.data.getShipsByVendor(this.searchInput,this.page, this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage = err; return throwError(err);
+       })
+     );
+     setTimeout(()=>{
+      this.errorMessage="";
+    }, 3000);
+    }
+  }
+
+ }
 
 }

@@ -1,19 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ReceiveOrder, ReceivingCreate} from '../_models';
 import { AccountService, AuthService } from '../_services';
 import { ReceivingService } from '../_services/receiving.service';
 
-// const navigationExtras: NavigationExtras = {
-//   state: {
-//     transd: 'TRANS001',
-//     workQueue: false,
-//     services: 10,
-//     code: '003'
-//   }
-// };
 
 @Component({
   selector: 'app-receiving-create',
@@ -77,28 +69,5 @@ export class ReceivingCreateComponent implements OnInit {
         }
       )
   }
-
-  // public createRO() {
-  //   this.tempRO.poNumber = this.receiveForm.value.PONumber;
-  //   this.tempRO.shippingNumber = this.receiveForm.value.shippingNumber;
-  //   this.tempRO.venderNo = this.receiveForm.value.venderNo;   
-  //   this.tempRO.lotNumber ="",
-  //   this.tempRO.userEmail ="",
-  //   this.tempRO.arrivalDate= "2021-03-12",
-  //   this.tempRO.status = "DRAFT",
-  //   this.tempRO.orderDate = "2021-03-12",
-  //   this.tempRO.rOitems=  [
-  //   {
-  //     "lotNumber": "string",
-  //     "itemNumber": "string",
-  //     "itemDescription": "string",
-  //     "orderQty": 0,
-  //     "receiveQty": 0,
-  //     "diffQty": 0,
-  //     "expireDate": "2021-03-12T04:32:26.116Z"
-  //   }
-  // ] 
-
-  // }
 
 }

@@ -13,7 +13,7 @@
     </div>
     <div class="col-auto mb-3">
       <label for="arrivalDate" class="form-label">Arrival Date</label>
-      <input type="text" class="form-control" id="arrivalDate" name="arrivalDate" [(ngModel)]="updateShip.arrivalDate">
+      <input type="text" class="form-control" id="arrivalDate" name="arrivalDate" readonly [(ngModel)]="updateShip.arrivalDate">
     </div>
   </div>
   <div class="row g-3 align-items-center">
@@ -23,7 +23,7 @@
     </div>  
     <div class="col-auto mb-3">
       <label for="venderName" class="form-label">Ship Method</label>
-      <select class="form-select width-30" aria-label="example" name="logisticName" readonly [(ngModel)]="updateShip.logisticName" >
+      <select class="form-select width-30" aria-label="example" name="logisticName" aria-readonly="true" [(ngModel)]="updateShip.logisticName" >
         <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
       </select>
     </div>
@@ -44,7 +44,8 @@
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-evenly mt-5">
       <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Update</button>
-      <button routerLink="/ships"  class="btn btn-primary" [disabled]="f.invalid">Cancel</button>
+      <button *ngIf="previousUrl_ | async as url" (click)="back(url)" class="btn btn-primary" [disabled]="f.invalid">Cancel</button>
+      <!-- <button *ngIf="!(previousUrl_ | async as url)" routerLink = "/ships" class="btn btn-primary" [disabled]="f.invalid">Cancel</button> -->
       </div>
     </form>   
 

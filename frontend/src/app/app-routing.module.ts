@@ -77,10 +77,12 @@ const routes: Routes = [
       { path: 'ship', component: ShipComponent },
       { path: 'ship-detail/:shipNum', component: ShipDetailComponent },
       { path: 'ship-edit/:shipNum', component: ShipEditComponent },
+      { path: 'ships-list', component: ShipsComponent },
       { path: 'orders', component: ReceivingOrdersComponent },
       { path: 'order', component: ReceivingOrderComponent },
       { path: 'order-detail/:roNum', component: ReceivingDetailComponent },
       { path: 'order-edit/:roNum', component: ReceivingOrderComponent },
+      { path: 'orders-list', component: ReceivingOrdersComponent },
       { path: 'receivingCreate', component: ReceivingCreateComponent},
     ]
   },
