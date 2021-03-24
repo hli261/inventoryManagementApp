@@ -84,21 +84,35 @@ namespace API.Controllers
             var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemAfterPutawayDto.LotNumber);
             var destinationBin = await _binRepository.GetBinByCode(createBinItemAfterPutawayDto.DestinationBinCode);
 
-            var binItem = new BinItem
+            var bi = await _binItemRepository.GetBinItemByThree(destinationBin.BinCode, item.ItemNumber.ToUpper(), lot.LotNumber);
+
+            if(bi is null){
+                var binItem = new BinItem
+                {
+                    Quantity = createBinItemAfterPutawayDto.Quantity,
+                    Bin = destinationBin,
+                    Item = item,
+                    ShippingLot = lot,
+                };
+
+                _binItemRepository.AddBinItem(binItem);
+
+                if (await _binItemRepository.SaveAllAsync())
+
+                    return Ok(_mapper.Map<BinItemDto>(binItem));
+
+                return BadRequest("Failed to add item.");
+            }
+            else
             {
-                Quantity = createBinItemAfterPutawayDto.Quantity,
-                Bin = destinationBin,
-                Item = item,
-                ShippingLot = lot,
-            };
+                bi.Quantity += createBinItemAfterPutawayDto.Quantity;
+                _binItemRepository.UpdateBinItemAsync(bi);
 
-            _binItemRepository.AddBinItem(binItem);
+                if (await _binItemRepository.SaveAllAsync()) return Ok(_mapper.Map<BinItemDto>(bi));
 
-            if (await _binItemRepository.SaveAllAsync())
+                return BadRequest("Failed to update item.");
+            }
 
-                return Ok(_mapper.Map<BinItemDto>(binItem));
-
-            return BadRequest("Failed to add item.");
         }
 
         //Firstly, create BinItems for Receiving Bin.
