@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using API.Entities;
 
 namespace API.DTOs
@@ -14,8 +15,8 @@ namespace API.DTOs
 
         public string ItemNumber { get; set; }    
 
-        //public int ShippingLotId { get; set; }
-
         public string LotNumber { get; set; } 
+
+        public IEnumerable<GetReceivingItemDto> GetReceivingItemDtos { get; set; }
     }
 }

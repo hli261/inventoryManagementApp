@@ -219,19 +219,19 @@ namespace API.Controllers
 
         //move BinItems from RECEIVING to PUTAWAY operation bin
          [HttpPost("CreatePutAwayBinItems")]
-        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreatePutAwayBinItems(BinItemDto binItemDto){
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreatePutAwayBinItems(CreateBinItemDto createBinItemDto){
             var bin = await _binRepository.GetBinByCode("PUTAWAY");
           
-            var lot = await _shippingRepository.GetShippingLotByNumber(binItemDto.LotNumber);
+            var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemDto.LotNumber);
 
             var binItems = new List<BinItem>();
 
-            foreach(GetReceivingItemDto element in binItemDto.GetReceivingItemDtos){
+            foreach(GetReceivingItemDto element in createBinItemDto.GetReceivingItemDtos){
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
                     
                 var quantity = element.ReceiveQty;
 
-                var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), binItemDto.LotNumber);
+                var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), createBinItemDto.LotNumber);
 
                 if(bi is null){
                     var binItem = new BinItem
@@ -309,17 +309,17 @@ namespace API.Controllers
 
         //remove RECEIVING binItems when move binItems from RECEIVING to PUTAWAY
         [HttpPost("RemoveReceivingBinItems")]
-        public async Task<ActionResult> RemoveReceivingBinItems(BinItemDto binItemDto){
+        public async Task<ActionResult> RemoveReceivingBinItems(CreateBinItemDto createBinItemDto){
             var bin = await _binRepository.GetBinByCode("RECEIVING");
           
-            var lot = await _shippingRepository.GetShippingLotByNumber(binItemDto.LotNumber);
+            var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemDto.LotNumber);
 
-            foreach(GetReceivingItemDto element in binItemDto.GetReceivingItemDtos){
+            foreach(GetReceivingItemDto element in createBinItemDto.GetReceivingItemDtos){
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
                     
                 var quantity = element.ReceiveQty;
 
-                var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), binItemDto.LotNumber);
+                var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), createBinItemDto.LotNumber);
 
                 if(bi is null){
                     return BadRequest("Failed to remove receiving binItems.");
@@ -388,17 +388,17 @@ namespace API.Controllers
 
          //remove PUTAWAY binItems when move binItems from PUTAWAY to Primary/Overstock
         [HttpPost("RemovePutawayBinItems")]
-        public async Task<ActionResult> RemovePutawayBinItems(BinItemDto binItemDto){
+        public async Task<ActionResult> RemovePutawayBinItems(CreateBinItemDto createBinItemDto){
             var bin = await _binRepository.GetBinByCode("PUTAWAY");
           
-            var lot = await _shippingRepository.GetShippingLotByNumber(binItemDto.LotNumber);
+            var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemDto.LotNumber);
 
-            foreach(GetReceivingItemDto element in binItemDto.GetReceivingItemDtos){
+            foreach(GetReceivingItemDto element in createBinItemDto.GetReceivingItemDtos){
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
                     
                 var quantity = element.ReceiveQty;
 
-                var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), binItemDto.LotNumber);
+                var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), createBinItemDto.LotNumber);
 
                 if(bi is null){
                     return BadRequest("Failed to remove PUTAWAY binItems.");

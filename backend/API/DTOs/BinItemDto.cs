@@ -24,7 +24,7 @@ namespace API.DTOs
 
         public string LotNumber { get; set; }
 
-        public IEnumerable<GetReceivingItemDto> GetReceivingItemDtos { get; set; }
+        //public IEnumerable<GetReceivingItemDto> GetReceivingItemDtos { get; set; }
 
     }
 }
