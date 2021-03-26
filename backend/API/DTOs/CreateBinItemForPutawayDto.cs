@@ -1,6 +1,6 @@
 namespace API.DTOs
 {
-    public class CreateBinItemAfterPutawayDto
+    public class CreateBinItemForPutawayDto
     {
          // public Bin Bin { get; set; }
         // public Item Item { get; set; }
