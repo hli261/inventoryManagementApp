@@ -21,6 +21,8 @@ import { BinEditComponent } from './bin-edit/bin-edit.component';
 import { ReceivingOrdersComponent } from './receiving-orders/receiving-orders.component';
 import { ReceivingOrderComponent } from './receiving-order/receiving-order.component';
 import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
+import { PutAwayListsComponent } from './put-away-lists/put-away-lists.component';
+import { PutAwayComponent } from './put-away/put-away.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 import { ReceivingDetailComponent } from './receiving-detail/receiving-detail.component';
@@ -84,6 +86,19 @@ const routes: Routes = [
       { path: 'order-edit/:roNum', component: ReceivingOrderComponent },
       { path: 'orders-list', component: ReceivingOrdersComponent },
       { path: 'receivingCreate', component: ReceivingCreateComponent},
+    ]
+  },
+  {
+    path: '',
+    canActivate: [RoleGuard],
+    data: {
+      // role: "PutAway"
+      role: "Receiving"
+    },
+    children: [
+      { path: 'putaway-list', component: PutAwayListsComponent },
+      { path: 'putaway', component: PutAwayComponent }
+     
     ]
   },
   { path: '**', component: PageNotFoundComponent }

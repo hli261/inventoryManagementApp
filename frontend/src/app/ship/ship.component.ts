@@ -16,6 +16,7 @@ export class ShipComponent implements OnInit {
 
   ship: ShipCreate = new ShipCreate();
   shipMethod: Array<any>;
+  shipMethod_: Observable<any>;
   model: NgbDateStruct;
   sub: Subscription;
   shipForm: any;
@@ -51,6 +52,8 @@ export class ShipComponent implements OnInit {
       
     this.sub = this.authService.getLoginUser().subscribe(user=> this.user=user);     
     this.sub = this.data.getShippingMethod().subscribe(data=> this.shipMethod =data);
+    // this.shipMethod_=this.data.getShippingMethod().pipe(take(5));
+    // this.sub = this.shipMethod_.subscribe(data=> {this.shipMethod =data.slice(0,5)})
     this.headerService.setTitle('Create Ship Record');
     
   }

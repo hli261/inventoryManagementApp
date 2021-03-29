@@ -1,0 +1,48 @@
+<div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem">
+    <div class="container" >
+        <div class="row mb-3">
+            <h3>The list of items</h3>
+            <!-- <div class="col-sm-4">
+                <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
+            </div>
+            <div class="col-sm-4">
+                Location: &nbsp;&nbsp;<span>{{bin.warehouseLocation.locationName}}</span>
+            </div>
+            <div class="col-sm-4">
+                Type: &nbsp;&nbsp;<span>{{bin.binType.typeName}}</span>
+            </div> -->
+        </div>
+        <!-- <div *ngIf="previousUrl_ | async as url">
+            <button (click)="back(url)" class="btn btn-primary">Back</button>
+        </div> -->
+     </div>
+        <table class="table table-hover border-top mt-3 mb-3">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Item Number</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Lot Number</th>
+                    <th scope="col">Put Away</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor='let item of binItem; let i = index' (mouseenter)="showDetail(item.itemNumber)"
+                    (mouseleave)="closeDetail()"> -->
+                <tr *ngFor='let item of binItem; let i = index'>
+                    <td>{{i + 1}}</td>
+                    <td>{{item.itemNumber}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.lotNumber}}</td>
+                    <td>
+                        <input class="form-check-input ms-1" type="checkbox" value="" (click)="selected($event, item)">
+                        <!-- <input *ngIf = "!(user.active)" class="form-check-input ms-1" type="checkbox" value="" (click)="active(user)"> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-grid mt-5 mb-3 gap-2 d-md-flex justify-content-md-evenly">
+            <button type="submit" (click)="submit()" class="btn btn-primary">Confirm</button>
+            <button type="" (click)="clean()" class="btn btn-primary">Cancel</button>
+        </div>
+    </div>

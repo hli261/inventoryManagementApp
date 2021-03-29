@@ -1,0 +1,41 @@
+<div class="container-fluid mt-3 mx-2">    
+    <div class="row">
+        <div class="mb-3 bg-danger text-white bg-gradient rounded-3" id="errorMsg" *ngIf="errorMessage">
+            <span class="d-md-flex justify-content-md-evenly">{{errorMessage}}</span>
+          </div>
+          <div class="mb-3 bg-success text-white bg-gradient rounded-3" id="successMsg" *ngIf="successMessage">
+            <span class="d-md-flex justify-content-md-evenly" >{{successMessage}}</span>
+        </div> 
+    </div>    
+
+<table  class="table table-hover border-top mt-3">
+    <thead  class="table-light">
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Item Number</th>
+            <th scope="col">Lot Number</th>
+            <th scope="col">Bin Code</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Move Quantity</th>
+            <th scope="col">Destination Bin Code</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr *ngFor='let item of putAwayItems; let i = index'>
+            <td>{{i + 1}}</td>
+            <td>{{item.itemNumber}}</td>
+            <td>{{item.lotNumber}}</td>
+            <td>{{item.fromBinCode}}</td>         
+            <td>{{item.qty}}</td>
+            <td><input type="text" name="quantity"  [(ngModel)]="item.quantity"></td>    
+            <td><input type="text" name="destinationBinCode" [(ngModel)]="item.destinationBinCode"></td>  
+            <!-- <td><input type="text" name="quantity" (change)="moveQty($event, item)" ></td>    
+            <td><input type="text" name="destinationBinCode" (change)="putAway($event, item)"></td>   -->
+        </tr>
+    </tbody>
+</table>
+<div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
+    <button type="cancel"  class="btn btn-primary">Cancel</button>
+    <button type="submit" (click)="submit()" class="btn btn-primary">Submit</button>
+</div>
+</div>

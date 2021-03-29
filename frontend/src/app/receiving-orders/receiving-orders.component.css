@@ -1,0 +1,11 @@
+.btn_svg{
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+}
+
+.btn_svg svg{
+ 
+  margin: 0 auto;
+  align-items: center;
+}
