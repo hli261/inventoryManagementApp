@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 namespace API.DTOs
 {
     public class CreateBinItemForPutawayDto
@@ -6,6 +7,8 @@ namespace API.DTOs
         // public Item Item { get; set; }
 
         public int Quantity { get; set; }
+
+        //public int OldQuantity { get; set; } = 0;
   
         public string FromBinCode { get; set; }
 
