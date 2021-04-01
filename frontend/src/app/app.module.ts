@@ -39,6 +39,8 @@ import { ShipRecordsComponent } from './ship-records/ship-records.component';
 import { ShipEditComponent } from './ship-edit/ship-edit.component';
 import { ReceivingCreateComponent } from './receiving-create/receiving-create.component';
 import { ReceivingDetailComponent } from './receiving-detail/receiving-detail.component';
+import { PutAwayComponent } from './put-away/put-away.component';
+import { PutAwayListsComponent } from './put-away-lists/put-away-lists.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { ReceivingDetailComponent } from './receiving-detail/receiving-detail.co
     ShipRecordsComponent,
     ShipEditComponent,
     ReceivingCreateComponent,
-    ReceivingDetailComponent
+    ReceivingDetailComponent,
+    PutAwayComponent,
+    PutAwayListsComponent
   ],
   imports: [
     BrowserModule,

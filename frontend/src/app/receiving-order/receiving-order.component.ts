@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { ReceiveOrder, RoItem } from '../_models';
-import { AccountService, ReceivingService, UrlService } from '../_services';
+import { AccountService, ReceivingService, UrlService, PutAwayService } from '../_services';
 
 @Component({
   selector: 'app-receiving-order',
@@ -25,9 +25,9 @@ export class ReceivingOrderComponent implements OnInit {
               private data : ReceivingService,
               private route : ActivatedRoute,
               private headerService: AccountService,
-              private urlService : UrlService) {     
+              private urlService : UrlService,
+              private putAwayService : PutAwayService) {     
      this.state = this.router.getCurrentNavigation().extras.state;
-     console.log("ro-----", this.state);
   }
 
   ngOnInit(): void {
@@ -44,11 +44,9 @@ export class ReceivingOrderComponent implements OnInit {
       this.roNum = this.route.snapshot.params['roNum'];
       this.sub = this.data.getROItemsByRONum(this.roNum).subscribe((data)=>{
         this.roItems = data;
-        console.log(this.roItems);
       })
       this.sub = this.data.getROByRONum(this.roNum).subscribe((data)=>{
         this.ro = data;
-        console.log(this.ro);
       })
       this.headerService.setTitle("RO edit");
     }
@@ -66,8 +64,6 @@ export class ReceivingOrderComponent implements OnInit {
   }
 
   save(): void{
-    console.log("this.roitems:....", this.roItems);
-    console.log("status: ", this.ro.status);
       this.sub = this.data.updateROItems(this.roNum, this.roItems).subscribe((data)=>{
         this.successMessage = "Order has been saved!"
         setTimeout(()=>{
@@ -89,7 +85,10 @@ export class ReceivingOrderComponent implements OnInit {
     this.sub = this.data.updateStatus(this.roNum,this.ro.status, this.roItems).subscribe((data)=>{
       this.ro = data;
       this.successMessage = "Order has been submitted!"
-      console.log(this.ro);
+      console.log("sent to Receiving-----", this.ro);
+      this.putAwayService.moveToReceiving(this.ro).subscribe(data =>{
+           console.log("receiving bin items-----", data);
+      })
       setTimeout(()=>{
         this.successMessage="";
         this.router.navigate(['order-detail', this.ro.roNumber]);

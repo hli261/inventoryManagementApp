@@ -84,9 +84,10 @@
               </svg>
               <br />
             </div>
-            <select class="form-select" aria-label="example" formControlName="shipType" (change)="otherChecked($event)"
+            <select  class="form-select" aria-label="example" formControlName="shipType" (change)="otherChecked($event)"
               required>
               <!-- <select class="form-select" aria-label="example" formControlName="shipType" required> -->
+              <!-- <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option> -->
               <option *ngFor="let type of shipMethod" [value]="type.logisticName">{{type.logisticName}}</option>
               <option value="other">Other</option>
             </select>

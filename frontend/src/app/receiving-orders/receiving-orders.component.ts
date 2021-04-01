@@ -43,7 +43,7 @@ export class ReceivingOrdersComponent implements OnInit {
 
   getPage(num: number): void {
     this.page = num;
-    if(status){
+    if(this.status){      
       this.orders_ = this.data.getROArrayByStatus(this.status, num, this.pageSize);
     }else{
       this.orders_ = this.data.getAllRO(num, this.pageSize);
