@@ -178,18 +178,17 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReceivingBinItems(GetReceivingHeaderDto receivingDto)
         {
             var bin = await _binRepository.GetBinByCode("RECEIVING");
-
-            var lot = await _shippingRepository.GetShippingLotByNumber(receivingDto.LotNumber);
-
+          
             var binItems = new List<BinItem>();
 
             foreach (GetReceivingItemDto element in receivingDto.GetReceivingItemDtos)
             {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-
+                var lot = await _shippingRepository.GetShippingLotByNumber(element.LotNumber);
+                    
                 var quantity = element.ReceiveQty;
 
-                var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), receivingDto.LotNumber);
+                var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), element.LotNumber);
 
                 if (bi is null)
                 {
