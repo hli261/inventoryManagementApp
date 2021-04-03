@@ -547,13 +547,13 @@ namespace API.Controllers
                 return BadRequest("Bin Code cannot be found");
             }
 
-            // var binItems = await _binItemRepository.GetBinItemsByBinCodePaging(code, binItemParams);
+            var binItems = await _binItemRepository.GetBinItemsByBinCodePaging(code, binItemParams);
             // Response.AddPaginationHeader(binItems.CurrentPage, binItems.PageSize, binItems.TotalCount, binItems.TotalPages);
-            // return Ok(_mapper.Map<IEnumerable<BinItemQueryDto>>(binItems));
+            return Ok(binItems);
 
-            var binItems = await _binItemRepository.GetBinItemsByBinCode(code);
-            IList<BinItemQueryDto> pagedItems = binItems.Skip(binItemParams.pageNumber-1 * binItemParams.PageSize).Take(binItemParams.PageSize).ToList();
-            return Ok(pagedItems);
+            // var binItems = await _binItemRepository.GetBinItemsByBinCode(code);
+            // IList<BinItemQueryDto> pagedItems = binItems.Skip(binItemParams.pageNumber-1 * binItemParams.PageSize).Take(binItemParams.PageSize).ToList();
+            // return Ok(pagedItems);
         }
 
         [HttpGet("byNumber/{number}")]

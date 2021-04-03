@@ -91,7 +91,7 @@ namespace API.Data
             }
         }
 
-        public async Task<PagedList<BinItem>> GetBinItemsByBinCodePaging(string code, PagingParams binItemParams)
+        public async Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCodePaging(string code, PagingParams binItemParams)
         {
             try
             {
@@ -102,8 +102,26 @@ namespace API.Data
                 .Include(s => s.ShippingLot)
                 .AsNoTracking();
 
+                var finalResult = new List<BinItemQueryDto>();
 
-                return await PagedList<BinItem>.CreateAsync(result, binItemParams.pageNumber, binItemParams.PageSize);
+                var paged = await PagedList<BinItem>.CreateAsync(result, binItemParams.pageNumber, binItemParams.PageSize);
+                foreach (BinItem binItem in paged)
+                {
+                    var temp = new BinItemQueryDto
+                    {
+                        Id = binItem.Id,
+                        Quantity = binItem.Quantity,
+                        BinId = binItem.BinId,
+                        ItemId = binItem.ItemId,
+                        BinCode = binItem.Bin.BinCode,
+                        ItemNumber = binItem.Item.ItemNumber,
+                        ShippingLotId = binItem.ShippingLot.Id,
+                        LotNumber = binItem.ShippingLot.LotNumber,
+                    };
+                    finalResult.Add(temp);
+                }
+
+                return finalResult;
 
             }
             catch (Exception ex)
