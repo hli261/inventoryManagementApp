@@ -26,6 +26,7 @@ import { PutAwayComponent } from './put-away/put-away.component';
 
 import { AuthGuard, RoleGuard } from './_services';
 import { ReceivingDetailComponent } from './receiving-detail/receiving-detail.component';
+import { ReplenishmentComponent } from './replenishment/replenishment.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -99,6 +100,17 @@ const routes: Routes = [
       { path: 'putaway-list', component: PutAwayListsComponent },
       { path: 'putaway', component: PutAwayComponent }
      
+    ]
+  },
+  {
+    path: '',
+    canActivate: [RoleGuard],
+    data: {
+      // role: "Replenishment"
+      role: "Receiving"
+    },
+    children: [
+      { path: 'replenishment', component: ReplenishmentComponent }
     ]
   },
   { path: '**', component: PageNotFoundComponent }
