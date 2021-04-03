@@ -1,6 +1,7 @@
 import { analyzeAndValidateNgModules } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as jspdf from 'jspdf';
 import { Subscription } from 'rxjs';
 import { BinItem, PutAway, PutAwayBinItem, PutAwayItem } from '../_models';
 import { AccountService, PutAwayService, UrlService } from '../_services';
@@ -18,15 +19,17 @@ export class PutAwayComponent implements OnInit {
   errorMessage: string;
   state: any;
   sub: Subscription;
+  
+  @ViewChild('content') content: ElementRef;
 
   constructor(private router: Router,
               private route : ActivatedRoute,
               private headerService: AccountService,
               private urlService : UrlService,
               private putAwayService : PutAwayService) { 
-    // this.binItems.createBinItemForPutawayDtos = this.router.getCurrentNavigation().extras.state;
     this.state = this.router.getCurrentNavigation().extras.state;
-    console.log("ro-----", this.state);
+    console.log("put away-----", this.state);
+    this.headerService.setTitle("Put Away")
   }
 
   ngOnInit(): void {
@@ -34,15 +37,17 @@ export class PutAwayComponent implements OnInit {
   }
 
   mapper(): void{
-    for(var i=0; i < this.state.length; i++ ) {
-       var temp = new PutAwayBinItem();
-       temp.itemNumber = this.state[i].itemNumber;
-       temp.fromBinCode = this.state[i].binCode;
-       temp.lotNumber = this.state[i].lotNumber;
-       temp.qty = this.state[i].quantity;
-       this.putAwayItems.push(temp);
-    }
-    console.log(this.putAwayItems);
+    if(this.state){
+      for(var i=0; i < this.state.length; i++ ) {
+        var temp = new PutAwayBinItem();
+        temp.itemNumber = this.state[i].itemNumber;
+        temp.fromBinCode = this.state[i].binCode;
+        temp.lotNumber = this.state[i].lotNumber;
+        temp.qty = this.state[i].quantity;
+        this.putAwayItems.push(temp);
+     }
+     console.log(this.putAwayItems);
+    }   
   }
 
   createObj(binCode: boolean): Array<PutAwayItem>{    
@@ -50,7 +55,7 @@ export class PutAwayComponent implements OnInit {
     for(var i=0; i < this.putAwayItems.length; i++ ) {
       var temp = new PutAwayItem();
       temp.itemNumber = this.putAwayItems[i].itemNumber;
-      temp.fromBinCode = this.putAwayItems[i].binCode;
+      temp.fromBinCode = this.putAwayItems[i].froBinCode;
       temp.lotNumber = this.putAwayItems[i].lotNumber;
       temp.quantity = this.putAwayItems[i].quantity;
       if(binCode) { 
@@ -63,9 +68,24 @@ export class PutAwayComponent implements OnInit {
    console.log(tempItems);
    return tempItems;
   }
+ 
+  savePDF() : void{
+    let DATA=this.content.nativeElement;  
+    let doc = new jspdf('p','pt', 'a4');
+    let handleElement =  
+    {  
+      '#editor':function(element : any, renderer : any){  
+        return true;  
+      }  
+    };  
+    doc.fromHTML(DATA.innerHTML,15,15,{
+      'width': 190,
+      'elementHandlers': handleElement
+    });
+    doc.save('putaway-list.pdf');  
+  }
 
-
-  submit(): void{
+  movePutaway() : void{
     var putaway = new PutAway();
     putaway.createBinItemForPutawayDtos = this.createObj(true);
     console.log(putaway);
@@ -75,24 +95,43 @@ export class PutAwayComponent implements OnInit {
      err => {
        this.errorMessage = err;
        console.log(err);
+       setTimeout(()=>{
+        this.errorMessage="";
+      }, 3000);
        return;
      })
 
      this.sub = this.putAwayService.removeFromReceiving(putaway).subscribe((data)=>{
       console.log(data);
+      this.successMessage = "Items have been moved to operation bin successfully!"
+      setTimeout(()=>{
+        this.successMessage="";
+        // this.router.navigate(['putaway-list']);
+      }, 3000);
     },
      err => {
        this.errorMessage = err;
        console.log(err);
+       setTimeout(()=>{
+        this.errorMessage="";
+      }, 3000);
        return;
      })
+  }
+
+  submit(): void{
+    var putaway = new PutAway();
      putaway.createBinItemForPutawayDtos = this.createObj(false);
+
      this.sub = this.putAwayService.moveToBin(putaway).subscribe((data)=>{
       console.log(data);
     },
      err => {
        this.errorMessage = err;
        console.log(err);
+       setTimeout(()=>{
+        this.errorMessage="";
+      }, 3000);
        return;
      })
 
@@ -101,12 +140,16 @@ export class PutAwayComponent implements OnInit {
       this.successMessage = "Items have been moved to bins successfully!"
       setTimeout(()=>{
         this.successMessage="";
-        this.router.navigate(['putaway-list']);
-      }, 3000)
+        // this.router.navigate(['putaway-list']);
+      }, 3000);
     },
      err => {
        this.errorMessage = err;
        console.log(err);
+       setTimeout(()=>{
+        this.errorMessage="";
+      }, 3000);
+       return;
      })
 
   }

@@ -41,6 +41,7 @@ import { ReceivingCreateComponent } from './receiving-create/receiving-create.co
 import { ReceivingDetailComponent } from './receiving-detail/receiving-detail.component';
 import { PutAwayComponent } from './put-away/put-away.component';
 import { PutAwayListsComponent } from './put-away-lists/put-away-lists.component';
+import { ReplenishmentComponent } from './replenishment/replenishment.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { PutAwayListsComponent } from './put-away-lists/put-away-lists.component
     ReceivingCreateComponent,
     ReceivingDetailComponent,
     PutAwayComponent,
-    PutAwayListsComponent
+    PutAwayListsComponent,
+    ReplenishmentComponent
   ],
   imports: [
     BrowserModule,

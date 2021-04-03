@@ -13,6 +13,7 @@ using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -27,7 +28,7 @@ namespace API.Controllers
         private readonly IBinRepository _binRepository;
         private readonly IShippingRepository _shippingRepository;
         private readonly IReceivingRepository _receivingRepository;
-         private readonly IReceivingItemRepository _receivingItemRepository;
+        private readonly IReceivingItemRepository _receivingItemRepository;
 
         public BinItemController(IMapper mapper, IBinItemRepository binItemRepository, CSVService csvHandler,
             IBinRepository binRepository, IItemRepository itemRepository, IShippingRepository shippingRepository,
@@ -90,7 +91,8 @@ namespace API.Controllers
 
             var bi = await _binItemRepository.GetBinItemByThree(createBinItemForReplenishementDto.DestinationBinCode, createBinItemForReplenishementDto.ItemNumber.ToUpper(), createBinItemForReplenishementDto.LotNumber);
 
-            if(bi is null){
+            if (bi is null)
+            {
                 var binItem = new BinItem
                 {
                     Quantity = createBinItemForReplenishementDto.Quantity,
@@ -124,7 +126,8 @@ namespace API.Controllers
         {
             var binItems = new List<BinItem>();
 
-            foreach(CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos){
+            foreach (CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos)
+            {
                 var fromBin = await _binRepository.GetBinByCode(element.FromBinCode);
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber);
                 var lot = await _shippingRepository.GetShippingLotByNumber(element.LotNumber);
@@ -133,7 +136,8 @@ namespace API.Controllers
 
                 var bi = await _binItemRepository.GetBinItemByThree(destinationBin.BinCode, element.ItemNumber.ToUpper(), element.LotNumber);
 
-                if(bi is null){
+                if (bi is null)
+                {
                     var binItem = new BinItem
                     {
                         Quantity = element.Quantity,
@@ -171,12 +175,14 @@ namespace API.Controllers
         //Firstly, create BinItems for Receiving Bin.
         //Secondly, if the BinItem is exist, only add the quantity and update!!!
         [HttpPost("CreateReceivingBinItems")]
-        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReceivingBinItems(GetReceivingHeaderDto receivingDto){
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReceivingBinItems(GetReceivingHeaderDto receivingDto)
+        {
             var bin = await _binRepository.GetBinByCode("RECEIVING");
           
             var binItems = new List<BinItem>();
 
-            foreach(GetReceivingItemDto element in receivingDto.GetReceivingItemDtos){
+            foreach (GetReceivingItemDto element in receivingDto.GetReceivingItemDtos)
+            {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
                 var lot = await _shippingRepository.GetShippingLotByNumber(element.LotNumber);
                     
@@ -184,7 +190,8 @@ namespace API.Controllers
 
                 var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), element.LotNumber);
 
-                if(bi is null){
+                if (bi is null)
+                {
                     var binItem = new BinItem
                     {
                         Quantity = quantity,
@@ -198,13 +205,13 @@ namespace API.Controllers
 
                     if (await _binItemRepository.SaveAllAsync())
 
-                    return Ok(_mapper.Map<BinItemDto>(binItem));
+                        return Ok(_mapper.Map<BinItemDto>(binItem));
 
                     return BadRequest("Failed to add item.");
                 }
                 else
                 {
-                    
+
                     bi.Quantity += quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
 
@@ -220,24 +227,27 @@ namespace API.Controllers
 
 
         //move BinItems from RECEIVING to PUTAWAY operation bin
-         [HttpPost("CreatePutAwayBinItems")]
-        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreatePutAwayBinItems(CreateBinItemsDto createBinItemsDto){
+        [HttpPost("CreatePutAwayBinItems")]
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreatePutAwayBinItems(CreateBinItemsDto createBinItemsDto)
+        {
             var bin = await _binRepository.GetBinByCode("PUTAWAY");
-          
+
             //var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemsDto.LotNumber);
 
             var binItems = new List<BinItem>();
 
-            foreach(CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos){
+            foreach (CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos)
+            {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-                    
+
                 var quantity = element.Quantity;
 
                 var lot = await _shippingRepository.GetShippingLotByNumber(element.LotNumber);
 
                 var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), element.LotNumber);
 
-                if(bi is null){
+                if (bi is null)
+                {
                     var binItem = new BinItem
                     {
                         Quantity = quantity,
@@ -251,7 +261,7 @@ namespace API.Controllers
 
                     if (await _binItemRepository.SaveAllAsync())
 
-                    return Ok(_mapper.Map<BinItemDto>(binItem));
+                        return Ok(_mapper.Map<BinItemDto>(binItem));
 
                     return BadRequest("Failed to add item.");
                 }
@@ -274,17 +284,19 @@ namespace API.Controllers
         }
 
         //move BinItem from Overstock to Replenishment operation bin
-         [HttpPost("CreateReplenishmentBinItem")]
-        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReplenishmentBinItem(CreateBinItemForReplenishmentDto createBinItemForReplenishementDto){
+        [HttpPost("CreateReplenishmentBinItem")]
+        public async Task<ActionResult<IEnumerable<BinItemDto>>> CreateReplenishmentBinItem(CreateBinItemForReplenishmentDto createBinItemForReplenishementDto)
+        {
             var fromBin = await _binRepository.GetBinByCode("OVERSTOCK");
-          
+
             var item = await _itemRepository.GetItemByNumber(createBinItemForReplenishementDto.ItemNumber);
             var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemForReplenishementDto.LotNumber);
             var destinationBin = await _binRepository.GetBinByCode("REPLENISHMENT");
 
             var bi = await _binItemRepository.GetBinItemByThree("REPLENISHMENT", createBinItemForReplenishementDto.ItemNumber.ToUpper(), createBinItemForReplenishementDto.LotNumber);
 
-            if(bi is null){
+            if (bi is null)
+            {
                 var binItem = new BinItem
                 {
                     Quantity = createBinItemForReplenishementDto.Quantity,
@@ -310,43 +322,48 @@ namespace API.Controllers
 
                 return BadRequest("Failed to update item.");
             }
-            
+
             //return Ok(_mapper.Map<BinItemDto>(bi));
         }
 
 
         //remove RECEIVING binItems when move binItems from RECEIVING to PUTAWAY
         [HttpPost("RemoveReceivingBinItems")]
-        public async Task<ActionResult> RemoveReceivingBinItems(CreateBinItemsDto createBinItemsDto){
+        public async Task<ActionResult> RemoveReceivingBinItems(CreateBinItemsDto createBinItemsDto)
+        {
             var bin = await _binRepository.GetBinByCode("RECEIVING");
-          
+
             //var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemDto.LotNumber);
 
-            foreach(CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos){
+            foreach (CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos)
+            {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-                    
+
                 var quantity = element.Quantity;
 
                 var lot = await _shippingRepository.GetShippingLotByNumber(element.LotNumber);
 
                 var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), element.LotNumber);
 
-                if(bi is null){
+                if (bi is null)
+                {
                     return BadRequest("Failed to remove receiving binItems.");
                 }
                 else
                 {
                     //element.OldQuantity = bi.Quantity;
 
-                    if(bi.Quantity > quantity){
+                    if (bi.Quantity > quantity)
+                    {
                         bi.Quantity -= quantity;
                         _binItemRepository.UpdateBinItemAsync(bi);
                     }
-                    else if(bi.Quantity == quantity)
+                    else if (bi.Quantity == quantity)
                     {
                         _binItemRepository.DeleteBinItem(bi);
                     }
-                    else{
+                    else
+                    {
                         return BadRequest("Remove quantity is greater than exists.");
                     }
 
@@ -360,38 +377,43 @@ namespace API.Controllers
             return Ok();
         }
 
-         //remove PUTAWAY binItems when move binItems from PUTAWAY to Primary/Overstock
+        //remove PUTAWAY binItems when move binItems from PUTAWAY to Primary/Overstock
         [HttpPost("RemovePutawayBinItems")]
-        public async Task<ActionResult> RemovePutawayBinItems(CreateBinItemsDto createBinItemsDto){
+        public async Task<ActionResult> RemovePutawayBinItems(CreateBinItemsDto createBinItemsDto)
+        {
             var bin = await _binRepository.GetBinByCode("PUTAWAY");
-          
+
             //var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemDto.LotNumber);
 
-            foreach(CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos){
+            foreach (CreateBinItemForPutawayDto element in createBinItemsDto.createBinItemForPutawayDtos)
+            {
                 var item = await _itemRepository.GetItemByNumber(element.ItemNumber.ToUpper());
-                    
+
                 var quantity = element.Quantity;
 
                 var lot = await _shippingRepository.GetShippingLotByNumber(element.LotNumber);
 
                 var bi = await _binItemRepository.GetBinItemByThree("PUTAWAY", element.ItemNumber.ToUpper(), element.LotNumber);
 
-                if(bi is null){
+                if (bi is null)
+                {
                     return BadRequest("Failed to remove PUTAWAY binItems.");
                 }
                 else
                 {
                     //element.OldQuantity = bi.Quantity;
 
-                    if(bi.Quantity > quantity){
+                    if (bi.Quantity > quantity)
+                    {
                         bi.Quantity -= quantity;
                         _binItemRepository.UpdateBinItemAsync(bi);
                     }
-                    else if(bi.Quantity == quantity)
+                    else if (bi.Quantity == quantity)
                     {
                         _binItemRepository.DeleteBinItem(bi);
                     }
-                    else{
+                    else
+                    {
                         return BadRequest("Remove quantity is greater than exists.");
                     }
 
@@ -406,33 +428,37 @@ namespace API.Controllers
         }
 
 
-         //remove OVERSTOCK binItems when move binItems from OVERSTOCK to REPLENISHMENT
+        //remove OVERSTOCK binItems when move binItems from OVERSTOCK to REPLENISHMENT
         [HttpPost("RemoveOverstockBinItem")]
-        public async Task<ActionResult> RemoveOverstockBinItem(CreateBinItemForReplenishmentDto createBinItemForReplenishementDto){
+        public async Task<ActionResult> RemoveOverstockBinItem(CreateBinItemForReplenishmentDto createBinItemForReplenishementDto)
+        {
             var bin = await _binRepository.GetBinByCode("OVERSTOCK");
-          
+
             var item = await _itemRepository.GetItemByNumber(createBinItemForReplenishementDto.ItemNumber.ToUpper());
-                
+
             var quantity = createBinItemForReplenishementDto.Quantity;
 
             var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemForReplenishementDto.LotNumber);
 
             var bi = await _binItemRepository.GetBinItemByThree("REPLENISHMENT", createBinItemForReplenishementDto.ItemNumber.ToUpper(), createBinItemForReplenishementDto.LotNumber);
 
-            if(bi is null){
+            if (bi is null)
+            {
                 return BadRequest("Failed to remove OVERSTOCK binItem.");
             }
             else
             {
-                if(bi.Quantity > quantity){
+                if (bi.Quantity > quantity)
+                {
                     bi.Quantity -= quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
                 }
-                else if(bi.Quantity == quantity)
+                else if (bi.Quantity == quantity)
                 {
                     _binItemRepository.DeleteBinItem(bi);
                 }
-                else{
+                else
+                {
                     return BadRequest("Remove quantity is greater than exists.");
                 }
 
@@ -444,33 +470,37 @@ namespace API.Controllers
         }
 
 
-          //remove REPLENISHMENT binItem when move binItems from REPLENISHMENT to PRIMARY
+        //remove REPLENISHMENT binItem when move binItems from REPLENISHMENT to PRIMARY
         [HttpPost("RemoveReplenishmentBinItem")]
-        public async Task<ActionResult> RemoverReplenishmentBinItem(CreateBinItemForReplenishmentDto createBinItemForReplenishementDto){
+        public async Task<ActionResult> RemoverReplenishmentBinItem(CreateBinItemForReplenishmentDto createBinItemForReplenishementDto)
+        {
             var fromBin = await _binRepository.GetBinByCode("REPLENISHMENT");
-          
+
             var item = await _itemRepository.GetItemByNumber(createBinItemForReplenishementDto.ItemNumber.ToUpper());
-                
+
             var quantity = createBinItemForReplenishementDto.Quantity;
 
             var lot = await _shippingRepository.GetShippingLotByNumber(createBinItemForReplenishementDto.LotNumber);
 
             var bi = await _binItemRepository.GetBinItemByThree("REPLENISHMENT", createBinItemForReplenishementDto.ItemNumber.ToUpper(), createBinItemForReplenishementDto.LotNumber);
 
-            if(bi is null){
+            if (bi is null)
+            {
                 return BadRequest("Failed to remove REPLENISHMENT binItem.");
             }
             else
             {
-                if(bi.Quantity > quantity){
+                if (bi.Quantity > quantity)
+                {
                     bi.Quantity -= quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
                 }
-                else if(bi.Quantity == quantity)
+                else if (bi.Quantity == quantity)
                 {
                     _binItemRepository.DeleteBinItem(bi);
                 }
-                else{
+                else
+                {
                     return BadRequest("Remove quantity is greater than exists.");
                 }
 
@@ -507,29 +537,35 @@ namespace API.Controllers
         }
 
         [HttpGet("byBinCode/{code}")]
-         public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code)
+        public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByBinCode(string code, [FromQuery] PagingParams binItemParams)
         {
             var bin = await _binRepository.GetBinByCode(code);
-            
-            if (bin == null){
+
+            if (bin == null)
+            {
                 return BadRequest("Bin Code cannot be found");
             }
 
-            var binItems = await _binItemRepository.GetBinItemsByBinCode(code);            
-
+            var binItems = await _binItemRepository.GetBinItemsByBinCodePaging(code, binItemParams);
+            // Response.AddPaginationHeader(binItems.CurrentPage, binItems.PageSize, binItems.TotalCount, binItems.TotalPages);
             return Ok(binItems);
+
+            // var binItems = await _binItemRepository.GetBinItemsByBinCode(code);
+            // IList<BinItemQueryDto> pagedItems = binItems.Skip(binItemParams.pageNumber-1 * binItemParams.PageSize).Take(binItemParams.PageSize).ToList();
+            // return Ok(pagedItems);
         }
 
         [HttpGet("byNumber/{number}")]
-         public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
+        public async Task<ActionResult<IEnumerable<BinItemQueryDto>>> GetBinItemsByItemNumber(string number)
         {
             var item = await _itemRepository.GetItemByNumber(number);
 
-            if(item == null){
+            if (item == null)
+            {
                 return BadRequest("Item cannot be found");
             }
 
-            var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);            
+            var binItems = await _binItemRepository.GetBinItemsByItemNumber(number);
 
             return Ok(binItems);
         }
