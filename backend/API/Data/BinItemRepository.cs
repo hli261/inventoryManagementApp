@@ -51,22 +51,23 @@ namespace API.Data
             return binItems;
         }
 
-        public async Task<BinItem> GetBinItemByThree(string code, string number, string lot){
+        public async Task<BinItem> GetBinItemByThree(string code, string number, string lot)
+        {
             return await _context.BinItems.Include(b => b.Bin)
                 .Include(i => i.Item)
                 .Include(s => s.ShippingLot)
-                .Where(b=>b.Bin.BinCode == code)
-                .Where(i=>i.Item.ItemNumber == number)
-                .FirstOrDefaultAsync(l=>l.ShippingLot.LotNumber == lot);
-          
+                .Where(b => b.Bin.BinCode == code)
+                .Where(i => i.Item.ItemNumber == number)
+                .FirstOrDefaultAsync(l => l.ShippingLot.LotNumber == lot);
+
         }
 
         public async Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCode(string code)
         {
             try
             {
-                var result= from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode.ToUpper() == code.ToUpper()).Include(i => i.Item).Include(s=>s.ShippingLot).ToListAsync()
-                            select new BinItemQueryDto
+                var result = from binItem in await _context.BinItems.Include(b => b.Bin).Where(b => b.Bin.BinCode.ToUpper() == code.ToUpper()).Include(i => i.Item).Include(s => s.ShippingLot).ToListAsync()
+                             select new BinItemQueryDto
                              {
                                  Id = binItem.Id,
                                  Quantity = binItem.Quantity,
@@ -76,8 +77,8 @@ namespace API.Data
                                  ItemNumber = binItem.Item.ItemNumber,
                                  ShippingLotId = binItem.ShippingLot.Id,
                                  LotNumber = binItem.ShippingLot.LotNumber,
-                            }; 
-                
+                             };
+
 
                 return result.ToList();
 
@@ -89,13 +90,36 @@ namespace API.Data
                 return null;
             }
         }
-        
+
+        public async Task<PagedList<BinItem>> GetBinItemsByBinCodePaging(string code, PagingParams binItemParams)
+        {
+            try
+            {
+                var result = _context.BinItems
+                .Include(b => b.Bin)
+                .Where(b => b.Bin.BinCode.ToUpper() == code.ToUpper())
+                .Include(i => i.Item)
+                .Include(s => s.ShippingLot)
+                .AsNoTracking();
+
+
+                return await PagedList<BinItem>.CreateAsync(result, binItemParams.pageNumber, binItemParams.PageSize);
+
+            }
+            catch (Exception ex)
+            {
+
+                string msg = ex.Message;
+                return null;
+            }
+        }
+
         public async Task<IEnumerable<BinItemQueryDto>> GetBinItemsByItemNumber(string number)
         {
             try
             {
-                var result= from binItem in await _context.BinItems.Include(s=>s.ShippingLot).Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber.ToUpper() == number.ToUpper()).ToListAsync()
-                            select new BinItemQueryDto
+                var result = from binItem in await _context.BinItems.Include(s => s.ShippingLot).Include(b => b.Bin).Include(i => i.Item).Where(b => b.Item.ItemNumber.ToUpper() == number.ToUpper()).ToListAsync()
+                             select new BinItemQueryDto
                              {
                                  Id = binItem.Id,
                                  Quantity = binItem.Quantity,
@@ -105,8 +129,8 @@ namespace API.Data
                                  ItemNumber = binItem.Item.ItemNumber,
                                  ShippingLotId = binItem.ShippingLot.Id,
                                  LotNumber = binItem.ShippingLot.LotNumber,
-                            }; 
-                
+                             };
+
 
                 return result.ToList();
 

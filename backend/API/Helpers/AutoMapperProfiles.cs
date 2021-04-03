@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using API.DTOs;
 using API.Entities;
 using AutoMapper;
@@ -48,6 +49,9 @@ namespace API.Helpers
             CreateMap<Receiving, GetReceivingHeaderDto>().ForMember(dest => dest.GetReceivingItemDtos, opt => opt.MapFrom(src => src.ReceivingItems));
             CreateMap<GetReceivingItemDto, ReceivingItem>();
             CreateMap<ReceivingItem, GetReceivingItemDto>();
+
+            CreateMap<BinItemQueryDto, BinItem>();
+            CreateMap<BinItem, BinItemQueryDto>();
         }
     }
 }
