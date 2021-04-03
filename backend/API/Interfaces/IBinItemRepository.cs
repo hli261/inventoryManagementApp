@@ -15,6 +15,7 @@ namespace API.Interfaces
         Task<IEnumerable<BinItem>> GetBinItems();
 
         Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCode(string code);
+        Task<IEnumerable<BinItemQueryDto>> GetBinItemsByBinCodePaging(string code, PagingParams binItemParams);
         Task<IEnumerable<BinItemQueryDto>> GetBinItemsByItemNumber(string number);
         Task<PagedList<BinItem>> GetBinItemsAsync(PagingParams binItemParams); //paging
         Task<BinItem> GetBinItemById(int id);
