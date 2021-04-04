@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+//using System.Xml.Xsl.Runtime;
 using System.Runtime.InteropServices;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -149,23 +151,17 @@ namespace API.Controllers
                     _binItemRepository.AddBinItem(binItem);
                     binItems.Add(binItem);
 
-                    if (await _binItemRepository.SaveAllAsync())
-
-                        return Ok(_mapper.Map<BinItemDto>(binItem));
-
-                    return BadRequest("Failed to add item.");
+                    if (!await _binItemRepository.SaveAllAsync())
+                        return BadRequest("Failed to add item.");
                 }
                 else
                 {
-                    //element.OldQuantity = bi.Quantity;
-
                     bi.Quantity += element.Quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
                     binItems.Add(bi);
 
-                    if (await _binItemRepository.SaveAllAsync()) return Ok(_mapper.Map<BinItemDto>(bi));
-
-                    return BadRequest("Failed to update item.");
+                    if (!await _binItemRepository.SaveAllAsync())
+                        return BadRequest("Failed to update item.");
                 }
             }
             return Ok(_mapper.Map<IEnumerable<BinItemDto>>(binItems));
@@ -188,6 +184,9 @@ namespace API.Controllers
                     
                 var quantity = element.ReceiveQty;
 
+                if(quantity > element.OrderQty)
+                    return BadRequest("Receive quantity cannot be larger than order quantity.");
+
                 var bi = await _binItemRepository.GetBinItemByThree("RECEIVING", element.ItemNumber.ToUpper(), element.LotNumber);
 
                 if (bi is null)
@@ -203,10 +202,7 @@ namespace API.Controllers
                     _binItemRepository.AddBinItem(binItem);
                     binItems.Add(binItem);
 
-                    if (await _binItemRepository.SaveAllAsync())
-
-                        return Ok(_mapper.Map<BinItemDto>(binItem));
-
+                    if (!await _binItemRepository.SaveAllAsync())
                     return BadRequest("Failed to add item.");
                 }
                 else
@@ -215,7 +211,7 @@ namespace API.Controllers
                     bi.Quantity += quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
 
-                    if (await _binItemRepository.SaveAllAsync()) return NoContent();
+                    if (!await _binItemRepository.SaveAllAsync()) 
 
                     return BadRequest("Failed to update item.");
                 }
@@ -259,23 +255,17 @@ namespace API.Controllers
                     _binItemRepository.AddBinItem(binItem);
                     binItems.Add(binItem);
 
-                    if (await _binItemRepository.SaveAllAsync())
-
-                        return Ok(_mapper.Map<BinItemDto>(binItem));
-
-                    return BadRequest("Failed to add item.");
+                    if (!await _binItemRepository.SaveAllAsync())
+                        return BadRequest("Failed to add item.");
                 }
                 else
                 {
-                    //element.OldQuantity = bi.Quantity;
-
                     bi.Quantity += quantity;
                     _binItemRepository.UpdateBinItemAsync(bi);
                     binItems.Add(bi);
 
-                    if (await _binItemRepository.SaveAllAsync()) return NoContent();
-
-                    return BadRequest("Failed to update item.");
+                    if (!await _binItemRepository.SaveAllAsync())
+                        return BadRequest("Failed to update item.");
                 }
 
             }
@@ -367,9 +357,8 @@ namespace API.Controllers
                         return BadRequest("Remove quantity is greater than exists.");
                     }
 
-                    if (await _binItemRepository.SaveAllAsync()) return Ok();
-
-                    return BadRequest("Failed to  remove receiving binItems.");
+                    if (!await _binItemRepository.SaveAllAsync())
+                        return BadRequest("Failed to  remove receiving binItems.");
                 }
 
             }
@@ -417,9 +406,8 @@ namespace API.Controllers
                         return BadRequest("Remove quantity is greater than exists.");
                     }
 
-                    if (await _binItemRepository.SaveAllAsync()) return Ok();
-
-                    return BadRequest("Failed to  remove PUTAWAY binItems.");
+                    if (!await _binItemRepository.SaveAllAsync())
+                        return BadRequest("Failed to  remove PUTAWAY binItems.");
                 }
 
             }
@@ -462,9 +450,9 @@ namespace API.Controllers
                     return BadRequest("Remove quantity is greater than exists.");
                 }
 
-                if (await _binItemRepository.SaveAllAsync()) return Ok();
+                if (!await _binItemRepository.SaveAllAsync())
 
-                return BadRequest("Failed to  remove OVERSTOCK binItem.");
+                    return BadRequest("Failed to  remove OVERSTOCK binItem.");
             }
             return Ok();
         }
@@ -504,9 +492,9 @@ namespace API.Controllers
                     return BadRequest("Remove quantity is greater than exists.");
                 }
 
-                if (await _binItemRepository.SaveAllAsync()) return Ok();
+                if (!await _binItemRepository.SaveAllAsync())
 
-                return BadRequest("Failed to  remove REPLENISHMENT binItem.");
+                    return BadRequest("Failed to  remove REPLENISHMENT binItem.");
             }
             return Ok();
         }
