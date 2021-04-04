@@ -20,14 +20,35 @@
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">Item Number</th>
+                <th scope="col">Lot Number</th>
                 <th scope="col">Quantity</th>
+                <!-- <th scope="col"></th> -->
             </tr>
         </thead>
         <tbody>
                 <tr *ngFor='let item of binItem; let i = index'  (mouseenter)="showDetail(item.itemNumber)"  (mouseleave)="closeDetail()">
+                <!-- <tr *ngFor='let item of binItem; let i = index'> -->
                 <td>{{i + 1}}</td>
                 <td>{{item.itemNumber}}</td>
-                <td>{{item.quantity}}</td>               
+                <td>{{item.lotNumber}}</td>
+                <td>{{item.quantity}}</td> 
+                <!-- <td>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"  (click)="showDetail(item.itemNumber)">Details</button>
+                      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                       <div class="offcanvas-header">
+                       <h5 id="offcanvasRightLabel">Item Information</h5>
+                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                      </div>
+                     <div class="offcanvas-body">
+                        <div *ngIf="it" >
+                            <p><span class="fs-6">Item Number: &nbsp; </span> {{it?.itemNumber}}</p>
+                            <p><span class="fs-6">Item Description: &nbsp; </span> {{it?.itemDescription}}</p>
+                            <p><span class="fs-6">Price: &nbsp; </span> $ {{it?.itemPrice}} </p>
+                            <p><span class="fs-6">Upc Code: &nbsp; </span> {{it?.upcCode}} </p>
+                        </div>
+                       </div>
+                 </div>
+                </td>              -->
             </tr>
         </tbody>
     </table>

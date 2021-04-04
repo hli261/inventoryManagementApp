@@ -71,20 +71,20 @@ export class PutAwayComponent implements OnInit {
   }
  
   savePDF() : void{
-    let DATA=this.content.nativeElement;  
-    // let doc = new jspdf('p','pt', 'a4');
-    let doc = new jsPDF();
-    let handleElement =  
-    {  
-      '#editor':function(element : any, renderer : any){  
-        return true;  
-      }  
-    };  
-    doc.fromHTML(DATA.innerHTML,15,15,{
-      'width': 190,
-      'elementHandlers': handleElement
-    });
-    doc.save('putaway-list.pdf');  
+    // let DATA=this.content.nativeElement;  
+    // // let doc = new jspdf('p','pt', 'a4');
+    // let doc = new jsPDF();
+    // let handleElement =  
+    // {  
+    //   '#editor':function(element : any, renderer : any){  
+    //     return true;  
+    //   }  
+    // };  
+    // doc.fromHTML(DATA.innerHTML,15,15,{
+    //   'width': 190,
+    //   'elementHandlers': handleElement
+    // });
+    // doc.save('putaway-list.pdf');  
   }
 
   movePutaway() : void{

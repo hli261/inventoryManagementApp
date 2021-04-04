@@ -20,6 +20,7 @@ export class BinItemsComponent implements OnInit {
   bin: Bin;
   subQuery: Subscription;
   item: Item;
+  it: Item;
 
   constructor(private binService: BinService, 
               private route: ActivatedRoute, 
@@ -55,6 +56,10 @@ export class BinItemsComponent implements OnInit {
     showDetail(num: string): any{
       this.subQuery = this.binService.getItemByNum(num).subscribe(data=>this.item=data);
     }
+
+    // showDetail(num: string): any{
+    //   this.subQuery = this.binService.getItemByNum(num).subscribe(data=>this.it=data);
+    // }
   
     closeDetail(){
       this.item = null;

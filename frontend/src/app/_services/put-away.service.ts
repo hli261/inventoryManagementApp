@@ -11,8 +11,8 @@ export class PutAwayService {
 
   constructor(private http : HttpClient ) { }
   
-  public getItemByReceiving(binCode: string): Observable<BinItem[]>{
-    return this.http.get<BinItem[]>(`${environment.apiUrl}/api/BinItem/byBinCode/${binCode}`);
+  public getItemByReceiving(binCode: string, page: number, pageSize : number): Observable<BinItem[]>{
+    return this.http.get<BinItem[]>(`${environment.apiUrl}/api/BinItem/byBinCode/${binCode}?pageNumber=${page}&PageSize=${pageSize}`);
   }
     
   public moveToReceiving(ro: ReceiveOrder) : Observable<any>{

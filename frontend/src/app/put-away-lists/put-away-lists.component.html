@@ -1,7 +1,7 @@
 <div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem">
     <div class="container" >
         <div class="row mb-3">
-            <h3>The list of items</h3>
+            <h3 class="d-flex justify-content-center">Items in RECEIVING bin</h3>
             <!-- <div class="col-sm-4">
                 <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
             </div>
@@ -30,7 +30,7 @@
                 <!-- <tr *ngFor='let item of binItem; let i = index' (mouseenter)="showDetail(item.itemNumber)"
                     (mouseleave)="closeDetail()"> -->
                 <tr *ngFor='let item of binItem; let i = index'>
-                    <td>{{i + 1}}</td>
+                    <td>{{i + 1 + (page-1)*10}}</td>
                     <td>{{item.itemNumber}}</td>
                     <td>{{item.quantity}}</td>
                     <td>{{item.lotNumber}}</td>
@@ -41,6 +41,14 @@
                 </tr>
             </tbody>
         </table>
+        <!-- <div *ngIf="(orders_ | async)?.length > 9; else elseBlock" class="d-flex justify-content-end"> -->
+        <div *ngIf="(binItem_ | async)?.length > 14; else elseBlock" class="d-flex justify-content-end">
+            <app-paging [page]="page" [nextPage]="true" (newPage)="getPage($event)"></app-paging>
+          </div>
+          <ng-template #elseBlock>
+            <app-paging [page]="page" [nextPage]="false" (newPage)="getPage($event)"></app-paging>
+          </ng-template>
+
         <div class="d-grid mt-5 mb-3 gap-2 d-md-flex justify-content-md-evenly">
             <button type="submit" (click)="submit()" class="btn btn-primary">Confirm</button>
             <button type="" (click)="clean()" class="btn btn-primary">Cancel</button>

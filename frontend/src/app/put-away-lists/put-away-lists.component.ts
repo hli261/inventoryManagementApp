@@ -14,7 +14,8 @@ export class PutAwayListsComponent implements OnInit {
   binItem_: Observable<BinItem[]>;
   selectedItems: Array<BinItem>= [];
   binCode: string = "RECEIVING";
-  page: number=1;
+  page: number;
+  pageSize: number=15;
 
   previousUrl_: Observable<string>;
   bin: Bin;
@@ -31,7 +32,8 @@ export class PutAwayListsComponent implements OnInit {
   ngOnInit(): void {   
     this.headerService.setTitle("Put Away");
     this.previousUrl_= this.urlService.previousUrl$;
-    this.binItem_ = this.putAwayService.getItemByReceiving(this.binCode);
+    // this.binItem_ = this.putAwayService.getItemByReceiving(this.binCode);
+    this.getPage(1);
     console.log(this.binItem_);
   }
 
@@ -42,8 +44,7 @@ export class PutAwayListsComponent implements OnInit {
 
   getPage(num: any): void {
     this.page=num;
-    // this.binItem_ = this.putAwayService.getItemByReceiving(this.binCode);
-    // console.log(this.binItem_);
+    this.binItem_ = this.putAwayService.getItemByReceiving(this.binCode, this.page, this.pageSize );
     }
 
     back(url: any): void {
