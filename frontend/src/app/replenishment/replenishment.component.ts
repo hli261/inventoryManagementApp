@@ -22,15 +22,19 @@ export class ReplenishmentComponent implements OnInit {
               private putAwayService : PutAwayService) { }
 
   ngOnInit(): void {
-    this.headerService.setTitle("Put Away")
+    this.headerService.setTitle("Replenishment")
   }
 
   
 
-  movePutaway() : void{
-    var putaway = new PutAwayItem();
-    console.log(putaway);
-    this.sub = this.putAwayService.moveToReplenishment(putaway).subscribe((data)=>{
+  moveReplenishment() : void{
+    var temp = new PutAwayItem();
+    temp.fromBinCode =this.item.fromBinCode;
+    temp.itemNumber = this.item.itemNumber;
+    temp.lotNumber = this.item.lotNumber;
+    temp.quantity = this.item.quantity;
+    temp.destinationBinCode = "REPLENISHMENT";    
+    this.sub = this.putAwayService.moveToReplenishment(temp).subscribe((data)=>{
       console.log(data);
     },
      err => {
@@ -42,7 +46,7 @@ export class ReplenishmentComponent implements OnInit {
        return;
      })
 
-     this.sub = this.putAwayService.removeFromOverstock(putaway).subscribe((data)=>{
+     this.sub = this.putAwayService.removeFromOverstock(temp).subscribe((data)=>{
       console.log(data);
       this.successMessage = "Items have been moved to operation bin successfully!"
       setTimeout(()=>{
@@ -61,7 +65,7 @@ export class ReplenishmentComponent implements OnInit {
   }
 
   onSubmit(f: NgForm): void{
-
+    this.moveReplenishment();
      this.sub = this.putAwayService.moveToPrimary(this.item).subscribe((data)=>{
       console.log(data);
     },

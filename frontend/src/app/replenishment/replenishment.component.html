@@ -1,5 +1,5 @@
 <div class="container-fluid mt-3 mb-5">
-  <div class="card  mx-auto mb-3" style="width: 25rem;">
+  <div class="card  mx-auto mb-3" style="width: 35rem;">
     <h3 class="card-header">
       Replenishment
     </h3>
@@ -7,20 +7,24 @@
     <div class="mb-3">
       <form #f='ngForm' (ngSubmit)='onSubmit(f)'>
         <div class="row g-3 align-items-center">
-          <div class="col-10 mb-2 mx-auto">
+          <div class="col-5 mb-2 mx-auto">
             <label for="itemNum" class="form-label">Item Number</label>
             <input type="text" class="form-control" id="itemNum" name="itemNum" [(ngModel)]="item.itemNumber">
           </div>
-          <div class="col-10 mb-2 mx-auto">
-            <label for="fromBinCode" class="form-label">Overstock</label>
+          <div class="col-5 mb-3 mx-auto">
+            <label for="lotNum" class="form-label">Lot number</label>
+            <input type="text" class="form-control" id="lotNum" name="lotNum" [(ngModel)]="item.lotNumber">
+          </div>
+          </div>
+          <div class="row g-3 align-items-center">
+          <div class="col-5 mb-2 mx-auto">
+            <label for="fromBinCode" class="form-label">Overstock bin</label>
             <input type="text" class="form-control" id="fromBinCode" name="fromBinCode" placeholder="from"
               [(ngModel)]="item.fromBinCode">
-          </div>
-        </div>
-        <div class="row g-3 align-items-center">
-          <div class="col-10 mb-3 mx-auto">
-            <label for="destinationBinCode" class="form-label">Primary</label>
-            <input type="text" class="form-control" id="destinationBinCode" name="destinationBinCode" placeholder="from"
+          </div>        
+          <div class="col-5 mb-3 mx-auto">
+            <label for="destinationBinCode" class="form-label">Primary bin</label>
+            <input type="text" class="form-control" id="destinationBinCode" name="destinationBinCode" placeholder="to"
               [(ngModel)]="item.destinationBinCode">
           </div>
         </div>
@@ -28,8 +32,7 @@
           <div class="col-10 mb-3 mx-auto">
             <label for="quantity" class="form-label">Move quantity</label>
             <input type="number" class="form-control" id="quantity" name="quantity" placeholder="0" [(ngModel)]="item.quantity">
-          </div>
-
+          </div>       
         </div>
         <h5 class="mb-3 bg-success text-white bg-gradient rounded-3" id="successMsg" *ngIf="successMessage">
           <span class="d-md-flex justify-content-md-evenly">{{successMessage}}</span>
