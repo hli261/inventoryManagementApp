@@ -7,27 +7,27 @@
     <div class="mb-3">
       <form #f='ngForm' (ngSubmit)='onSubmit(f)'>
         <div class="row g-3 align-items-center">
-          <div class="col-auto mb-3">
+          <div class="col-10 mb-2 mx-auto">
             <label for="itemNum" class="form-label">Item Number</label>
             <input type="text" class="form-control" id="itemNum" name="itemNum" [(ngModel)]="item.itemNumber">
           </div>
-          <div class="col-auto mb-3">
+          <div class="col-10 mb-2 mx-auto">
             <label for="fromBinCode" class="form-label">Overstock</label>
             <input type="text" class="form-control" id="fromBinCode" name="fromBinCode" placeholder="from"
               [(ngModel)]="item.fromBinCode">
           </div>
         </div>
         <div class="row g-3 align-items-center">
-          <div class="col-auto mb-3">
+          <div class="col-10 mb-3 mx-auto">
             <label for="destinationBinCode" class="form-label">Primary</label>
             <input type="text" class="form-control" id="destinationBinCode" name="destinationBinCode" placeholder="from"
               [(ngModel)]="item.destinationBinCode">
           </div>
         </div>
         <div class="row g-3 align-items-center">
-          <div class="col-auto mb-3">
+          <div class="col-10 mb-3 mx-auto">
             <label for="quantity" class="form-label">Move quantity</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="item.quantity">
+            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="0" [(ngModel)]="item.quantity">
           </div>
 
         </div>

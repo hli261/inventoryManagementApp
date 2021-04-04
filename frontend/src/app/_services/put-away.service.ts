@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { BinItem, PutAway, ReceiveOrder} from '../_models';
+import { BinItem, PutAway, PutAwayItem, ReceiveOrder} from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -37,19 +37,19 @@ export class PutAwayService {
   }
 
   //replenishment
-  public moveToReplenishment(binItem: PutAway) : Observable<any>{
+  public moveToReplenishment(binItem: PutAwayItem) : Observable<any>{
     return this.http.post<any>(`${environment.apiUrl}/api/BinItem/CreateReplenishmentBinItem`, binItem);
   }
 
-  public removeFromOverstock(binItem: PutAway) : Observable<any>{
+  public removeFromOverstock(binItem: PutAwayItem) : Observable<any>{
     return this.http.post<any>(`${environment.apiUrl}/api/BinItem/RemoveOverstockBinItem`, binItem);
   }
 
-  public moveToPrimary(binItem: PutAway) : Observable<any>{
+  public moveToPrimary(binItem: PutAwayItem) : Observable<any>{
     return this.http.post<any>(`${environment.apiUrl}/api/BinItem/CreateBinItemAfterReplenishment`, binItem);
   }
 
-  public removeFromReplenishment(binItem: PutAway) : Observable<any>{
+  public removeFromReplenishment(binItem: PutAwayItem) : Observable<any>{
     return this.http.post<any>(`${environment.apiUrl}/api/BinItem/RemoveReplenishmentBinItem`, binItem);
   }
 

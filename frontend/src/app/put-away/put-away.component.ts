@@ -1,7 +1,8 @@
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as jspdf from 'jspdf';
+// import jspdf from 'jspdf';
+import * as jsPDF from 'jspdf';
 import { Subscription } from 'rxjs';
 import { BinItem, PutAway, PutAwayBinItem, PutAwayItem } from '../_models';
 import { AccountService, PutAwayService, UrlService } from '../_services';
@@ -71,7 +72,8 @@ export class PutAwayComponent implements OnInit {
  
   savePDF() : void{
     let DATA=this.content.nativeElement;  
-    let doc = new jspdf('p','pt', 'a4');
+    // let doc = new jspdf('p','pt', 'a4');
+    let doc = new jsPDF();
     let handleElement =  
     {  
       '#editor':function(element : any, renderer : any){  

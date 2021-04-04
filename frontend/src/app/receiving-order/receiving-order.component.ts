@@ -59,7 +59,6 @@ export class ReceivingOrderComponent implements OnInit {
   }
   
   onChange(item:any): void{
-    console.log(item);
       item.diffQty = item.orderQty-item.receiveQty;   
   }
 
@@ -79,27 +78,32 @@ export class ReceivingOrderComponent implements OnInit {
   }
 
   submit(): void{
-    this.sub = this.data.updateROItems(this.roNum, this.roItems).subscribe();
     this.ro.status = "TEST";
     // this.ro.status = "SUBMIT";
-    this.sub = this.data.updateStatus(this.roNum,this.ro.status, this.roItems).subscribe((data)=>{
-      this.ro = data;
-      this.successMessage = "Order has been submitted!"
-      console.log("sent to Receiving-----", this.ro);
-      this.putAwayService.moveToReceiving(this.ro).subscribe(data =>{
-           console.log("receiving bin items-----", data);
-      })
-      setTimeout(()=>{
-        this.successMessage="";
-        this.router.navigate(['order-detail', this.ro.roNumber]);
-      }, 2000);
-    },
-    err => {
-      this.errorMessage = err;
-      console.log("this is an error:" , err)
+    this.sub = this.data.updateROItems(this.roNum, this.roItems).subscribe( (items) =>{      
+      this.sub = this.data.updateStatus(this.roNum,this.ro.status, items).subscribe((data)=>{
+        this.ro = data;
+        this.successMessage = "Order has been submitted!"
+        console.log("sent to Receiving-----data----", data);
+        this.sub = this.putAwayService.moveToReceiving(data).subscribe(data =>{
+          console.log("receiving bin items-----", data);
+        })
+        setTimeout(()=>{
+          this.successMessage="";
+          this.router.navigate(['order-detail', this.ro.roNumber]);
+        }, 2000);
+      },
+      err => {
+        this.errorMessage = err;
+        console.log("this is an error:" , err)
+      }       
+      )
+
     }
-     
-    )
+
+    );
+   
+   
   }
 
   back(url: any): void {
