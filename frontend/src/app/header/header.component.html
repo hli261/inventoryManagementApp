@@ -35,18 +35,18 @@
                 <li><a class="dropdown-item text-secondary" routerLink="orders">Receive Order</a></li>
                 </ul>
               </li>
-              <li *ngIf="isPutAway()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary" routerLink="/putaway">Put Away</a>
-                <ul class="dropdown-menu bg-dark ">
-                <li><a class="dropdown-item text-secondary" routerLink="/putaway-list">Put Away</a></li>
+              <li *ngIf="isPutAway()" ><a class="dropdown-item  text-secondary" routerLink="/putaway-list">Put Away</a>
+                <!-- <ul class="dropdown-menu bg-dark "> -->
+                <!-- <li><a class="dropdown-item text-secondary" routerLink="/putaway-list">Put Away</a></li> -->
                 <!-- <li><a class="dropdown-item text-secondary" routerLink="/report">Report</a></li> -->
-                </ul>
+                <!-- </ul> -->
               </li>
               <li><hr class="dropdown-divider text-secondary"></li>
-              <li *ngIf="isReplenishment()" class="dropdown-submenu"><a class="dropdown-item dropdown-toggle text-secondary">Replenishment</a>
-                <ul  class="dropdown-menu bg-dark ">
-                <li><a class="dropdown-item text-secondary" routerLink="/replenishment">Replenishment</a></li>
+              <li *ngIf="isReplenishment()" ><a class="dropdown-item text-secondary" routerLink="/replenishment">Replenishment</a>
+                <!-- <ul  class="dropdown-menu bg-dark "> -->
+                <!-- <li><a class="dropdown-item text-secondary" routerLink="/replenishment">Replenishment</a></li> -->
                 <!-- <li><a class="dropdown-item text-secondary" routerLink="/report">Report</a></li> -->
-                </ul>
+                <!-- </ul> -->
               </li>                
               <!-- End Level 2 -->
               </ul>
