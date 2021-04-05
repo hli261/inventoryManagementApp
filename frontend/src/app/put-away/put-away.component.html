@@ -7,7 +7,10 @@
             <span class="d-md-flex justify-content-md-evenly" >{{successMessage}}</span>
         </div> 
     </div>    
-    <div class="container-fluid" id="content" #content>  
+    <!-- <div class="container-fluid" id="content" #content>   -->
+    <div class="container-fluid" id="content" >  
+        <h3 class="d-flex justify-content-center mt-3 mb-3">The list of put away items</h3>
+        <h5 class="d-flex justify-content-end">{{today | date}}</h5>
 <table  class="table table-hover border-top mt-3">
     <thead  class="table-light">
         <tr>
@@ -38,6 +41,6 @@
 <div class="d-grid mb-3 gap-2 d-md-flex justify-content-md-evenly">
     <button type="submit" (click)="movePutaway()" class="btn btn-primary">Move to operation bin</button>
     <button type="submit" (click)="submit()" class="btn btn-primary">move to storage bin</button>
-    <!-- <button type="" (click)="savePDF()" class="btn btn-primary">Save as PDF</button> -->
+    <button type="" (click)="savePDF()" class="btn btn-primary">Save as PDF</button>
 </div>
 </div>

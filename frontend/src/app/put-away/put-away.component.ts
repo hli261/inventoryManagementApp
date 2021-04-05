@@ -1,8 +1,7 @@
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-// import jspdf from 'jspdf';
-import * as jsPDF from 'jspdf';
+import  jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { Subscription } from 'rxjs';
 import { BinItem, PutAway, PutAwayBinItem, PutAwayItem } from '../_models';
 import { AccountService, PutAwayService, UrlService } from '../_services';
@@ -20,6 +19,7 @@ export class PutAwayComponent implements OnInit {
   errorMessage: string;
   state: any;
   sub: Subscription;
+  today: Date = new Date();
   
   @ViewChild('content') content: ElementRef;
 
@@ -71,20 +71,26 @@ export class PutAwayComponent implements OnInit {
   }
  
   savePDF() : void{
-    // let DATA=this.content.nativeElement;  
-    // // let doc = new jspdf('p','pt', 'a4');
-    // let doc = new jsPDF();
-    // let handleElement =  
-    // {  
-    //   '#editor':function(element : any, renderer : any){  
-    //     return true;  
-    //   }  
-    // };  
-    // doc.fromHTML(DATA.innerHTML,15,15,{
-    //   'width': 190,
-    //   'elementHandlers': handleElement
-    // });
-    // doc.save('putaway-list.pdf');  
+    let DATA = document.getElementById('content');
+      
+    html2canvas(DATA).then(canvas => {
+        
+        let fileWidth = 208;
+        let fileHeight = canvas.height * fileWidth / canvas.width;
+        
+        const FILEURI = canvas.toDataURL('image/png')
+        let PDF = new jsPDF('p', 'mm', 'a4');
+        let position = 0;
+        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+        
+        var fileName = `putaway-list-${Date().toString()}`;
+        console.log(fileName);
+    
+        PDF.save(`${fileName}`);
+        // PDF.save('putaway-list.pdf');
+
+        // document.body.removeChild(DATA);
+    });  
   }
 
   movePutaway() : void{

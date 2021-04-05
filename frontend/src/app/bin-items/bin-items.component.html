@@ -1,8 +1,8 @@
-<div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem" >
+<div class="container-fluid mt-3" *ngIf="binItem_ | async as binItem">
     <div class="container" *ngIf="displayTitle">
         <div class="row mb-3">
             <div class="col-sm-4">
-               <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
+                <span class="">Bin Code:</span> &nbsp;&nbsp;<span>{{code}}</span>
             </div>
             <div class="col-sm-4">
                 Location: &nbsp;&nbsp;<span>{{bin.warehouseLocation.locationName}}</span>
@@ -10,13 +10,13 @@
             <div class="col-sm-4">
                 Type: &nbsp;&nbsp;<span>{{bin.binType.typeName}}</span>
             </div>
-        </div>    
+        </div>
         <div *ngIf="previousUrl_ | async as url">
-        <button (click)="back(url)" class="btn btn-primary">Back</button>    
-       </div>     
+            <button (click)="back(url)" class="btn btn-primary">Back</button>
+        </div>
     </div>
-    <table  class="table table-hover border-top mt-3">
-        <thead  class="table-light">
+    <table class="table table-hover border-top mt-3">
+        <thead class="table-light">
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">Item Number</th>
@@ -26,12 +26,13 @@
             </tr>
         </thead>
         <tbody>
-                <tr *ngFor='let item of binItem; let i = index'  (mouseenter)="showDetail(item.itemNumber)"  (mouseleave)="closeDetail()">
+            <tr *ngFor='let item of binItem; let i = index' (mouseenter)="showDetail(item.itemNumber)"
+                (mouseleave)="closeDetail()">
                 <!-- <tr *ngFor='let item of binItem; let i = index'> -->
                 <td>{{i + 1}}</td>
                 <td>{{item.itemNumber}}</td>
                 <td>{{item.lotNumber}}</td>
-                <td>{{item.quantity}}</td> 
+                <td>{{item.quantity}}</td>
                 <!-- <td>
                     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"  (click)="showDetail(item.itemNumber)">Details</button>
                       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -52,10 +53,11 @@
             </tr>
         </tbody>
     </table>
-    <div *ngIf="item" >
+    <div *ngIf="item">
         <p><span class="fs-6">Item Number: &nbsp; </span> {{item.itemNumber}}</p>
         <p><span class="fs-6">Item Description: &nbsp; </span> {{item.itemDescription}}</p>
         <p><span class="fs-6">Price: &nbsp; </span> $ {{item.itemPrice}} </p>
         <p><span class="fs-6">Upc Code: &nbsp; </span> {{item.upcCode}} </p>
     </div>
+
 </div>

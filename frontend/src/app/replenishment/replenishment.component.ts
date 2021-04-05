@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PutAwayItem } from '../_models';
+import { BinItem, PutAwayItem } from '../_models';
 import { AccountService, PutAwayService } from '../_services';
 
 @Component({
@@ -25,7 +25,9 @@ export class ReplenishmentComponent implements OnInit {
     this.headerService.setTitle("Replenishment")
   }
 
-  
+  new(): void{
+    this.item = new PutAwayItem();
+  }  
 
   moveReplenishment() : void{
     var temp = new PutAwayItem();
@@ -42,13 +44,13 @@ export class ReplenishmentComponent implements OnInit {
        console.log(err);
        setTimeout(()=>{
         this.errorMessage="";
-      }, 3000);
+      }, 2000);
        return;
      })
 
      this.sub = this.putAwayService.removeFromOverstock(temp).subscribe((data)=>{
       console.log(data);
-      this.successMessage = "Items have been moved to operation bin successfully!"
+      this.successMessage = "Items have been moved to replenishment bin successfully!"
       setTimeout(()=>{
         this.successMessage="";
         // this.router.navigate(['putaway-list']);
@@ -64,8 +66,8 @@ export class ReplenishmentComponent implements OnInit {
      })
   }
 
-  onSubmit(f: NgForm): void{
-    this.moveReplenishment();
+  // onSubmit(f: NgForm): void{
+  submit(): void{
      this.sub = this.putAwayService.moveToPrimary(this.item).subscribe((data)=>{
       console.log(data);
     },
@@ -80,7 +82,7 @@ export class ReplenishmentComponent implements OnInit {
 
      this.sub = this.putAwayService.removeFromReplenishment(this.item).subscribe((data)=>{
       console.log(data);
-      this.successMessage = "Replenish completed! Item has been moved from overstock bin to primary bin successfully!"
+      this.successMessage = "Replenish completed!"
       setTimeout(()=>{
         this.successMessage="";
         // this.router.navigate(['putaway-list']);
